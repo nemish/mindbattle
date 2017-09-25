@@ -2,7 +2,7 @@
  * GET /
  * Home page.
  */
-const User = require('../models/User');
+const UserDraft = require('../models/UserDraft');
 const sleep = require('sleep');
 
 
@@ -28,25 +28,46 @@ exports.challenge = (req, res) => {
 
 
 exports.checkUserName = (req, res) => {
-    res.json({status: 'ok'});
-    // res.json({status: 'empty_field'});
-    // if (!req.params.name) {
-    //     res.json({status: 'empty_field'});
-    // }
-    // User.find({name: req.params.name}).exec(function (err, docs) {
-    //     console.log('users', req.params, req.params.name, docs.length);
-    //     res.json({status: 'ok'});
-    // });
-    // sleep.sleep(1);
+    const { name } = req.body;
+    console.log('checkUserName', req.body);
+    if (name) {
+        UserDraft.find({name: name}).exec(function (err, docs) {
+            if (docs.length) {
+                res.json({
+                    status: 'occupied'
+                })
+            } else {
+                u = new UserDraft({name: name});
+                u.save();
+                res.json({
+                    status: 'ok',
+                    item: {
+                        name: u.name,
+                        id: u._id
+                    }
+                });
+            }
+        });
+    } else {
+        res.json({status: 'empty_field'});
+    }
 }
 
 
-exports.handshake = (req, res) => {
-    // console.log('csrfToken', req.csrfToken());
-    res.json({
-        status: 'ok',
-        token: req.csrfToken()
-    })
+exports.fetchCurrentUser = (req, res) => {
+    const { id } = req.body;
+    if (id) {
+        UserDraft.findById(id).exec(function (err, doc) {
+            res.json({
+                status: 'ok',
+                item: doc
+            });
+        });
+    } else {
+        res.json({
+            status: 'not_found'
+        });
+    }
 }
 
 

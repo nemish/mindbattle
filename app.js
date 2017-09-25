@@ -15,6 +15,7 @@ const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
+// const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
@@ -74,8 +75,8 @@ app.use(sass({
   dest: path.join(__dirname, 'public')
 }));
 app.use(logger('dev'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(session({
   resave: true,
@@ -90,7 +91,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(lusca.csrf());
+// app.use(cookieParser());
+// app.use(lusca.csrf({
+//     cookie: 'csrftoken'
+// }));
 // app.use((req, res, next) => {
 //   if (req.path === '/api/upload') {
 //     next();
@@ -106,10 +110,9 @@ app.use(lusca.csrf());
 //   res.locals.csrftoken = req.csrfToken();
 //   next();
 // })
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
+// app.use(lusca.xframe('SAMEORIGIN'));
+// app.use(lusca.xssProtection(true));
 app.use((req, res, next) => {
-    console.log('server', req.csrfToken());
   res.locals.user = req.user;
   next();
 });
@@ -128,14 +131,21 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 /**
  * Primary app routes.
  */
-app.get('/', homeController.index);
+// app.get('/', homeController.index);
+app.get('/', (req, res) => {
+  res.sendFile(
+    path.resolve(__dirname, 'client', 'build', 'index.html')
+  )
+});
+
 app.get('/challenge', homeController.challenge);
 app.post('/check_user_name', homeController.checkUserName);
-app.get('/handshake', homeController.handshake);
+// app.get('/handshake', homeController.handshake);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);

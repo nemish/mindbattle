@@ -60,16 +60,20 @@ export function createAsyncAction(conf) {
         method = method(payload);
       }
 
-      const { token, ...remain } = (payload || {});
-
-      const query = makeQuery(remain);
+      const query = makeQuery(payload);
       let params = {}
       if (method == 'post') {
+        // let data = new FormData();
+        // Object.keys(payload).forEach(key => {
+        //     data.set(key, payload[key]);
+        // })
         params = {
             method: 'POST',
-            body: new FormData(remain),
+            // body: payload,
+            body: JSON.stringify(payload),
             headers: {
-                'x-csrf-token': token
+                'Content-Type': 'application/json; charset=utf-8',
+                'x-csrf-token': Cookies.get('csrftoken')
             }
         }
       } else if (!method || method === 'get') {
@@ -77,7 +81,10 @@ export function createAsyncAction(conf) {
       }
       return fetch(url, params)
         .then(resp => resp.json())
-        .then(data => dispatch(successActionCreator(data)))
+        .then(data => {
+            dispatch(successActionCreator(data))
+            return data;
+        })
         .catch(err => {
             if (failEvent) {
                 dispatch(failActionCreator(err));

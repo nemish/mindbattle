@@ -4,12 +4,13 @@ import {
     fetchChallengeActions,
     checkUserNameActions,
     handshakeActions,
+    createChallengeActions,
     CHOOSE_OPTION,
     USER_NAME__CHANGE
 } from '../actions/index';
 import {
     routerReducer
-} from 'react-router-redux'
+} from 'react-router-redux';
 
 
 const question = createFetchReducer(fetchChallengeActions, {options: []});
@@ -29,6 +30,12 @@ const userData = createReducer({name: '', id: null}, {
             ...state,
             name: action.data
         }
+    },
+    [checkUserNameActions.successEvent](state, action) {
+        if (action.data.status === 'ok') {
+            return action.data.item;
+        }
+        return state;
     }
 });
 
@@ -43,9 +50,13 @@ const meta = createReducer({token: null}, {
 const checkState = createFetchReducer(checkUserNameActions, {status: null});
 
 
+const currentChallenge = createFetchReducer(createChallengeActions, null);
+
+
 const user = combineReducers({
     userData,
-    checkState
+    checkState,
+    currentChallenge
 })
 
 

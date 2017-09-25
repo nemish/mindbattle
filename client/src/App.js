@@ -6,30 +6,24 @@ import {
     chooseOption,
     userNameChange,
     checkUserName,
-    handshake
+    createChallenge
 } from './actions/index';
 import { bindActionCreators } from 'redux';
 import Timer from './components/Timer';
 import Cookies from 'js-cookie';
+import { withRouter } from 'react-router';
+import { Route } from 'react-router-dom';
 // import io from 'socket.io-client';
 // const  socket = io();
 
 class App extends Component {
-    componentDidMount() {
-        if (!this.props.token) {
-            this.props.handshake();
-        }
-    }
-
     render() {
-        if (!this.props.token) {
-            return <div>Loading...</div>
-        }
-
+        const { match } = this.props;
         return <div className='app-container'>
             <div className='app-wrapper'>
                 <div className='container'>
-                    <Welcome />
+                    <Route path="/board" component={Board} />
+                    <Route exact path={match.url} render={() => <WelcomeConnected />}/>
                 </div>
             </div>
         </div>
@@ -37,23 +31,18 @@ class App extends Component {
 }
 
 
-export default connect(
-    state => state.meta,
-    dispatch => bindActionCreators({ handshake }, dispatch)
-)(App);
+export default App;
 
 
 class Welcome extends Component {
-    componentDidMount() {
-
-    }
-
     render() {
         let components = [];
-        if (this.props.user) {
+        if (this.props.user.id) {
             components.push(<UserInfo key={'ui'} user={this.props.user} />);
-            if (this.props.challenge) {
-                components.push(<ChallengeInfo key={'ci'} />);
+            if (this.props.challenge.id) {
+                components.push(<ChallengeInfo key={'ci'} challenge={this.props.challenge} />);
+            } else {
+                components.push(<CreateChallenge key={'cc'} />)
             }
         } else {
             components.push(<UserLoginConnected key={'ul'} />);
@@ -63,6 +52,26 @@ class Welcome extends Component {
         </div>
     }
 }
+
+
+const WelcomeConnected = connect(
+    state => ({
+        user: state.user.userData,
+        challenge: state.user.currentChallenge
+    })
+)(Welcome);
+
+
+export const Board = () => <div>Board</div>
+
+
+const CreateChallenge = props => <div>
+    <div className='row'>
+        <div className='col-md-offset-4 col-md-4 col-sm-12'>
+            <button>New challenge</button>
+        </div>
+    </div>
+</div>
 
 
 const UserInfo = props => <div>
@@ -75,31 +84,52 @@ const UserInfo = props => <div>
 
 
 // todo - made a ... appearing smoothly
-const UserLogin = props => {
-    return <div>
-        <div className='row'>
-            <div className='col-sm-12'>
-                <h3 className='text-center'>Introduce yourself</h3>
+class UserLogin extends Component {
+    render() {
+        return <div>
+            <div className='row'>
+                <div className='col-sm-12'>
+                    <h3 className='text-center'>Introduce yourself</h3>
+                </div>
+            </div>
+            <div>
+                <div className='col-sm-12'>
+                    <h5 className='text-center mono-font'>
+                        {this.props.check.loading ? 'Wait please...' : this.props.name}
+                        {this.props.check.data.status == 'occupied' ? ' - occupied' : ''}
+                    </h5>
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col-md-offset-4 col-md-4 col-sm-12'>
+                    <form onSubmit={e => e.preventDefault()}>
+                      <div className="input-group fluid">
+                        <UserNameConnected {...this.props} />
+                        <LoginButton />
+                      </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div>
-            <div className='col-sm-12'>
-                <h5 className='text-center mono-font'>
-                    {props.loading ? 'Wait please...' : props.name}
-                </h5>
-            </div>
-        </div>
-        <div className='row'>
-            <div className='col-md-offset-4 col-md-4 col-sm-12'>
-                <form onSubmit={e => e.preventDefault()}>
-                  <div className="input-group fluid">
-                    <UserNameField {...props} />
-                  </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    }
 }
+
+
+const LoginButtonDumb = props => {
+    const disabled = !props.userData.name.length || props.checkState.loading;
+    return <button
+        disabled={disabled}
+        className={'primary'}
+        onClick={() => props.checkUserName({name: props.userData.name})}>GO</button>;
+}
+
+
+const LoginButton = connect(
+    state => state.user,
+    dispatch => bindActionCreators({
+        checkUserName
+    }, dispatch)
+)(LoginButtonDumb);
 
 
 class UserNameField extends Component {
@@ -107,7 +137,7 @@ class UserNameField extends Component {
         super(props);
 
         this.state = {
-            placeholder: "What's your name?"
+            placeholder: "What's your name?",
         };
     }
 
@@ -126,23 +156,37 @@ class UserNameField extends Component {
                         return;
                     }
                     this.props.checkUserName({
-                        name: e.target.value,
-                        token: this.props.token
+                        name: value
+                    }).then(data => {
+                        if (data && data.status == 'ok') {
+                            sessionStorage.setItem('current_user', data.item.id);
+                        }
+                        return data
                     })
+                    // }).then(data => {
+                        // if (data.status == 'ok') {
+                            // this.props.router.push('board')
+                        // }
+                    // })
                 }
              }}
              placeholder={this.state.placeholder} />
     }
 }
 
+const UserNameConnected = withRouter(UserNameField);
+
 
 const UserLoginConnected = connect(
     state => ({
-        ...state.user.checkState,
+        check: state.user.checkState,
         ...state.user.userData,
         ...state.meta
     }),
-    dispatch => bindActionCreators({ userNameChange, checkUserName }, dispatch)
+    dispatch => bindActionCreators({
+        userNameChange,
+        checkUserName
+    }, dispatch)
 )(UserLogin);
 
 
