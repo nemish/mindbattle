@@ -145,6 +145,8 @@ app.get('/', (req, res) => {
 
 app.get('/challenge', homeController.challenge);
 app.post('/check_user_name', homeController.checkUserName);
+app.get('/get_user/:id', homeController.fetchCurrentUser);
+app.post('/create_challenge', homeController.checkUserName);
 // app.get('/handshake', homeController.handshake);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);

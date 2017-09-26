@@ -63,13 +63,8 @@ export function createAsyncAction(conf) {
       const query = makeQuery(payload);
       let params = {}
       if (method == 'post') {
-        // let data = new FormData();
-        // Object.keys(payload).forEach(key => {
-        //     data.set(key, payload[key]);
-        // })
         params = {
             method: 'POST',
-            // body: payload,
             body: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',

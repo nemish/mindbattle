@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './App.css';
 import {
     fetchChallenge,
+    fetchCurrentUser,
     chooseOption,
     userNameChange,
     checkUserName,
@@ -12,17 +13,28 @@ import { bindActionCreators } from 'redux';
 import Timer from './components/Timer';
 import Cookies from 'js-cookie';
 import { withRouter } from 'react-router';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 // import io from 'socket.io-client';
 // const  socket = io();
 
 class App extends Component {
+    componentDidMount() {
+        const userId = sessionStorage.getItem('current_user');
+        if (userId) {
+            this.props.fetchCurrentUser({user_id: userId});
+        }
+    }
+
     render() {
+        if (this.props.loading) {
+            return <div>Loading</div>
+        }
         const { match } = this.props;
         return <div className='app-container'>
             <div className='app-wrapper'>
                 <div className='container'>
-                    <Route path="/board" component={Board} />
+                    <Route path="/board" component={BoardConnected} />
+                    <Route path="/new_challenge" component={CreateChallengeConnected} />
                     <Route exact path={match.url} render={() => <WelcomeConnected />}/>
                 </div>
             </div>
@@ -31,25 +43,21 @@ class App extends Component {
 }
 
 
-export default App;
+export default connect(
+    state => state.user.userData,
+    dispatch => bindActionCreators({ fetchCurrentUser }, dispatch)
+)(App);
 
 
 class Welcome extends Component {
-    render() {
-        let components = [];
-        if (this.props.user.id) {
-            components.push(<UserInfo key={'ui'} user={this.props.user} />);
-            if (this.props.challenge.id) {
-                components.push(<ChallengeInfo key={'ci'} challenge={this.props.challenge} />);
-            } else {
-                components.push(<CreateChallenge key={'cc'} />)
-            }
-        } else {
-            components.push(<UserLoginConnected key={'ul'} />);
+    componentWillReceiveProps(nextProps) {
+        if (this.prosp.user._id) {
+            this.props.history.push('board');
         }
-        return <div>
-            {components}
-        </div>
+    }
+
+    render() {
+        return <UserLoginConnected />
     }
 }
 
@@ -57,21 +65,57 @@ class Welcome extends Component {
 const WelcomeConnected = connect(
     state => ({
         user: state.user.userData,
+    })
+)(withRouter(Welcome));
+
+
+
+class Board extends Component {
+    render() {
+            // components.push();
+            // if (this.props.challenge.id) {
+            //     components.push();
+            // } else {
+            //     components.push(<CreateChallenge key={'cc'} />)
+            // }
+        return <div>
+            <UserInfo user={this.props.user} />
+            <ChallengeInfo challenge={this.props.challenge} />
+            <CreateChallengeConnected />
+        </div>
+    }
+}
+
+
+const BoardConnected = connect(
+    state => ({
+        user: state.user.userData,
         challenge: state.user.currentChallenge
     })
-)(Welcome);
-
-
-export const Board = () => <div>Board</div>
+)(withRouter(Board));
 
 
 const CreateChallenge = props => <div>
     <div className='row'>
-        <div className='col-md-offset-4 col-md-4 col-sm-12'>
-            <button>New challenge</button>
+        <div className='col-md-offset-4 col-md-4 col-sm-12 text-center'>
+            <form>
+                <div className="input-group fluid">
+                    <UserNameConnected {...this.props} />
+                    <LoginButton />
+                </div>
+            </form>
+            <button className='primary' onClick={() => props.createChallenge({user_id: this.props.user._id})}>New challenge</button>
         </div>
     </div>
 </div>
+
+
+const CreateChallengeConnected = connect(
+    state => ({
+        user: state.user.userData
+    }),
+    dispatch => bindActionCreators({ createChallenge }, dispatch)
+)(CreateChallenge);
 
 
 const UserInfo = props => <div>
@@ -83,7 +127,6 @@ const UserInfo = props => <div>
 </div>
 
 
-// todo - made a ... appearing smoothly
 class UserLogin extends Component {
     render() {
         return <div>
@@ -160,14 +203,10 @@ class UserNameField extends Component {
                     }).then(data => {
                         if (data && data.status == 'ok') {
                             sessionStorage.setItem('current_user', data.item.id);
+                            this.props.history.push('board');
                         }
-                        return data
-                    })
-                    // }).then(data => {
-                        // if (data.status == 'ok') {
-                            // this.props.router.push('board')
-                        // }
-                    // })
+                        return data;
+                    });
                 }
              }}
              placeholder={this.state.placeholder} />
@@ -187,14 +226,20 @@ const UserLoginConnected = connect(
         userNameChange,
         checkUserName
     }, dispatch)
-)(UserLogin);
+)(withRouter(UserLogin));
 
 
-const ChallengeInfo = props => <div className='row'>
-    <div className='col-sm-12'>
-        <h3 className='text-center'>Инфа по текущей битве</h3>
+const ChallengeInfo = props => {
+    let challengeElem = <p className='text-center'>No current challenge</p>
+    if (props.challenge._id) {
+        challengeElem = <Link to={`/challenge/${props.challenge._id}`}>Jump to current challenge</Link>
+    }
+    return <div className='row'>
+        <div className='col-sm-12'>
+            {challengeElem}
+        </div>
     </div>
-</div>
+}
 
 
 class Game extends Component {
@@ -215,7 +260,10 @@ const Title = () => <div className='row'>
 
 class Challenge extends Component {
     componentDidMount() {
-        this.props.fetchChallenge();
+        const { _id } = this.props.challenge;
+        if (_id) {
+            this.props.fetchChallenge({id: _id});
+        }
     }
 
     render() {
@@ -254,7 +302,9 @@ class Challenge extends Component {
 
 
 const ChallengeConnected = connect(
-    state => state.challenge,
+    state => ({
+        challenge: state.user.currentChallenge
+    }),
     dispatch => bindActionCreators({ fetchChallenge }, dispatch)
 )(Challenge);
 

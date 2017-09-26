@@ -29,7 +29,6 @@ exports.challenge = (req, res) => {
 
 exports.checkUserName = (req, res) => {
     const { name } = req.body;
-    console.log('checkUserName', req.body);
     if (name) {
         UserDraft.find({name: name}).exec(function (err, docs) {
             if (docs.length) {
@@ -41,10 +40,7 @@ exports.checkUserName = (req, res) => {
                 u.save();
                 res.json({
                     status: 'ok',
-                    item: {
-                        name: u.name,
-                        id: u._id
-                    }
+                    item: u
                 });
             }
         });
@@ -55,7 +51,7 @@ exports.checkUserName = (req, res) => {
 
 
 exports.fetchCurrentUser = (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     if (id) {
         UserDraft.findById(id).exec(function (err, doc) {
             res.json({
@@ -68,6 +64,15 @@ exports.fetchCurrentUser = (req, res) => {
             status: 'not_found'
         });
     }
+}
+
+
+exports.createChallenge = (req, res) => {
+    const { user_id } = req.body;
+    const ch = new Challenge({
+        userId: user_id
+    });
+    res.json(ch);
 }
 
 

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { createFetchReducer, createReducer } from '../utils/reducers';
 import {
     fetchChallengeActions,
+    fetchCurrentUserActions,
     checkUserNameActions,
     handshakeActions,
     createChallengeActions,
@@ -36,6 +37,9 @@ const userData = createReducer({name: '', id: null}, {
             return action.data.item;
         }
         return state;
+    },
+    [fetchCurrentUserActions.successEvent](state, action) {
+        return action.data.item;
     }
 });
 
@@ -50,24 +54,16 @@ const meta = createReducer({token: null}, {
 const checkState = createFetchReducer(checkUserNameActions, {status: null});
 
 
-const currentChallenge = createFetchReducer(createChallengeActions, null);
-
+const currentChallenge = createFetchReducer(createChallengeActions, {});
 
 const user = combineReducers({
     userData,
     checkState,
     currentChallenge
-})
-
-
-const challenge = combineReducers({
-    question,
-    answer
 });
 
 
 export default combineReducers({
-    challenge,
     user,
     meta,
     router: routerReducer
