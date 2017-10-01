@@ -27,12 +27,12 @@ export const createModalReducer = modalActions => {
 }
 
 
-export const createFetchReducer = (initParam, initialData = []) => {
+export const createFetchReducerCallbacks = (initParam, initialData) => {
     let conf = initParam;
     if (typeof initParam === 'string') {
         conf = createAsyncActionsConf(initParam);
     }
-    return createReducer({loading: false, data: initialData}, {
+    return {
         [conf.startEvent](state, action) {
             return {...state, loading: true};
         },
@@ -42,5 +42,64 @@ export const createFetchReducer = (initParam, initialData = []) => {
         [conf.failEvent](state, action) {
             return {...state, loading: false};
         }
+    }
+}
+
+
+export const createFetchReducer = (initParam, initialData = [], callbacks = {}) => {
+    return createReducer({loading: false, data: initialData}, {
+        ...createFetchReducerCallbacks(initParam, initialData),
+        ...callbacks
     })
+}
+
+
+export const createFormReducer = (conf) => {
+
+    const defaultFormState = {
+        _dataState: {
+            formReady: true
+        }
+    };
+
+    return (state = defaultFormState, action) => {
+        if (conf.customActions && conf.customActions[action.type]) {
+            return conf.customActions[action.type](state, action);
+        }
+
+        switch (action.type) {
+            case conf.initEvent:
+                let extraData = {};
+                if (conf.getExtraData) {
+                    extraData = conf.getExtraData(action.item);
+                }
+                return {
+                    ...state,
+                    ...action.item,
+                    ...extraData,
+                    _dataState: {
+                        ...state._dataState,
+                        formReady: true,
+                        itemId: action.item ? action.item.id : null
+                    }
+                }
+
+            case conf.saveSuccessEvent:
+            case conf.formDestroyEvent:
+                return defaultFormState;
+
+            case conf.changeFieldEvent:
+                return {...state, [action.data.name]: action.data.value}
+            case conf.saveStartEvent:
+                return {...state, _dataState: {
+                    ...state._dataState, isSubmitting: true
+                }}
+            case conf.saveFailEvent:
+                return {...state, _dataState: {
+                    ...state._dataState, isSubmitting: false
+                }}
+            default:
+                return state
+        }
+    }
 }

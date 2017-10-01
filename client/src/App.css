@@ -5,6 +5,10 @@ button:focus {
     outline: none;
 }
 
+span,p,div {
+  font-family: Roboto, monospace;
+}
+
 
 .app-title {
   text-align: center;

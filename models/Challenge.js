@@ -1,7 +1,23 @@
 const mongoose = require('mongoose');
 
 const challengeSchema = new mongoose.Schema({
-  userId: String
+  timestamp: Date,
+  userId: String,
+  state: String,
+  access: String,
+  maxPlayers: Number,
+  players: Array,
+  questions: Array,
+  answers: Array,
+  currentQuestion: Number
 });
 
-module.exports = mongoose.model('Challenge', challengeSchema);
+const Challenge = mongoose.model('Challenge', challengeSchema);
+
+Challenge.states = {
+    INITIAL: 'INITIAL',
+    RUNNING: 'RUNNING',
+    FINISHED: 'FINISHED'
+}
+
+module.exports = Challenge;

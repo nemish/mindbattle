@@ -143,11 +143,12 @@ app.get('/', (req, res) => {
   )
 });
 
-app.get('/challenge', homeController.challenge);
+app.get('/challenge/:id', homeController.challenge);
+app.post('/challenge', homeController.createChallenge);
 app.post('/check_user_name', homeController.checkUserName);
+app.post('/register_user', homeController.registerUser);
 app.get('/get_user/:id', homeController.fetchCurrentUser);
-app.post('/create_challenge', homeController.checkUserName);
-// app.get('/handshake', homeController.handshake);
+
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
