@@ -8,12 +8,16 @@ import {
     fetchChallengeActions,
     formsActions,
     fetchCurrentUserActions,
+    fetchPlayersActions,
     checkUserNameActions,
+    joinChallengeActions,
+    fetchChallengeListActions,
     registerUserActions,
     handshakeActions,
     createChallengeActions,
     CHOOSE_OPTION,
     USER_NAME__CHANGE,
+    CHALLENGE_UPDATE,
     INIT_CREATE_CHALLENGE
 } from '../actions/index';
 import {
@@ -78,26 +82,40 @@ const meta = createReducer({token: null}, {
 
 
 const checkState = createFetchReducer(checkUserNameActions, {status: null});
+const challengeList = createFetchReducer(fetchChallengeListActions, {items: []});
+
+
+const currentChallengePlayers = createFetchReducer(fetchPlayersActions, []);
+
 
 const currentChallenge = createFetchReducer(
     createChallengeActions, {inited: false}, {
         [INIT_CREATE_CHALLENGE](state, action) {
             return {...state, inited: true};
         },
-        ...createFetchReducerCallbacks(fetchChallengeActions)
+        [CHALLENGE_UPDATE](state, action) {
+            return {...state, data: {
+                ...state.data,
+                ...action.data.data
+            }};
+        },
+        [joinChallengeActions.successEvent](state, action) {
+            return {...state, inited: true, ...action.data}
+        },
+        ...createFetchReducerCallbacks(fetchChallengeActions),
     }
 );
 
 const user = combineReducers({
     userData,
     checkState,
-    currentChallenge
+    currentChallenge,
+    currentChallengePlayers
 });
 
 
-
-
 export default combineReducers({
+    challengeList,
     forms,
     user,
     meta,

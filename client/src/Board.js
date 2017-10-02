@@ -22,18 +22,29 @@ import { withRouter } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { withStyles } from 'material-ui/styles';
+import { handleUser } from './utils/app';
 
 
 class Board extends Component {
+    componentDidMount() {
+        handleUser(this.props);
+    }
+
     render() {
         const { user } = this.props;
         if (!user._id) {
             return null;
         }
         return <Grid container align='center' justify='center' direction='column'>
-            <UserInfo user={this.props.user} />
-            <ChallengeInfoConnected />
-            <CreateChallengeConnected />
+            <Grid item>
+                <Paper>
+                    <Grid container>
+                        <UserInfo user={this.props.user} />
+                        <ChallengeInfoConnected />
+                        <CreateChallengeConnected />
+                    </Grid>
+                </Paper>
+            </Grid>
         </Grid>
     }
 }
@@ -43,7 +54,8 @@ export default connect(
     state => ({
         user: state.user.userData,
         challenge: state.user.currentChallenge
-    })
+    }),
+    dispatch => bindActionCreators({ fetchCurrentUser }, dispatch)
 )(withRouter(Board));
 
 
@@ -65,7 +77,7 @@ const CreateChallenge = props => {
                             user_id: props.user._id,
                             access: 'private'
                         }).then(ch => {
-                            props.history.push(`challenge/${ch._id}`);
+                            props.history.push(`/challenge/${ch._id}`);
                         })
                     }}>
                 Private
@@ -77,14 +89,14 @@ const CreateChallenge = props => {
                             user_id: props.user._id,
                             access: 'public'
                         }).then(ch => {
-                            props.history.push(`challenge/${ch._id}`);
+                            props.history.push(`/challenge/${ch._id}`);
                         })
                     }}>
                 Public
             </Button>
         ]
     }
-    return <Grid container justify='center'>
+    return <Grid container justify='center' style={{marginBottom: 8, marginTop: 3}}>
         <Grid item>
             {buttonElem}
         </Grid>
@@ -104,6 +116,7 @@ const CreateChallengeConnected = connect(
 const UserInfo = props =><Grid container justify='center'>
     <Grid item>
         <h3 className='text-center'>{props.user.name}</h3>
+        <h5 className='text-center'>Completed: {props.user.challengesCompleted || 0}. Score: {props.user.score || 0}</h5>
     </Grid>
 </Grid>
 
@@ -118,11 +131,14 @@ class ChallengeInfo extends PureComponent {
     }
 
     render() {
-        let text = this.props.challenge.loading ? 'Loading...' : 'No current challenge'
+        let text = [this.props.challenge.loading ? 'Loading...' : 'No current challenge']
         if (this.props.challenge.data && this.props.challenge.data._id) {
-            text = <Link to={`/challenge/${this.props.challenge.data._id}`}>Jump to current challenge</Link>
+            text = [
+                <Link key='1' to={`/challenge/${this.props.challenge.data._id}`}>Current challenge</Link>,
+            ]
         }
-        const challengeElem = <p className='text-center'>{text}</p>
+        text.push(' ', <Link key='2' to={`/challenges/`}>Active challenges</Link>);
+        const challengeElem = <p style={{margin: 0}} className='text-center'>{text}</p>
         return <Grid container justify='center'>
             <Grid item>
                 {challengeElem}

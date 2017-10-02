@@ -10,6 +10,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
+    "babel-node": "NODE_ENV=development babel-node",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
     "eslint": "eslint **/*.js"
@@ -66,6 +67,11 @@
     "validator": "^8.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-node8": "^1.2.0",
     "chai": "^4.1.1",
     "eslint": "^4.4.1",
     "eslint-config-airbnb-base": "^11.3.1",

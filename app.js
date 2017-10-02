@@ -49,6 +49,7 @@ const passportConfig = require('./config/passport');
 const app = express();
 const server = http.Server(app);
 const socketIO = io(server);
+socketIO.listen(3002)
 
 /**
  * Connect to MongoDB.
@@ -144,9 +145,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/challenge/:id', homeController.challenge);
+app.get('/challenge_list/:user_id', homeController.challengeList);
 app.post('/challenge', homeController.createChallenge);
+app.post('/join_challenge', homeController.joinChallenge);
 app.post('/check_user_name', homeController.checkUserName);
 app.post('/register_user', homeController.registerUser);
+app.get('/players/:id', homeController.fetchPlayers);
 app.get('/get_user/:id', homeController.fetchCurrentUser);
 
 app.get('/login', userController.getLogin);
@@ -248,9 +252,8 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 });
 
 socketIO.on('connection', function (client) {
-    console.log('user connected');
-    client.on('check', function () {
-        console.log('check console')
+    client.on('challenge_update', function (data) {
+        homeController.updateChallenge(data, socketIO);
     })
 })
 

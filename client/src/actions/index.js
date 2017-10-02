@@ -1,8 +1,12 @@
 import { createAsyncActionsConf, createAsyncAction, makeActionCreator } from '../utils/actions';
 export const FETCH_CHALLENGE = 'FETCH_CHALLENGE';
+export const FETCH_CHALLENGE_LIST = 'FETCH_CHALLENGE_LIST';
+export const JOIN_CHALLENGE = 'JOIN_CHALLENGE';
 export const CHOOSE_OPTION = 'CHOOSE_OPTION';
 export const USER_NAME__CHANGE = 'USER_NAME__CHANGE';
 export const CREATE_CHALLENGE = 'CREATE_CHALLENGE';
+export const FETCH_PLAYERS = 'FETCH_PLAYERS';
+export const CHALLENGE_UPDATE = 'CHALLENGE_UPDATE';
 export const FETCH_CURRENT_USER = 'FETCH_CURRENT_USER';
 export const CHECK_USER_NAME = 'CHECK_USER_NAME';
 export const INIT_CREATE_CHALLENGE = 'INIT_CREATE_CHALLENGE';
@@ -14,12 +18,20 @@ export const initCreateChallenge = makeActionCreator(INIT_CREATE_CHALLENGE);
 
 
 export const chooseOption = makeActionCreator(CHOOSE_OPTION, 'data');
+export const updateChallengeLocal = makeActionCreator(CHALLENGE_UPDATE, 'data');
 export const userNameChange = makeActionCreator(USER_NAME__CHANGE, 'data');
 
 export const fetchChallengeActions = createAsyncActionsConf(FETCH_CHALLENGE);
 export const fetchChallenge = createAsyncAction({
     url: payload => '/challenge/' + payload.id,
     ...fetchChallengeActions
+});
+
+
+export const fetchPlayersActions = createAsyncActionsConf(FETCH_PLAYERS);
+export const fetchPlayers = createAsyncAction({
+    url: payload => '/players/' + payload.id,
+    ...fetchPlayersActions
 });
 
 
@@ -39,6 +51,14 @@ export const checkUserName = createAsyncAction({
 });
 
 
+export const joinChallengeActions = createAsyncActionsConf(JOIN_CHALLENGE);
+export const joinChallenge = createAsyncAction({
+    url: '/join_challenge',
+    method: 'post',
+    ...joinChallengeActions
+});
+
+
 export const registerUserActions = createAsyncActionsConf(REGISTER_USER);
 export const registerUser = createAsyncAction({
     url: '/register_user',
@@ -52,6 +72,14 @@ export const fetchCurrentUser = createAsyncAction({
     url: payload => '/get_user/' + payload.user_id,
     method: 'get',
     ...fetchCurrentUserActions
+});
+
+
+export const fetchChallengeListActions = createAsyncActionsConf(FETCH_CHALLENGE_LIST);
+export const fetchChallengeList = createAsyncAction({
+    url: payload => '/challenge_list/' + payload.user_id,
+    method: 'get',
+    ...fetchChallengeListActions
 });
 
 

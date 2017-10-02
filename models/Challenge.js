@@ -7,9 +7,15 @@ const challengeSchema = new mongoose.Schema({
   access: String,
   maxPlayers: Number,
   players: Array,
+  playersCount: Number,
   questions: Array,
   answers: Array,
   currentQuestion: Number
+});
+
+challengeSchema.pre('save', function(next) {
+    this.playersCount = this.players.length;
+    next()
 });
 
 const Challenge = mongoose.model('Challenge', challengeSchema);

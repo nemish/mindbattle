@@ -34,7 +34,7 @@ export function createAsyncAction(conf) {
     failActionCreator = makeActionCreator(failEvent, 'data', 'payload');
   }
 
-  return function makeRequest(payload) {
+  function makeRequest(payload) {
     return function (dispatch) {
       dispatch(startActionCreator(payload));
       let url = conf.url;
@@ -64,7 +64,7 @@ export function createAsyncAction(conf) {
       return fetch(url, params)
         .then(resp => resp.json())
         .then(data => {
-            dispatch(successActionCreator(data))
+            dispatch(successActionCreator(data));
             return data;
         })
         .catch(err => {
@@ -74,6 +74,8 @@ export function createAsyncAction(conf) {
         });
     }
   }
+  makeRequest.successAction = successActionCreator
+  return makeRequest;
 }
 
 

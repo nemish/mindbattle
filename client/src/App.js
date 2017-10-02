@@ -11,19 +11,20 @@ import {
     registerUser,
     createChallenge
 } from './actions/index';
+import Background from './assets/img/bg.jpg';
 import { bindActionCreators } from 'redux';
 import { withStyles } from 'material-ui/styles';
 import Cookies from 'js-cookie';
 import { withRouter } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import Challenge from './Challenge';
+import ChallengeList from './ChallengeList';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Board from './Board';
-// import io from 'socket.io-client';
-// const  socket = io();
+import { handleUser } from './utils/app';
 
 const loginFormActions = formsActions[LOGIN_FORM];
 
@@ -39,12 +40,7 @@ const styles = theme => ({
 
 class App extends PureComponent {
     componentDidMount() {
-        const userId = sessionStorage.getItem('current_user');
-        if (userId && userId !== 'undefined') {
-            this.props.fetchCurrentUser({user_id: userId});
-        } else {
-            this.props.history.push('/');
-        }
+        handleUser(this.props);
     }
 
     render() {
@@ -52,9 +48,13 @@ class App extends PureComponent {
             return <div>Loading</div>
         }
         const { match } = this.props;
-        return <div className='app-container'>
+        return <div className='app-container' style={{
+                backgroundImage: `url(${Background})`,
+                backgroundSize: '100%'
+            }}>
             <Grid container style={{height: '100%'}}>
                 <Route path="/board" component={Board} />
+                <Route path="/challenges/" component={ChallengeList} />
                 <Route path="/challenge/:challengeId" component={Challenge} />
                 <Route exact path={match.url} render={() => <WelcomeConnected />}/>
             </Grid>

@@ -3,16 +3,20 @@ import React, {
 } from 'react';
 
 
+export const calcSeconds = remaining => {
+    const val = Math.round(remaining / 100);
+    return (val / 10).toFixed(1);
+}
+
+
 export default class Timer extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            elapsed: 0
-        };
         this.tick = this.tick.bind(this);
     }
 
     componentDidMount() {
+        this.end = this.props.end;
         this.timer = setInterval(this.tick, 50);
     }
 
@@ -21,14 +25,17 @@ export default class Timer extends Component {
     }
 
     tick() {
-        this.setState({
-            elapsed: new Date() - this.props.start
-        });
+        const remaining = this.end - new Date();
+        if (remaining <= 0) {
+            if (this.props.onLimit) {
+                this.props.onLimit(calcSeconds(0));
+            }
+        }
+        this.props.onTick(remaining)
     }
 
     render() {
-        const elapsed = Math.round(this.state.elapsed / 100);
-        const seconds = (elapsed / 10).toFixed(1);
+        const seconds = calcSeconds(this.props.remaining);
         return <span>Time: {seconds}</span>;
     }
 }
