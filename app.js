@@ -66,7 +66,7 @@ mongoose.connection.on('error', (err) => {
  * Express configuration.
  */
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3001;
 // app.set('port', );
 app.set('port', port);
 app.set('views', path.join(__dirname, 'views'));
