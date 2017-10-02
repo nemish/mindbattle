@@ -18,6 +18,7 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Spinner from 'react-spinkit';
+import Dotting from './Dotting';
 import {
     challengeTotal,
     getCompareFn,
@@ -34,9 +35,6 @@ import socket from './socket';
 
 const errorColor = red[500];
 const goodColor = lightGreen[500];
-
-
-const dots_conf = ['', '.', '..', '...'];
 
 
 const chooseOption = (props, option, elapsed) => {
@@ -66,40 +64,6 @@ const nextQuestion = challenge => {
 }
 
 
-class Dotting extends PureComponent {
-
-    constructor(props) {
-      super(props);
-      this.state = {
-        currentDot: 0
-      };
-      this.tick = this.tick.bind(this);
-    }
-
-    componentDidMount() {
-        this.timer = setInterval(this.tick, 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    tick() {
-        if (this.state.currentDot >=3) {
-            this.setState({
-                currentDot: 0
-            });
-        } else {
-            this.setState({
-                currentDot: this.state.currentDot + 1
-            });
-        }
-    }
-
-    render() {
-        return <span>{this.props.children}{dots_conf[this.state.currentDot]}</span>
-    }
-}
 
 class Challenge extends Component {
     constructor(props) {

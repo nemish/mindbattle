@@ -61,6 +61,12 @@ span,p,div {
 }
 
 
+.common-paper {
+  opacity: 0.9;
+  padding: 10px;
+}
+
+
 html,body,#root {
   height: 100%;
   margin: 0 !important;

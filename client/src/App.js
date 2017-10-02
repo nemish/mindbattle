@@ -18,6 +18,7 @@ import Cookies from 'js-cookie';
 import { withRouter } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import Challenge from './Challenge';
+import Spinner from 'react-spinkit';
 import ChallengeList from './ChallengeList';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
@@ -25,6 +26,7 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Board from './Board';
 import { handleUser } from './utils/app';
+import Dotting from './Dotting';
 
 const loginFormActions = formsActions[LOGIN_FORM];
 
@@ -44,20 +46,33 @@ class App extends PureComponent {
     }
 
     render() {
-        if (this.props.loading) {
-            return <div>Loading</div>
-        }
+        let elem = null;
         const { match } = this.props;
-        return <div className='app-container' style={{
-                backgroundImage: `url(${Background})`,
-                backgroundSize: '100%'
-            }}>
-            <Grid container style={{height: '100%'}}>
+        if (this.props.loading) {
+            elem = <Grid container justify='center' style={{height: '100%'}}>
+                <Grid item>
+                    <Paper className='common-paper'>
+                        <h4 className='mono-font'><Dotting>Loading</Dotting></h4>
+                        <div className='text-center'>
+                            <Spinner name='pacman' color='#ccc' />
+                        </div>
+                    </Paper>
+                </Grid>
+            </Grid>
+            return <div>Loading</div>
+        } else {
+            elem = <Grid container style={{height: '100%'}}>
                 <Route path="/board" component={Board} />
                 <Route path="/challenges/" component={ChallengeList} />
                 <Route path="/challenge/:challengeId" component={Challenge} />
                 <Route exact path={match.url} render={() => <WelcomeConnected />}/>
             </Grid>
+
+        }
+        return <div className='app-container' style={{
+                backgroundImage: `url(${Background})`,
+                backgroundSize: '100%'
+            }}>
         </div>
     }
 }
