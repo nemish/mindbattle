@@ -1,2 +1,3 @@
 import io from 'socket.io-client';
-export default io(':3002');
+const HOST = window.location.protocol + '//' + window.location.hostname + ':3002';
+export default io(HOST);

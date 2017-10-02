@@ -110,27 +110,20 @@ class UserLogin extends PureComponent {
                 </Grid>
             }
         }
-        let nameElem = null;
-        if (name) {
-            nameElem = <Grid item>
-                <h5 className='text-center mono-font'>{name}</h5>
-            </Grid>
-        }
         return <Grid container align='center' justify='center' style={{height: '100%'}} direction='column'>
             <Grid item>
                 <h3 className='text-center'>Introduce yourself</h3>
             </Grid>
-            {nameElem}
             <Grid item>
                 <form onSubmit={e => e.preventDefault()}>
                     <Grid container>
-                        <Grid item xs={10}>
+                        <Grid item xs={12}>
                             <UserNameConnected fieldName='name' {...this.props} />
                         </Grid>
-                        <Grid item xs={2} className='text-center'>
+                        {passwdElem}
+                        <Grid item xs={12} className='text-center'>
                             <LoginButton {...this.props} />
                         </Grid>
-                        {passwdElem}
                     </Grid>
                 </form>
             </Grid>
