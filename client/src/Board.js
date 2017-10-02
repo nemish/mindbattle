@@ -36,15 +36,13 @@ class Board extends Component {
             return null;
         }
         return <Grid container align='center' justify='center' direction='column'>
-            <Grid item>
-                <Paper>
-                    <Grid container>
-                        <UserInfo user={this.props.user} />
-                        <ChallengeInfoConnected />
-                        <CreateChallengeConnected />
-                    </Grid>
-                </Paper>
-            </Grid>
+            <Paper style={{padding: 10, opacity: 0.9}}>
+                <Grid item>
+                    <UserInfo user={this.props.user} />
+                    <ChallengeInfoConnected />
+                    <CreateChallengeConnected />
+                </Grid>
+            </Paper>
         </Grid>
     }
 }

@@ -265,7 +265,7 @@ class Challenge extends Component {
 
         const { access } = data;
         return <Grid container justify='center' align='center' direction='column'>
-            <Paper style={{padding: 20}}>
+            <Paper style={{padding: 20, opacity: 0.9}}>
                 {challengeElem.map((elem, index) => React.cloneElement(elem, {key: index}))}
                 <ExitLink />
             </Paper>
