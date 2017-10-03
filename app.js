@@ -60,9 +60,6 @@ app.use(function(request, response, next){
 //     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
 //     next();
 // });
-const server = http.Server(app);
-const socketIO = io(server);
-// socketIO.listen(3002)
 
 /**
  * Connect to MongoDB.
@@ -80,7 +77,6 @@ mongoose.connection.on('error', (err) => {
  */
 app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 const port = process.env.PORT || 3001;
-// app.set('port', );
 app.set('port', port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -266,12 +262,6 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
   res.redirect('/api/pinterest');
 });
 
-socketIO.on('connection', function (client) {
-    client.on('challenge_update', function (data) {
-        homeController.updateChallenge(data, socketIO);
-    })
-})
-
 /**
  * Error Handler.
  */
@@ -284,5 +274,15 @@ server.listen(port, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
 });
+
+const server = http.Server(app);
+const socketIO = io(server);
+// socketIO.listen(3002)
+
+socketIO.on('connection', function (client) {
+    client.on('challenge_update', function (data) {
+        homeController.updateChallenge(data, socketIO);
+    })
+})
 
 module.exports = app;
