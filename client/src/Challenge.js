@@ -99,10 +99,12 @@ class Challenge extends Component {
     render() {
         const { data } = this.props.challenge;
         if (!data || this.props.challenge.loading || !data.questions) {
-            return <Grid container>
-                <Grid item xs={12}>
-                    Loading...
-                </Grid>
+            return <Grid style={{height: '100%'}} container justify='center' align='center' direction='column'>
+                <Paper className='common-paper'>
+                    <Grid item>
+                            <Dotting>Loading</Dotting>
+                    </Grid>
+                </Paper>
             </Grid>
         }
 

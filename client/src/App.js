@@ -73,6 +73,7 @@ class App extends PureComponent {
                 backgroundImage: `url(${Background})`,
                 backgroundSize: '100%'
             }}>
+            {elem}
         </div>
     }
 }

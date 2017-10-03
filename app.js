@@ -47,16 +47,16 @@ const passportConfig = require('./config/passport');
  * Create Express server.
  */
 const app = express();
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-    next();
-});
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     res.header("Access-Control-Allow-Headers", "Content-Type");
+//     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+//     next();
+// });
 const server = http.Server(app);
 const socketIO = io(server);
-socketIO.listen(3002)
+// socketIO.listen(3002)
 
 /**
  * Connect to MongoDB.

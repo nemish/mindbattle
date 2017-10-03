@@ -7,6 +7,8 @@ if (window.location.protocol == 'https:') {
     protocol = 'wss:'
     console.log('secure protocol', protocol)
 }
-const HOST = protocol + '//' + window.location.hostname + ':3002';
+// const HOST = protocol + '//' + window.location.hostname + ':3002';
+// const HOST = protocol + '//' + window.location.hostname;
 // export default io(HOST, {secure: window.location.protocol === 'https:'});
-export default io(HOST, {secure});
+// export default io(HOST, {secure});
+export default io('wss://mathbattle3000.herokuapp.com/', {secure: true});
