@@ -69,9 +69,9 @@ const port = process.env.PORT || 3001;
 app.set('port', port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(expressStatusMonitor({
-    websocket: socketIO
-}));
+// app.use(expressStatusMonitor({
+//     websocket: socketIO
+// }));
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),

@@ -271,6 +271,7 @@ class NextQuestionButton extends PureComponent {
         if (this.state.inited) {
             progressLineClasses += ' inited';
         }
+        console.log('NextQuestionButton', progressLineClasses);
         return <Grid container justify='center'>
             <Grid item xs={12}>
                 <Button raised color='accent' onClick={() => nextQuestion(this.props.challenge)}>Next question</Button>
