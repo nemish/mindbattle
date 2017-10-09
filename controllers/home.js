@@ -112,7 +112,7 @@ exports.registerUser = (req, res) => {
                     })
                 }
             } else {
-                u = new UserDraft({name, passwd});
+                const u = new UserDraft({name, passwd});
                 u.save();
                 res.json({
                     status: 'ok',
@@ -149,6 +149,17 @@ exports.updateChallenge = (data, socket) => {
     }
     const { _id } = data.data;
     Challenge.findById(_id).exec((err, ch) => {
+        if (ch.changer) {
+            if (ch.changer.playersUpdateById) {
+                const { _id, data } = ch.changer.playersUpdateById;
+                ch.players = ch.players.map(player => {
+                    if (player._id == _id) {
+                        return Object.assign({}, player, data);
+                    }
+                    return player
+                });
+            }
+        }
         Object.keys(data.data).forEach(key => {
             const val = data.data[key];
             let chVal = ch[key];
@@ -273,11 +284,12 @@ const refreshPreviousChallenge = user => {
     if (current_challenge_id) {
         Challenge.findById(current_challenge_id).exec((err, challenge) => {
             if (challenge) {
-                challenge.players = challenge.players.filter(player => player._id != user._id);
+                challenge.players = challenge.players.filter(player => player._id == user._id);
                 challenge.save();
             }
-            if (!challenge.players.length && challenge.state != Challenge.states.FINISHED) {
-                Challenge.findById(current_challenge_id).remove();
+            console.log('removing challenge', challenge, user);
+            if (challenge && !challenge.players.length && challenge.state != Challenge.states.FINISHED) {
+                challenge.remove();
             }
         })
     }

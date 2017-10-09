@@ -18,6 +18,7 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
+import Divider from 'material-ui/Divider';
 import { withRouter } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -38,6 +39,7 @@ class Board extends Component {
         return <Grid container align='center' justify='center' direction='column'>
             <Paper style={{padding: 10, opacity: 0.9}}>
                 <Grid item>
+                    <h1 className='text-center' style={{margin: 0}}>LET'S GET INTO BATTLE</h1>
                     <UserInfo user={this.props.user} />
                     <ChallengeInfoConnected />
                     <CreateChallengeConnected />
@@ -113,8 +115,9 @@ const CreateChallengeConnected = connect(
 
 const UserInfo = props =><Grid container justify='center'>
     <Grid item>
-        <h3 className='text-center'>{props.user.name}</h3>
-        <h5 className='text-center'>Completed: {props.user.challengesCompleted || 0}. Score: {props.user.score || 0}</h5>
+        <Button raised color='accent' style={{margin: '10px 0'}}>
+            Name: {props.user.name}. Completed: {props.user.challengesCompleted || 0}. Score: {props.user.score || 0}
+        </Button>
     </Grid>
 </Grid>
 

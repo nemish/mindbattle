@@ -34,6 +34,7 @@ dotenv.load({ path: '.env.example' });
  * Controllers (route handlers).
  */
 const homeController = require('./controllers/home');
+const uncleBob = require('./controllers/uncleBob');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
@@ -265,12 +266,16 @@ app.use(errorHandler());
 server.listen(port, () => {
   console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
+  uncleBob.doJob();
 });
 
 socketIO.on('connection', function (client) {
+    console.log('connection', client.client.id);
     client.on('challenge_update', function (data) {
         homeController.updateChallenge(data, socketIO);
     })
 });
+
+
 
 module.exports = app;

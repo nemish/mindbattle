@@ -12,7 +12,7 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import socket from './socket';
+import { withSocket } from './socket';
 
 
 class ChallengeList extends PureComponent {
@@ -47,7 +47,7 @@ class ChallengeList extends PureComponent {
                                 id: row._id,
                                 user_id: this.props.user._id
                             }).then(data => {
-                                socket.emit('challenge_update', {data});
+                                this.props.socket.emit('challenge_update', {data});
                                 this.props.history.push(`/challenge/${row._id}`);
                             });
                         }}>Join</Button>
@@ -61,7 +61,7 @@ class ChallengeList extends PureComponent {
             </Grid>
         }
         return <Grid container justify='center' align='center' direction='column'>
-            <Paper style={{padding: 10}}>
+            <Paper className='common-paper'>
                 <Grid item className='text-center'>
                     <Button onClick={() => this.props.history.push('/board/')}>Back to Board</Button>
                 </Grid>
@@ -81,4 +81,4 @@ export default connect(
         fetchChallengeList,
         joinChallenge
     }, dispatch)
-)(withRouter(ChallengeList));
+)(withRouter(withSocket(ChallengeList)));

@@ -11,7 +11,7 @@ import {
     registerUser,
     createChallenge
 } from './actions/index';
-import Background from './assets/img/bg.jpg';
+import Background from './assets/img/bg2.jpg';
 import { bindActionCreators } from 'redux';
 import { withStyles } from 'material-ui/styles';
 import Cookies from 'js-cookie';
@@ -48,10 +48,18 @@ class App extends PureComponent {
     render() {
         let elem = null;
         const { match } = this.props;
-        if (this.props.loading) {
+        if (this.props.alert.showWindow) {
+            elem = <Grid style={{height: '100%'}} container justify='center' align='center' direction='column'>
+                <Paper className='common-paper'>
+                    <Grid item>
+                        {this.props.alert.modalData.msg.map(text => <p key={text} className='text-center'>{text}</p>)}
+                    </Grid>
+                </Paper>
+            </Grid>
+        } else if (this.props.loading) {
             elem = <Grid container justify='center' style={{height: '100%'}}>
                 <Grid item>
-                    <Paper className='common-paper'>
+                    <Paper className='common-paper' style={{padding: 10}}>
                         <h4 className='mono-font'><Dotting>Loading</Dotting></h4>
                         <div className='text-center'>
                             <Spinner name='pacman' color='#ccc' />
@@ -59,9 +67,8 @@ class App extends PureComponent {
                     </Paper>
                 </Grid>
             </Grid>
-            return <div>Loading</div>
         } else {
-            elem = <Grid container style={{height: '100%'}}>
+            elem = <Grid container style={{height: '100%', margin: 0}}>
                 <Route path="/board" component={Board} />
                 <Route path="/challenges/" component={ChallengeList} />
                 <Route path="/challenge/:challengeId" component={Challenge} />
@@ -69,18 +76,35 @@ class App extends PureComponent {
             </Grid>
 
         }
-        return <div className='app-container' style={{
+        return <div className='app-container'>
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
                 backgroundImage: `url(${Background})`,
-                backgroundSize: '100%'
-            }}>
+                backgroundSize: 'cover',
+            }}></div>
             {elem}
         </div>
     }
 }
+               // <Grid item className='text-center'>
+               //     <Button raised onClick={() => {
+               //
+               //         fetch('https://api.unsplash.com/photos/random')
+               //             .then(resp => resp.json)
+               //             .then(data => console.log(data))
+               //         }}>REQUEST UNSPLASH</Button>
+               // </Grid>
 
 
 export default connect(
-    state => state.user.userData,
+    state => ({
+        ...state.user.userData,
+        alert: state.modals.alert
+    }),
     dispatch => bindActionCreators({ fetchCurrentUser }, dispatch)
 )(App);
 
@@ -110,39 +134,55 @@ const WelcomeConnected = connect(
 
 class UserLogin extends PureComponent {
     render() {
-        let name = null;
+        let actionName = null;
         let passwdElem = null;
         if (this.props.name && this.props.name.length) {
-            name = this.props.check.loading ? 'Wait please...' : this.props.name
-            if (this.props.check.data.status === 'occupied') {
-                name += ' - occupied. Please log in';
-                passwdElem = <Grid item>
-                    <Password fieldName='passwd' {...this.props} />
-                </Grid>
-            } else if (this.props.check.data.status === 'ok') {
-                name += ' - type password in to register';
-                passwdElem = <Grid item>
+            if (this.props.check.data.status) {
+                passwdElem = <Grid item style={{margin: '0 10px 20px'}}>
                     <Password fieldName='passwd' {...this.props} />
                 </Grid>
             }
+
+            if (this.props.check.data.status === 'password_error') {
+                actionName = <span>Sorry, password incorrect for name: {this.props.name}.</span>;
+            } else if (this.props.check.data.status === 'occupied') {
+                actionName = <span><span>Happy to see you again, {this.props.name}.</span><br /><span>Let's go!</span></span>;
+            } else if (this.props.check.data.status === 'ok') {
+                actionName = <span>Nice to meet you, {this.props.name}.<br /> Choose the password...</span>;
+            }
+        }
+
+        let nameElem = null;
+        if (this.props.check.loading) {
+            nameElem = <Grid item className='text-center'>
+                <Dotting><h4>Loading</h4></Dotting>
+            </Grid>
+        } else if (actionName) {
+            nameElem = <Grid item className='text-center' style={{margin: '10px 10px'}}>
+                <h4 style={{marginTop: 5, marginBottom: 0, color: '#009933'}}>{actionName}</h4>
+            </Grid>
+        } else {
+            nameElem = <Grid item style={{margin: '10px 10px 20px'}}>
+                <UserNameConnected fieldName='name' {...this.props} />
+            </Grid>
         }
         return <Grid container align='center' justify='center' style={{height: '100%'}} direction='column'>
-            <Grid item>
-                <h3 className='text-center'>Introduce yourself</h3>
-            </Grid>
-            <Grid item>
-                <form onSubmit={e => e.preventDefault()}>
-                    <Grid container>
-                        <Grid item xs={12}>
-                            <UserNameConnected fieldName='name' {...this.props} />
-                        </Grid>
-                        {passwdElem}
-                        <Grid item xs={12} className='text-center'>
-                            <LoginButton {...this.props} />
-                        </Grid>
+            <Paper className='common-paper'>
+                <Grid item>
+                    <h1 className='text-center' style={{margin: 5}}>WELCOME ON BOARD</h1>
+                </Grid>
+                <Grid item>
+                    <Grid container align='center' justify='center' direction='column'>
+                        <form onSubmit={e => e.preventDefault()} style={{width: '95%'}}>
+                                {nameElem}
+                                {passwdElem}
+                                <Grid item className='text-center' style={{marginBottom: 20}}>
+                                    <LoginButton {...this.props} />
+                                </Grid>
+                        </form>
                     </Grid>
-                </form>
-            </Grid>
+                </Grid>
+            </Paper>
         </Grid>
     }
 }
@@ -172,6 +212,8 @@ const handleUserRegister = ({ name, passwd, ...remain }) => {
         if (data && data.status === 'ok') {
             sessionStorage.setItem('current_user', data.item._id);
             remain.history.push('/board');
+        } else if (data && data.status === 'error') {
+            console.log(remain);
         }
         return data;
     });
@@ -185,7 +227,7 @@ const LoginButtonDumb = props => {
         disabled={disabled}
         raised
         color="primary"
-        onClick={() => handleRegisterUserStep(props)}>GO</Button>;
+        onClick={() => handleRegisterUserStep(props)}>And we are ready to go!</Button>;
 }
 
 
@@ -208,8 +250,8 @@ class UserNameField extends Component {
              value={this.props[fieldName]}
              name={fieldName}
              label="What's your name?"
-             maxLength='16'
-             minLength='0'
+             maxLength={16}
+             minLength={0}
              onChange={onChange}
              onKeyPress={e => {
                 if (e.key === 'Enter'){

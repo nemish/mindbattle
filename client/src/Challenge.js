@@ -27,10 +27,10 @@ import {
 import Timer, {
     calcSeconds
 } from './components/Timer';
-import socket from './socket';
+import { withSocket } from './socket';
+import modalActions from './actions/modalActions';
 
-// const challengeUtils = require('./utils/challenge');
-// const { challengeTotal, getCompareFn } = challengeUtils;
+const { alertModalActions } = modalActions;
 
 
 const errorColor = red[500];
@@ -45,7 +45,7 @@ const chooseOption = (props, option, elapsed) => {
         elapsed
     };
     const { _id } = challenge;
-    socket.emit('challenge_update', {
+    props.socket.emit('challenge_update', {
         data: {
             _id,
             answers: [...challenge.answers.slice(0, challenge.currentQuestion), answerData]
@@ -54,11 +54,11 @@ const chooseOption = (props, option, elapsed) => {
 }
 
 
-const nextQuestion = challenge => {
-    socket.emit('challenge_update', {
+const nextQuestion = props => {
+    props.socket.emit('challenge_update', {
         data: {
-            _id: challenge._id,
-            currentQuestion: challenge.currentQuestion + 1
+            _id: props.challenge._id,
+            currentQuestion: props.challenge.currentQuestion + 1
         }
     });
 }
@@ -75,7 +75,7 @@ class Challenge extends Component {
     }
 
     componentDidMount() {
-        socket.on('challenge_update', data => {
+        this.props.socket.on('challenge_update', data => {
             const challenge = this.props.challenge.data;
             if (challenge && data.data._id == challenge._id) {
                 this.props.updateChallengeLocal(data);
@@ -109,7 +109,10 @@ class Challenge extends Component {
         }
 
         let challengeElem = [];
-        if (data.state == 'INITIAL') {
+        const { players } = this.props;
+        const usersMap = {};
+        data.players.forEach(player => usersMap[player._id] = player);
+        if (data.state == 'INITIAL' && usersMap[this.props.userId]) {
             challengeElem = [
                 <Grid item>
                     <h4 className='text-center'>
@@ -118,23 +121,29 @@ class Challenge extends Component {
                         </Dotting>
                     </h4>
                     <h3 className='text-center'>Players connected {data.players.length} / {data.maxPlayers}</h3>
+                    {data.players.map(player => <p key={player.name}>{player.name}</p>)}
                 </Grid>,
                 <Grid item className='text-center'>
                     <Button onClick={() => {
-                        socket.emit('challenge_update', {
+                        this.props.socket.emit('challenge_update', {
                             data: {
                                 _id: this.props.challenge.data._id,
-                                maxPlayers: this.props.challenge.data.players.length,
-                                state: 'RUNNING'
+                                changer: {
+                                    playersUpdateById: {
+                                        _id: this.props.userId,
+                                        data: {
+                                            ready: true
+                                        }
+                                    }
+                                },
+                                // maxPlayers: this.props.challenge.data.players.length
+                                // state: 'RUNNING'
                             }
                         })
-                    }} raised color='accent'>START CHALLENGE</Button>
+                    }} raised color='accent'>{usersMap[this.props.userId].ready ? 'PREPARE YOUR BRAIN' : 'I\'M READY. GO!'}</Button>
                 </Grid>
             ]
         } else {
-            const { players } = this.props;
-            const usersMap = {};
-            data.players.forEach(player => usersMap[player._id] = player);
 
             if (data.state === 'FINISHED') {
                 const answersData = challengeTotal(data);
@@ -191,7 +200,7 @@ class Challenge extends Component {
                     if (Object.keys(answers).length == data.maxPlayers) {
                         let elem = null;
                         if (data.userId == this.props.userId) {
-                            elem = <NextQuestionButton challenge={data} />
+                            elem = <NextQuestionButtonWrapped challenge={data} />
                         } else {
                             elem = <Dotting>prepare for the next question</Dotting>
                         }
@@ -232,6 +241,7 @@ class Challenge extends Component {
         const { access } = data;
         return <Grid container justify='center' align='center' direction='column'>
             <Paper style={{padding: 20, opacity: 0.9}}>
+                <h1 className='text-center' style={{margin: 0}}>CHALLENGE STARTING</h1>
                 {challengeElem.map((elem, index) => React.cloneElement(elem, {key: index}))}
                 <ExitLink />
             </Paper>
@@ -256,7 +266,7 @@ class NextQuestionButton extends PureComponent {
       };
     }
     componentDidMount() {
-        this.timeoutId = setTimeout(() => nextQuestion(this.props.challenge), 3000);
+        this.timeoutId = setTimeout(() => nextQuestion(this.props), 3000);
         this.setState({
             inited: true
         });
@@ -271,10 +281,9 @@ class NextQuestionButton extends PureComponent {
         if (this.state.inited) {
             progressLineClasses += ' inited';
         }
-        console.log('NextQuestionButton', progressLineClasses);
         return <Grid container justify='center'>
             <Grid item xs={12}>
-                <Button raised color='accent' onClick={() => nextQuestion(this.props.challenge)}>Next question</Button>
+                <Button raised color='accent' onClick={() => nextQuestion(this.props)}>Next question</Button>
             </Grid>
             <Grid item xs={12} className='text-center'>
                 <div className={progressLineClasses}></div>
@@ -282,6 +291,9 @@ class NextQuestionButton extends PureComponent {
         </Grid>
     }
 }
+
+
+const NextQuestionButtonWrapped = withSocket(NextQuestionButton);
 
 
 export default connect(
@@ -293,9 +305,10 @@ export default connect(
     dispatch => bindActionCreators({
         fetchChallenge,
         fetchPlayers,
-        updateChallengeLocal
+        updateChallengeLocal,
+        onConnectionLost: alertModalActions.open
     }, dispatch)
-)(withRouter(Challenge));
+)(withRouter(withSocket(Challenge)));
 
 
 const OptionButton = ({ item, index, onChoose }) => {

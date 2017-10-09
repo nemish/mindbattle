@@ -115,12 +115,13 @@ export const modalConstants = modalName => ({
 })
 
 
-export const createModalActions = conf => {
+export const createModalActions = (conf, name) => {
     let constants = conf;
     if (typeof constants === 'string') {
         constants = modalConstants(constants);
     }
     return {
+        name,
         open: makeActionCreator(constants.open, 'modalData'),
         close: makeActionCreator(constants.close),
         actions: constants

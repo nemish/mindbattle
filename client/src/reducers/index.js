@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import {
     createFetchReducer,
     createFetchReducerCallbacks,
-    createReducer
+    createReducer,
+    createModalReducer
 } from '../utils/reducers';
 import {
     fetchChallengeActions,
@@ -20,6 +21,7 @@ import {
     CHALLENGE_UPDATE,
     INIT_CREATE_CHALLENGE
 } from '../actions/index';
+import modalActions from '../actions/modalActions';
 import {
     routerReducer
 } from 'react-router-redux';
@@ -114,7 +116,17 @@ const user = combineReducers({
 });
 
 
+let modalsConfig = {};
+Object.keys(modalActions).forEach(key => {
+    const ma = modalActions[key];
+    console.log(ma);
+    modalsConfig[ma.name] = createModalReducer(ma);
+});
+const modals = combineReducers(modalsConfig);
+
+
 export default combineReducers({
+    modals,
     challengeList,
     forms,
     user,
