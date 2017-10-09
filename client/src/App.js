@@ -85,7 +85,12 @@ class App extends PureComponent {
                 bottom: 0,
                 backgroundImage: `url(${Background})`,
                 backgroundSize: 'cover',
-            }}></div>
+            }}>
+                <div style={{
+                    position: 'absolute',
+                    bottom: 20
+                }}></div>
+            </div>
             {elem}
         </div>
     }
