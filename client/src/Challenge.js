@@ -121,26 +121,26 @@ class Challenge extends Component {
                         </Dotting>
                     </h4>
                     <h3 className='text-center'>Players connected {data.players.length} / {data.maxPlayers}</h3>
-                    {data.players.map(player => <p key={player.name}>{player.name}</p>)}
+                    {data.players.map(player => <p key={player.name}>{player.name} - {player.ready ? 'ready' : 'preparing'}</p>)}
                 </Grid>,
                 <Grid item className='text-center'>
                     <Button onClick={() => {
                         this.props.socket.emit('challenge_update', {
                             data: {
                                 _id: this.props.challenge.data._id,
-                                changer: {
-                                    playersUpdateById: {
-                                        _id: this.props.userId,
-                                        data: {
-                                            ready: true
-                                        }
-                                    }
-                                },
-                                // maxPlayers: this.props.challenge.data.players.length
-                                // state: 'RUNNING'
+                                // changer: {
+                                //     playersUpdateById: {
+                                //         _id: this.props.userId,
+                                //         data: {
+                                //             ready: true
+                                //         }
+                                //     }
+                                // }
+                                maxPlayers: this.props.challenge.data.players.length,
+                                state: 'RUNNING'
                             }
                         })
-                    }} raised color='accent'>{usersMap[this.props.userId].ready ? 'PREPARE YOUR BRAIN' : 'I\'M READY. GO!'}</Button>
+                    }} raised color='accent'>I'M READY TO GO!</Button>
                 </Grid>
             ]
         } else {
