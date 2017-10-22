@@ -272,7 +272,7 @@ socketIO.on('connection', function (client) {
     console.log('connection', client.client.id);
     client.on('challenge_update', function (data) {
         homeController.updateChallenge(data, socketIO);
-    })
+    });
 });
 
 

@@ -25,6 +25,7 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Board from './Board';
+import Loading from './components/Loading';
 import { handleUser } from './utils/app';
 import Dotting from './Dotting';
 
@@ -57,16 +58,7 @@ class App extends PureComponent {
                 </Paper>
             </Grid>
         } else if (this.props.loading) {
-            elem = <Grid container justify='center' style={{height: '100%'}}>
-                <Grid item>
-                    <Paper className='common-paper' style={{padding: 10}}>
-                        <h4 className='mono-font'><Dotting>Loading</Dotting></h4>
-                        <div className='text-center'>
-                            <Spinner name='pacman' color='#ccc' />
-                        </div>
-                    </Paper>
-                </Grid>
-            </Grid>
+            elem = <Loading />
         } else {
             elem = <Grid container style={{height: '100%', margin: 0}}>
                 <Route path="/board" component={Board} />
@@ -83,6 +75,7 @@ class App extends PureComponent {
                 left: 0,
                 right: 0,
                 bottom: 0,
+                zIndex: -1,
                 backgroundImage: `url(${Background})`,
                 backgroundSize: 'cover',
             }}>
@@ -95,14 +88,6 @@ class App extends PureComponent {
         </div>
     }
 }
-               // <Grid item className='text-center'>
-               //     <Button raised onClick={() => {
-               //
-               //         fetch('https://api.unsplash.com/photos/random')
-               //             .then(resp => resp.json)
-               //             .then(data => console.log(data))
-               //         }}>REQUEST UNSPLASH</Button>
-               // </Grid>
 
 
 export default connect(
@@ -172,6 +157,11 @@ class UserLogin extends PureComponent {
             </Grid>
         }
         return <Grid container align='center' justify='center' style={{height: '100%'}} direction='column'>
+            <Grid item>
+                <p className='text-center' style={{margin: '10px 0', color: '#ddd', fontSize: 50}}>MATHBATTLE</p>
+                <hr style={{color: '#ddd'}} />
+                <p className='text-center' style={{color: '#eee', fontSize: 20}}>calc your level</p>
+            </Grid>
             <Paper className='common-paper'>
                 <Grid item>
                     <h1 className='text-center' style={{margin: 5}}>WELCOME ON BOARD</h1>
@@ -232,7 +222,7 @@ const LoginButtonDumb = props => {
         disabled={disabled}
         raised
         color="primary"
-        onClick={() => handleRegisterUserStep(props)}>And we are ready to go!</Button>;
+        onClick={() => handleRegisterUserStep(props)}>NEXT</Button>;
 }
 
 

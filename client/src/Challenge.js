@@ -29,6 +29,7 @@ import Timer, {
 } from './components/Timer';
 import { withSocket } from './socket';
 import modalActions from './actions/modalActions';
+import Loading from './components/Loading';
 
 const { alertModalActions } = modalActions;
 
@@ -100,11 +101,7 @@ class Challenge extends Component {
         const { data } = this.props.challenge;
         if (!data || this.props.challenge.loading || !data.questions) {
             return <Grid style={{height: '100%'}} container justify='center' align='center' direction='column'>
-                <Paper className='common-paper'>
-                    <Grid item>
-                            <Dotting>Loading</Dotting>
-                    </Grid>
-                </Paper>
+                <Loading />
             </Grid>
         }
 

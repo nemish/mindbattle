@@ -17,10 +17,21 @@ if (process.env.NODE_ENV !== 'production') {
 
 const composeEnhancers = compose;
 
+
 export function configureStore(preloadedState) {
-    return createStore(
+    const store = createStore(
         appReducer,
         preloadedState,
         composeEnhancers(applyMiddleware(...middleware))
     );
+    configureStore.primaryStore = store;
+    return store;
 }
+
+let store = null;
+
+if (!store) {
+    store = configureStore({});
+}
+
+export default store;
