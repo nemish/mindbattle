@@ -15,14 +15,58 @@ exports.index = (req, res) => {
 };
 
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+const OPERATIONS_MAP = {
+    '+': (prev, next) => prev + next,
+    '*': (prev, next) => prev * next,
+    '-': (prev, next) => prev - next,
+    '/': (prev, next) => prev / next,
+}
+
+
+const OPERATORS = ['+', '-', '*', '/'];
+
+
 const createQuestion = () => {
+    const numArgs = getRandomInt(2, 4)
+    const values = Array(numArgs).fill().map(() => {
+        return calcInt();
+    });
+    let operations = [];
+    let operation = '';
+    let operationsMap = {};
+    values.forEach((value, index) => {
+        let op = OPERATORS[getRandomInt(0, 3)];
+
+        if (index === numArgs - 1) {
+            operation += value.toString();
+        } else {
+            const curOp = {
+                id: index,
+                op: op,
+                current: value
+            }
+            operations.push(curOp);
+            operation += value.toString() + ' ' + op + ' ';
+        }
+
+        if (index > 0) {
+            operations[index-1].next = value;
+        }
+    });
+    const result = Math.floor(eval(operation));
+
     const initialVal = calcInt();
     const secondVal = calcInt();
     const eth = initialVal + secondVal;
-    const options = [eth, eth - calcInt(10), eth - calcInt(10), eth - calcInt(10)];
+    const options = [result, result - (result / 2), result + (result / 2), result * 2];
     return {
-        operation: `${initialVal} + ${secondVal}`,
-        result: eth,
+        operation: operation,
+        result: result,
         options: shuffle(options)
     }
 }

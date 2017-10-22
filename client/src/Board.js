@@ -74,7 +74,7 @@ class CreateChallenge extends PureComponent {
         let buttonElem = [
             <Button color='primary'
                     key='current'
-                    disabled={!this.props.challenge.data._id}
+                    disabled={!this.props.challenge.data || !this.props.challenge.data._id}
                     onClick={() => {
                         this.props.history.push(`/challenge/${this.props.challenge.data._id}`);
                     }}>

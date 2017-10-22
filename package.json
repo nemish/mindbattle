@@ -10,7 +10,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node --exec npm run babel-node -- app.js",
-    "babel-node": "NODE_ENV=production babel-node",
+    "babel-node-prod": "NODE_ENV=production babel-node",
+    "babel-node": "NODE_ENV=development babel-node",
     "test": "mocha --reporter spec",
     "postinstall": "npm rebuild node-sass",
     "eslint": "eslint **/*.js"
