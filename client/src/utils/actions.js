@@ -48,20 +48,33 @@ export function createAsyncAction(conf) {
       }
 
       const query = makeQuery(payload);
-      let params = {}
+      let params = {
+          credentials: 'same-origin'
+      }
+      let headers = {};
+      if (method == 'post') {
+        headers['Content-Type'] = 'application/json; charset=utf-8';
+      }
+      if (conf.authorized) {
+        headers['jwt_token'] = sessionStorage.getItem('jwt_token');
+      }
+      params.headers = headers;
       if (method == 'post') {
         params = {
+            ...params,
             method: 'POST',
             body: JSON.stringify(payload),
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'x-csrf-token': Cookies.get('csrftoken')
-            }
         }
       } else if (!method || method === 'get') {
         url = url + (query.length ? '?' + query : '');
       }
       return fetch(url, params)
+        .then(resp => {
+            if (!resp.ok) {
+                return resp.json().then(err => {throw err});
+            }
+            return resp
+        })
         .then(resp => resp.json())
         .then(data => {
             dispatch(successActionCreator(data));

@@ -43,19 +43,19 @@ export const withSocket = TargetComp => {
         }
 
         render() {
-            if (!this.state.inited) {
-                this.setState(
-                    {inited: false},
-                    () => disconnectCallbacks.push({
-                        cb: this.props.onConnectionLost,
-                        msg: [
-                            'Ooops... Something happend. Please refresh a page.',
-                            'Or it will refreshed automatically',
-                            'after 5 seconds...'
-                        ]
-                    })
-                )
-            }
+            // if (!this.state.inited) {
+            //     this.setState(
+            //         {inited: false},
+            //         () => disconnectCallbacks.push({
+            //             cb: this.props.onConnectionLost,
+            //             msg: [
+            //                 'Ooops... Something happend. Please refresh a page.',
+            //                 'Or it will refreshed automatically',
+            //                 'after 5 seconds...'
+            //             ]
+            //         })
+            //     )
+            // }
             return <TargetComp socket={socket} {...this.props} />
         }
     }

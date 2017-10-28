@@ -6,13 +6,15 @@ const { challengeTotal, calcScore } = require('../client/src/utils/challenge');
 const UserDraft = require('../models/UserDraft');
 const Challenge = require('../models/Challenge');
 const sleep = require('sleep');
+const passport = require('passport');
+const utils = require('../utils');
 
 
-exports.index = (req, res) => {
-  res.render('home', {
-    title: 'Home'
-  });
-};
+// exports.index = (req, res) => {
+//   res.render('home', {
+//     title: 'Home'
+//   });
+// };
 
 
 function getRandomInt(min, max) {
@@ -101,28 +103,39 @@ exports.checkUserName = (req, res) => {
 }
 
 
-exports.login = (req, res) => {
-    const { name, passwd } = req.body;
-    if (name && passwd) {
-        UserDraft.find({name: name}).exec(function (err, docs) {
-            if (docs.length) {
-                const u = docs[0];
-                if (u.passwd == passwd) {
-                    res.json({
-                        status: 'ok',
-                        item: u
-                    })
-                } else {
-                    res.json({
-                        status: 'error',
-                        msg: 'Wrong name or password'
-                    })
-                }
-            }
+exports.login = (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) {
+        return res.status(403).send({
+            status: 'error',
+            msg: 'Password check error'
+        })
+      }
+
+      if (!user) {
+        return res.status(403).send({
+            status: 'error',
+            msg: 'Wrong name or password'
+        })
+      }
+
+      req.logIn(user, (err) => {
+        if (err) {
+            return res.json({
+                status: 'error',
+                msg: 'Login error'
+            });
+        }
+
+        const token = utils.generateToken(user);
+
+        res.json({
+            status: 'ok',
+            item: user,
+            token
         });
-    } else {
-        res.json({status: 'empty_field'});
-    }
+      });
+    })(req, res, next);
 }
 
 
@@ -138,52 +151,51 @@ exports.fetchPlayers = (req, res) => {
 }
 
 
-exports.registerUser = (req, res) => {
-    const { name, passwd } = req.body;
-    if (name && passwd) {
-        UserDraft.find({name: name}).exec(function (err, docs) {
-            if (docs.length) {
-                const u = docs[0];
-                if (u.passwd == passwd) {
-                    res.json({
-                        status: 'ok',
-                        item: u
-                    })
-                } else {
-                    res.json({
-                        status: 'error',
-                        msg: 'Wrong name or password'
-                    })
-                }
-            } else {
-                const u = new UserDraft({name, passwd});
-                u.save();
-                res.json({
-                    status: 'ok',
-                    item: u
-                });
-            }
+exports.registerUser = (req, res, next) => {
+  const { name, passwd } = req.body;
+  if (!name || !passwd) {
+    return res.status(400).send({
+        msg: 'empty name or passwd'
+    });
+  }
+
+  const user = new UserDraft({
+      name, passwd
+  });
+
+  UserDraft.findOne({ name }, (err, existingUser) => {
+    if (err) { return next(err); }
+    if (existingUser) {
+        res.json({
+            status: 'occupied'
         });
     } else {
-        res.json({status: 'empty_field'});
+        user.save((err) => {
+          if (err) {
+            return next(err);
+          }
+          req.logIn(user, (err) => {
+            if (err) {
+              return next(err);
+            }
+            const token = utils.generateToken(user);
+            res.json({
+                status: 'ok',
+                item: user,
+                token
+            });
+          });
+        });
     }
+  });
 }
 
 
 exports.fetchCurrentUser = (req, res) => {
-    const { id } = req.params;
-    if (id) {
-        UserDraft.findById(id).exec(function (err, doc) {
-            res.json({
-                status: 'ok',
-                item: doc
-            });
-        });
-    } else {
-        res.json({
-            status: 'not_found'
-        });
-    }
+    res.json({
+        status: 'ok',
+        item: req.user
+    });
 }
 
 
@@ -252,15 +264,15 @@ exports.challengeList = (req, res) => {
             playersCount: {$gt: 0},
             timestamp: { $ne: null },
             access: 'public',
-            state: Challenge.states.INITIAL
+            states: {$in: [Challenge.states.INITIAL, Challenge.states.RUNNING]}
         };
-        Challenge.find(query).exec(function (err, docs) {
+        Challenge.find(query).sort('-state').exec(function (err, docs) {
             if (!docs.length) {
                 res.json({
                     status: 'ok',
                     items: []
                 })
-                return
+                return;
             }
             const usersIds = docs.map(doc => doc.userId);
             UserDraft.find({_id: {$in: usersIds}}).exec(function (err, users) {
@@ -271,10 +283,11 @@ exports.challengeList = (req, res) => {
                 res.json({
                     status: 'ok',
                     items: docs.map(item => {
-                        const { userId, timestamp, playersCount, maxPlayers, _id } = item;
+                        const { userId, timestamp, playersCount, maxPlayers, _id, state } = item;
                         return {
                             _id,
                             userId,
+                            state,
                             userName: usersMap[userId].name,
                             timestamp,
                             playersCount,
@@ -331,7 +344,6 @@ const refreshPreviousChallenge = user => {
                 challenge.players = challenge.players.filter(player => player._id == user._id);
                 challenge.save();
             }
-            console.log('removing challenge', challenge, user);
             if (challenge && !challenge.players.length && challenge.state != Challenge.states.FINISHED) {
                 challenge.remove();
             }
@@ -351,7 +363,7 @@ exports.createChallenge = (req, res) => {
             timestamp: new Date(),
             state: Challenge.states.INITIAL,
             access: access,
-            currentQuestion: 0,
+            currentQuestion: null,
             questions: [...Array(questionsCount).keys()].map(createQuestion),
             answers: [],
             players: [{

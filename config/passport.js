@@ -11,36 +11,80 @@ const OpenIDStrategy = require('passport-openid').Strategy;
 const OAuthStrategy = require('passport-oauth').OAuthStrategy;
 const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
 
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+
 const User = require('../models/User');
+const UserDraft = require('../models/UserDraft');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
+  UserDraft.findById(id, (err, user) => {
     done(err, user);
   });
 });
 
+
+const opts = {
+    jwtFromRequest: ExtractJwt.fromHeader('jwt_token'),
+    secretOrKey: process.env.JWT_SECRET
+};
+
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+    UserDraft.findOne({id: jwt_payload.sub}, function(err, user) {
+        if (err) {
+            return done(err, false);
+        }
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+            // or you could create a new account
+        }
+    });
+}));
+
 /**
  * Sign in using Email and Password.
  */
-passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-  User.findOne({ email: email.toLowerCase() }, (err, user) => {
-    if (err) { return done(err); }
+passport.use(new LocalStrategy({ usernameField: 'name', passwordField: 'passwd' }, (name, password, done) => {
+  UserDraft.findOne({ name: name.toLowerCase() }, (err, user) => {
+    if (err) {
+        return done(err);
+    }
     if (!user) {
-      return done(null, false, { msg: `Email ${email} not found.` });
+      return done(null, false, { msg: `User with name ${name} not found.` });
     }
     user.comparePassword(password, (err, isMatch) => {
-      if (err) { return done(err); }
+      if (err) {
+        return done(err);
+      }
       if (isMatch) {
         return done(null, user);
       }
-      return done(null, false, { msg: 'Invalid email or password.' });
+      return done(null, false, { msg: 'Invalid name or password.' });
     });
   });
 }));
+
+// passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+//   User.findOne({ email: email.toLowerCase() }, (err, user) => {
+//     if (err) { return done(err); }
+//     if (!user) {
+//       return done(null, false, { msg: `Email ${email} not found.` });
+//     }
+//     user.comparePassword(password, (err, isMatch) => {
+//       if (err) { return done(err); }
+//       if (isMatch) {
+//         return done(null, user);
+//       }
+//       return done(null, false, { msg: 'Invalid email or password.' });
+//     });
+//   });
+// }));
 
 /**
  * OAuth Strategy Overview

@@ -8,10 +8,13 @@ import {
     LOGIN_FORM,
     formsActions,
     checkUserName,
+    resetUser,
     registerUser,
+    login,
     createChallenge
 } from './actions/index';
-import Background from './assets/img/bg2.jpg';
+import UserLogin from './components/UserLogin';
+import Background from './assets/img/bg2-min.jpg';
 import { bindActionCreators } from 'redux';
 import { withStyles } from 'material-ui/styles';
 import Cookies from 'js-cookie';
@@ -29,7 +32,6 @@ import Loading from './components/Loading';
 import { handleUser } from './utils/app';
 import Dotting from './Dotting';
 
-const loginFormActions = formsActions[LOGIN_FORM];
 
 
 const styles = theme => ({
@@ -76,6 +78,7 @@ class App extends PureComponent {
                 right: 0,
                 bottom: 0,
                 zIndex: -1,
+                backgroundColor: '#032056',
                 backgroundImage: `url(${Background})`,
                 backgroundSize: 'cover',
             }}>
@@ -92,7 +95,8 @@ class App extends PureComponent {
 
 export default connect(
     state => ({
-        ...state.user.userData,
+        userId: state.user.userData._id,
+        loading: state.user.userData.loading,
         alert: state.modals.alert
     }),
     dispatch => bindActionCreators({ fetchCurrentUser }, dispatch)
@@ -107,7 +111,7 @@ class Welcome extends PureComponent {
     }
 
     render() {
-        return <UserLoginConnected />
+        return <UserLogin />
     }
 }
 
@@ -121,196 +125,17 @@ const WelcomeConnected = connect(
 
 
 
-
-class UserLogin extends PureComponent {
-    render() {
-        let actionName = null;
-        let passwdElem = null;
-        if (this.props.name && this.props.name.length) {
-            if (this.props.check.data.status) {
-                passwdElem = <Grid item style={{margin: '0 10px 20px'}}>
-                    <Password fieldName='passwd' {...this.props} />
-                </Grid>
-            }
-
-            if (this.props.check.data.status === 'password_error') {
-                actionName = <span>Sorry, password incorrect for name: {this.props.name}.</span>;
-            } else if (this.props.check.data.status === 'occupied') {
-                actionName = <span><span>Happy to see you again, {this.props.name}.</span><br /><span>Let's go!</span></span>;
-            } else if (this.props.check.data.status === 'ok') {
-                actionName = <span>Nice to meet you, {this.props.name}.<br /> Choose the password...</span>;
-            }
-        }
-
-        let nameElem = null;
-        if (this.props.check.loading) {
-            nameElem = <Grid item className='text-center'>
-                <Dotting><h4>Loading</h4></Dotting>
-            </Grid>
-        } else if (actionName) {
-            nameElem = <Grid item className='text-center' style={{margin: '10px 10px'}}>
-                <h4 style={{marginTop: 5, marginBottom: 0, color: '#009933'}}>{actionName}</h4>
-            </Grid>
-        } else {
-            nameElem = <Grid item style={{margin: '10px 10px 20px'}}>
-                <UserNameConnected fieldName='name' {...this.props} />
-            </Grid>
-        }
-        return <Grid container align='center' justify='center' style={{height: '100%'}} direction='column'>
-            <Grid item>
-                <p className='text-center' style={{margin: '10px 0', color: '#ddd', fontSize: 50}}>MATHBATTLE</p>
-                <hr style={{color: '#ddd'}} />
-                <p className='text-center' style={{color: '#eee', fontSize: 20}}>calc your level</p>
-            </Grid>
-            <Paper className='common-paper'>
-                <Grid item>
-                    <h1 className='text-center' style={{margin: 5}}>WELCOME ON BOARD</h1>
-                </Grid>
-                <Grid item>
-                    <Grid container align='center' justify='center' direction='column'>
-                        <form onSubmit={e => e.preventDefault()} style={{width: '95%'}}>
-                                {nameElem}
-                                {passwdElem}
-                                <Grid item className='text-center' style={{marginBottom: 20}}>
-                                    <LoginButton {...this.props} />
-                                </Grid>
-                        </form>
-                    </Grid>
-                </Grid>
-            </Paper>
-        </Grid>
-    }
-}
-
-
-const handleRegisterUserStep = props => {
-    if (props.name && props.passwd) {
-        handleUserRegister(props);
-    } else {
-        handleUserNameCheck(props);
-    }
-}
-
-
-const handleUserNameCheck = (props) => {
-    return props.checkUserName({
-        name: props.name
-    })
-}
-
-
-const handleUserRegister = ({ name, passwd, ...remain }) => {
-    return remain.registerUser({
-        name,
-        passwd
-    }).then(data => {
-        if (data && data.status === 'ok') {
-            sessionStorage.setItem('current_user', data.item._id);
-            remain.history.push('/board');
-        } else if (data && data.status === 'error') {
-            console.log(remain);
-        }
-        return data;
-    });
-}
-
-
-const LoginButtonDumb = props => {
-    const { name } = props.form;
-    const disabled = !name || !name.length || props.checkState.loading;
+const BackButton = connect(
+    null,
+    dispatch => bindActionCreators({ resetUser }, dispatch)
+)(props => {
     return <Button
-        disabled={disabled}
         raised
-        color="primary"
-        onClick={() => handleRegisterUserStep(props)}>NEXT</Button>;
-}
+        color="default"
+        onClick={() => props.resetUser()}>BACK</Button>;
+});
 
 
-const LoginButton = connect(
-    state => ({
-        form: state.forms[loginFormActions.key],
-        checkState: state.user.checkState
-    }),
-    dispatch => bindActionCreators({
-        handleRegisterUserStep
-    }, dispatch)
-)(withRouter(LoginButtonDumb));
 
-
-class UserNameField extends Component {
-    render() {
-        const { onChange, fieldName } = this.props;
-        return <TextField
-             fullWidth
-             value={this.props[fieldName]}
-             name={fieldName}
-             label="What's your name?"
-             maxLength={16}
-             minLength={0}
-             onChange={onChange}
-             onKeyPress={e => {
-                if (e.key === 'Enter'){
-                    const { value } = e.target;
-                    if (!value) {
-                        return;
-                    }
-                    handleRegisterUserStep(this.props);
-                }
-             }}
-             placeholder='Type something in...' />
-    }
-}
-
-
-const PasswordField = props => {
-    const { onChange, fieldName } = props;
-    return <TextField
-         fullWidth
-         type='password'
-         value={props[fieldName]}
-         name={fieldName}
-         label="Password"
-         maxLength='16'
-         minLength='0'
-         onChange={onChange}
-         onKeyPress={e => {
-            if (e.key === 'Enter'){
-                const { value } = e.target;
-                if (!value) {
-                    return;
-                }
-                handleRegisterUserStep(props);
-            }
-         }}
-         placeholder='Type something in...' />
-}
-
-
-const fieldChanger = formsActions => connect(
-    (state, ownProps) => ({
-        value: state.forms[formsActions.key][ownProps.fieldName]
-    }),
-    (dispatch, ownProps) => ({
-        onChange(e) {
-            dispatch(formsActions.changeValue({
-                name: ownProps.fieldName,
-                value: e.target.value
-            }))
-        }
-    })
-)
-
-const UserNameConnected = withRouter(fieldChanger(loginFormActions)(UserNameField));
-const Password = withRouter(fieldChanger(loginFormActions)(PasswordField));
-
-
-const UserLoginConnected = connect(
-    state => ({
-        check: state.user.checkState,
-        ...state.forms[loginFormActions.key],
-        ...state.meta
-    }),
-    dispatch => bindActionCreators({ checkUserName, registerUser }, dispatch)
-)(withStyles(styles)(withRouter(UserLogin)));
 
 

@@ -111,6 +111,7 @@ class Challenge extends Component {
         data.players.forEach(player => usersMap[player._id] = player);
         if (data.state == 'INITIAL' && usersMap[this.props.userId]) {
             challengeElem = [
+                <h1 className='text-center' style={{margin: 0}}>CHALLENGE PREPARING</h1>,
                 <Grid item>
                     <h4 className='text-center'>
                         <Dotting>
@@ -125,14 +126,6 @@ class Challenge extends Component {
                         this.props.socket.emit('challenge_update', {
                             data: {
                                 _id: this.props.challenge.data._id,
-                                // changer: {
-                                //     playersUpdateById: {
-                                //         _id: this.props.userId,
-                                //         data: {
-                                //             ready: true
-                                //         }
-                                //     }
-                                // }
                                 maxPlayers: this.props.challenge.data.players.length,
                                 state: 'RUNNING'
                             }
@@ -141,12 +134,11 @@ class Challenge extends Component {
                 </Grid>
             ]
         } else {
-
             if (data.state === 'FINISHED') {
                 const answersData = challengeTotal(data);
                 challengeElem = [
                     <Grid item className='text-center' style={{marginBottom: 10}}>
-                        <span>CHALLENGE FINISHED</span>
+                        <h2>CHALLENGE FINISHED</h2>
                     </Grid>,
                     <Grid container justify='center'>
                         <Grid item className='text-center mono-font' xs={12}>
@@ -161,6 +153,32 @@ class Challenge extends Component {
                         </Grid>
                     </Grid>
                 ];
+            } else if (data.currentQuestion === null) {
+                challengeElem = [
+                    <Grid item className='text-center' style={{marginBottom: 10}}>
+                        <h2>CHALLENGE IS ABOUT TO START</h2>
+                    </Grid>,
+                    <Grid item>
+                        <h3 className='text-center'>Players: {data.playersCount}</h3>
+                    </Grid>,
+                    <Grid container justify='center'>
+                        <Grid item className='text-center mono-font'>
+                            <Timer
+                                size={5}
+                                text=''
+                                accuracy={0}
+                                onLimit={() => {
+                                    this.props.socket.emit('challenge_update', {
+                                        data: {
+                                            _id: this.props.challenge.data._id,
+                                            currentQuestion: 0
+                                        }
+                                    })
+                                }} end={Date.now() + 4 * 1000}
+                            />
+                        </Grid>
+                    </Grid>
+                ];
             } else {
                 const question = data.questions[data.currentQuestion];
                 const { operation, options } = question;
@@ -168,7 +186,7 @@ class Challenge extends Component {
 
                 challengeElem = [
                     <Grid item className='text-center' style={{marginBottom: 10}}>
-                        <span>QUESTION #{data.currentQuestion + 1}/{data.questions.length} - {access} challenge</span>
+                        <h2>QUESTION #{data.currentQuestion + 1}/{data.questions.length}</h2>
                     </Grid>,
                     <Grid item>
                         <h4 className='text-center'>Choose correct result of operation</h4>
@@ -221,7 +239,6 @@ class Challenge extends Component {
                             <Grid item className='text-center mono-font'>
                                 <Timer onLimit={remaining => this._chooseOption(null)}
                                        onTick={remaining => this.setState({remaining})}
-                                       remaining={this.state.remaining}
                                        end={Date.now() + 10000} />
                             </Grid>
                         </Grid>,
@@ -238,18 +255,18 @@ class Challenge extends Component {
         const { access } = data;
         return <Grid container justify='center' align='center' direction='column'>
             <Paper style={{padding: 20, opacity: 0.9}}>
-                <h1 className='text-center' style={{margin: 0}}>CHALLENGE STARTING</h1>
                 {challengeElem.map((elem, index) => React.cloneElement(elem, {key: index}))}
                 <ExitLink />
             </Paper>
         </Grid>
     }
+
     _chooseOption(option) {
         const { data } = this.props.challenge;
         const question = data.questions[data.currentQuestion];
         const { options } = question;
         const optionValue = options[option];
-        chooseOption(this.props, optionValue || null, calcSeconds(this.state.remaining));
+        chooseOption(this.props, optionValue || null, calcSeconds(this.state.remaining, 1));
     }
 }
 

@@ -1,13 +1,10 @@
 
 export const handleUser = props => {
-    if (props.user && (props.user._id || props.user.loading)) {
+    if (props.userId || props.loading) {
         return;
     }
-
-    const userId = sessionStorage.getItem('current_user');
-    if (userId && userId !== 'undefined') {
-        props.fetchCurrentUser({user_id: userId});
-    } else {
-        props.history.push('/');
+    const token = sessionStorage.getItem('jwt_token');
+    if (token) {
+        return props.fetchCurrentUser();
     }
 }

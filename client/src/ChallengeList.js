@@ -6,13 +6,29 @@ import {
     joinChallenge
 } from './actions/index';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
+import { withStyles } from 'material-ui/styles';
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { withSocket } from './socket';
+
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    width: 400,
+  },
+});
+
 
 
 class ChallengeList extends PureComponent {
@@ -25,35 +41,50 @@ class ChallengeList extends PureComponent {
     }
 
     render() {
+        const { classes } = this.props;
         let elem = <Grid item>
             <Grid item>
                 <h4 className='text-center'>Active challenges:</h4>
             </Grid>
-            {this.props.items.map(row => {
-                return <Grid container direction='row' align='center' justify='center' key={row.timestamp}>
-                    <Grid item>
-                        <span>{row.userName}</span>
-                    </Grid>
-                    <Grid item>
-                        <span>{row.playersCount}/{row.maxPlayers}</span>
-                    </Grid>
-                    <Grid item>
-                        <span>{new Date(row.timestamp).toLocaleString()}</span>
-                    </Grid>
-                    <Grid item>
-                        <Button disabled={row.playersCount == row.maxPlayers}
-                            onClick={() => {
-                            this.props.joinChallenge({
-                                id: row._id,
-                                user_id: this.props.user._id
-                            }).then(data => {
-                                this.props.socket.emit('challenge_update', {data});
-                                this.props.history.push(`/challenge/${row._id}`);
-                            });
-                        }}>Join</Button>
-                    </Grid>
-                </Grid>
-            })}
+            <Paper className={classes.root}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>OWNER</TableCell>
+                    <TableCell numeric>CREATED AT</TableCell>
+                    <TableCell numeric>PLAYERS/MAX</TableCell>
+                    <TableCell numeric>STATE</TableCell>
+                    <TableCell numeric>#</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.props.items.map(n => {
+                    return (
+                      <TableRow key={n.timestamp}>
+                        <TableCell>{n.userName}</TableCell>
+                        <TableCell>{new Date(n.timestamp).toLocaleString()}</TableCell>
+                        <TableCell>{n.playersCount}/{n.maxPlayers}</TableCell>
+                        <TableCell>{n.state}</TableCell>
+                        <TableCell>
+                            <Button disabled={n.playersCount == n.maxPlayers}
+                                color="primary"
+                                raised
+                                onClick={() => {
+                                this.props.joinChallenge({
+                                    id: n._id,
+                                    user_id: this.props.user._id
+                                }).then(data => {
+                                    this.props.socket.emit('challenge_update', {data});
+                                    this.props.history.push(`/challenge/${n._id}`);
+                                });
+                            }}>{n.state === 'INITIAL' ? 'Join' : 'Watch'}</Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </Paper>
         </Grid>
         if (!this.props.items.length) {
             elem = <Grid item>
@@ -72,6 +103,11 @@ class ChallengeList extends PureComponent {
 }
 
 
+ChallengeList.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+
 export default connect(
     state => ({
         user: state.user.userData,
@@ -81,4 +117,4 @@ export default connect(
         fetchChallengeList,
         joinChallenge
     }, dispatch)
-)(withRouter(withSocket(ChallengeList)));
+)(withRouter(withSocket(withStyles(styles)(ChallengeList))));
