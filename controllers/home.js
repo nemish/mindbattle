@@ -276,50 +276,44 @@ exports.updateChallenge = (data, socket) => {
 
 
 exports.challengeList = (req, res) => {
-    const { user_id } = req.params;
-    if (user_id) {
-        const query = {
-            playersCount: {$gt: 0},
-            timestamp: { $ne: null },
-            access: 'public',
-            states: {$in: [Challenge.states.INITIAL, Challenge.states.RUNNING]}
-        };
-        Challenge.find(query).sort('-state').exec(function (err, docs) {
-            if (!docs.length) {
-                res.json({
-                    status: 'ok',
-                    items: []
-                })
-                return;
-            }
-            const usersIds = docs.map(doc => doc.userId);
-            UserDraft.find({_id: {$in: usersIds}}).exec(function (err, users) {
-                let usersMap = {};
-                users.forEach(user => {
-                    usersMap[user._id] = user;
-                });
-                res.json({
-                    status: 'ok',
-                    items: docs.map(item => {
-                        const { userId, timestamp, playersCount, maxPlayers, _id, state } = item;
-                        return {
-                            _id,
-                            userId,
-                            state,
-                            userName: usersMap[userId].name,
-                            timestamp,
-                            playersCount,
-                            maxPlayers
-                        }
-                    })
-                });
+    const query = {
+        playersCount: {$gt: 0},
+        timestamp: { $ne: null },
+        access: 'public',
+        states: {$in: [Challenge.states.INITIAL, Challenge.states.RUNNING]}
+    };
+
+    Challenge.find(query).sort('-state').exec(function (err, docs) {
+        if (!docs.length) {
+            res.json({
+                status: 'ok',
+                items: []
+            })
+            return;
+        }
+        const usersIds = docs.map(doc => doc.userId);
+        UserDraft.find({_id: {$in: usersIds}}).exec(function (err, users) {
+            let usersMap = {};
+            users.forEach(user => {
+                usersMap[user._id] = user;
             });
-        })
-    } else {
-        res.json({
-            status: 'not_found'
+            res.json({
+                status: 'ok',
+                items: docs.map(item => {
+                    const { userId, timestamp, playersCount, maxPlayers, _id, state } = item;
+                    return {
+                        _id,
+                        userId,
+                        state,
+                        userName: usersMap[userId].name,
+                        timestamp,
+                        playersCount,
+                        maxPlayers
+                    }
+                })
+            });
         });
-    }
+    });
 }
 
 
