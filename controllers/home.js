@@ -33,14 +33,13 @@ const OPERATIONS_MAP = {
 const OPERATORS = ['+', '-', '*', '/'];
 
 
-const createQuestion = () => {
+const makeQuestionConf = () => {
     const numArgs = getRandomInt(2, 4)
     const values = Array(numArgs).fill().map(() => {
-        return calcInt();
+        return calcInt(50);
     });
     let operations = [];
     let operation = '';
-    let operationsMap = {};
     values.forEach((value, index) => {
         let op = OPERATORS[getRandomInt(0, 3)];
 
@@ -60,12 +59,31 @@ const createQuestion = () => {
             operations[index-1].next = value;
         }
     });
-    const result = Math.floor(eval(operation));
+
+    return {
+        result: Math.floor(eval(operation)),
+        operation,
+        operations
+    };
+}
+
+
+const createQuestion = () => {
+    let conf = makeQuestionConf();
+    while (conf.result == 0) {
+        conf = makeQuestionConf();
+    }
+    let { result, operations, operation } = conf;
 
     const initialVal = calcInt();
     const secondVal = calcInt();
     const eth = initialVal + secondVal;
-    const options = [result, result - (result / 2), result + (result / 2), result * 2];
+    const options = [
+        result,
+        result - (result / 2) + getRandomInt(-100, 100),
+        result + (result / 2) + getRandomInt(-100, 100),
+        result * 2 + getRandomInt(-100, 100)
+    ];
     return {
         operation: operation,
         result: result,
