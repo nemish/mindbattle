@@ -91,8 +91,8 @@ class ChallengeList extends PureComponent {
                 <h4>No active challenges...</h4>
             </Grid>
         }
-        return <Grid container justify='center' align='center' direction='column'>
-            <Paper className='common-paper'>
+        return <Grid container justify='center' align='center' direction='column' style={{maxWidth: '100%'}}>
+            <Paper className='common-paper' style={{overflowX: 'auto', width: '100%'}}>
                 <Grid item className='text-center'>
                     <Button onClick={() => this.props.history.push('/board/')}>Back to Board</Button>
                 </Grid>
