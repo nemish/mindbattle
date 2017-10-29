@@ -4,8 +4,11 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
-import store from './store';
+import storeObj from './store';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
+
+
+export const store = storeObj;
 
 
 ReactDOM.render(

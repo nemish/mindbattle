@@ -173,7 +173,7 @@ const PasswordField = props => {
 
 
 const LoginTextField = props => {
-    const { onChange, fieldName, value, ...remain } = props;
+    const { onChange, fieldName, value, type, label } = props;
     return <TextField
          fullWidth
          value={value || ''}
@@ -181,7 +181,8 @@ const LoginTextField = props => {
          maxLength='16'
          minLength='0'
          onChange={onChange}
-         {...remain}
+         type={type}
+         label={label}
          onKeyPress={e => {
             if (e.key === 'Enter'){
                 const { value } = e.target;

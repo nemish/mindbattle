@@ -137,14 +137,6 @@ exports.login = (req, res, next) => {
         })
       }
 
-      req.logIn(user, (err) => {
-        if (err) {
-            return res.json({
-                status: 'error',
-                msg: 'Login error'
-            });
-        }
-
         const token = utils.generateToken(user);
 
         res.json({
@@ -152,7 +144,6 @@ exports.login = (req, res, next) => {
             item: user,
             token
         });
-      });
     })(req, res, next);
 }
 
@@ -192,17 +183,12 @@ exports.registerUser = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          req.logIn(user, (err) => {
-            if (err) {
-              return next(err);
-            }
-            const token = utils.generateToken(user);
-            res.json({
-                status: 'ok',
-                item: user,
-                token
-            });
-          });
+        const token = utils.generateToken(user);
+        res.json({
+            status: 'ok',
+            item: user,
+            token
+        });
         });
     }
   });

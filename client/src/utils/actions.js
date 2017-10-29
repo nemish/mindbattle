@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { store } from '../index';
 
 
 export function makeActionCreator(type, ...argNames) {
@@ -56,9 +57,12 @@ export function createAsyncAction(conf) {
         headers['Content-Type'] = 'application/json; charset=utf-8';
       }
       if (conf.authorized) {
-        headers['Authorization'] = 'Bearer ' + localStorage.getItem('jwt_token');
+        // const token = localStorage.getItem('jwt_token');
+        const { token } = store.getState().user.userData;
+        if (token && token.length) {
+            headers['Authorization'] = 'Bearer ' + token;
+        }
       }
-      params.headers = headers;
       if (method == 'post') {
         params = {
             ...params,
@@ -68,12 +72,18 @@ export function createAsyncAction(conf) {
       } else if (!method || method === 'get') {
         url = url + (query.length ? '?' + query : '');
       }
+
+      params.headers = headers;
       return fetch(url, params)
         .then(resp => {
             if (!resp.ok) {
                 return resp.json().then(err => {throw err});
             }
-            return resp
+            // if (resp.status === 401) {
+            //     localStorage.setItem('jwt_token', null);
+            //     window.location = '/';
+            // }
+            return resp;
         })
         .then(resp => resp.json())
         .then(data => {

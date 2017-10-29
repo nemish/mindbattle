@@ -34,7 +34,7 @@ const opts = {
 };
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    UserDraft.findOne({id: jwt_payload.sub}, function(err, user) {
+    UserDraft.findOne({name: jwt_payload.name}, function(err, user) {
         if (err) {
             return done(err, false);
         }
@@ -63,6 +63,7 @@ passport.use(new LocalStrategy({ usernameField: 'name', passwordField: 'passwd' 
         return done(err);
       }
       if (isMatch) {
+        console.log('LocalStrategy ONMATCH', user);
         return done(null, user);
       }
       return done(null, false, { msg: 'Invalid name or password.' });

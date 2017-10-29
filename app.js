@@ -88,16 +88,16 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-  secret: process.env.SESSION_SECRET,
-  store: new MongoStore({
-    url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
-    autoReconnect: true,
-    clear_interval: 3600
-  })
-}));
+// app.use(session({
+//   resave: false,
+//   saveUninitialized: false,
+//   secret: process.env.SESSION_SECRET,
+//   store: new MongoStore({
+//     url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
+//     autoReconnect: true,
+//     clear_interval: 3600
+//   })
+// }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -147,7 +147,6 @@ app.post('/join_challenge', passport.authenticate('jwt', { session: false }), ho
 app.post('/check_user_name', homeController.checkUserName);
 app.post('/register_user', homeController.registerUser);
 app.post('/login', homeController.login);
-app.get('/players/:id', passport.authenticate('jwt', { session: false }), homeController.fetchPlayers);
 app.get('/players/:id', passport.authenticate('jwt', { session: false }), homeController.fetchPlayers);
 app.get('/get_user', passport.authenticate('jwt', { session: false }), homeController.fetchCurrentUser);
 app.get('*', function(req, res) {

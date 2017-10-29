@@ -24,15 +24,10 @@ import { withRouter } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { withStyles } from 'material-ui/styles';
-import { handleUser } from './utils/app';
 import Loading from './components/Loading';
 
 
 class Board extends Component {
-    componentDidMount() {
-        handleUser(this.props);
-    }
-
     render() {
         if (this.props.challenge.loading) {
             return <Loading />;
@@ -61,8 +56,7 @@ export default connect(
     state => ({
         user: state.user.userData,
         challenge: state.user.currentChallenge
-    }),
-    dispatch => bindActionCreators({ fetchCurrentUser }, dispatch)
+    })
 )(withRouter(Board));
 
 

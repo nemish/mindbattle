@@ -11,6 +11,7 @@ import {
     resetUser,
     registerUser,
     login,
+    setTokenToApp,
     createChallenge
 } from './actions/index';
 import UserLogin from './components/UserLogin';
@@ -96,10 +97,14 @@ class App extends PureComponent {
 export default connect(
     state => ({
         userId: state.user.userData._id,
+        token: state.user.userData.token,
         loading: state.user.userData.loading,
         alert: state.modals.alert
     }),
-    dispatch => bindActionCreators({ fetchCurrentUser }, dispatch)
+    dispatch => bindActionCreators({
+        fetchCurrentUser,
+        setTokenToApp
+    }, dispatch)
 )(App);
 
 

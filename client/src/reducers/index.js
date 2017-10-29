@@ -23,7 +23,8 @@ import {
     INIT_CREATE_CHALLENGE,
     RESET_USER,
     LOGIN_FORM,
-    LOGOUT_USER
+    LOGOUT_USER,
+    SET_TOKEN_TO_APP
 } from '../actions/index';
 import modalActions from '../actions/modalActions';
 import {
@@ -126,14 +127,21 @@ const userData = createReducer(INITIAL_USER_DATA, {
     ], (state, action) => {
         return INITIAL_USER_DATA;
     }),
+    [SET_TOKEN_TO_APP](state, action) {
+        return {
+            ...state,
+            token: action.data
+        }
+    },
     ...pairize([
         registerUserActions.successEvent,
         loginActions.successEvent,
         fetchCurrentUserActions.successEvent
     ], (state, action) => {
         return {
+            ...state,
             ...action.data.item,
-            token: action.data.token
+            token: action.data.token || state.token
         }
     })
 });
