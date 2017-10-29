@@ -44,7 +44,6 @@ class UserLogin extends PureComponent {
             </Grid>
         }
 
-        console.log('UserLogin render', this.props.name, this.props.check.data);
         if (this.props.name && this.props.name.length) {
             if (this.props.check.data.status === 'password_error') {
                 actionName = <span>Sorry, password incorrect for name: {this.props.name}.</span>;

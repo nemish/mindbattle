@@ -148,6 +148,7 @@ app.post('/check_user_name', homeController.checkUserName);
 app.post('/register_user', homeController.registerUser);
 app.post('/login', homeController.login);
 app.get('/players/:id', passport.authenticate('jwt', { session: false }), homeController.fetchPlayers);
+app.get('/players/:id', passport.authenticate('jwt', { session: false }), homeController.fetchPlayers);
 app.get('/get_user', passport.authenticate('jwt', { session: false }), homeController.fetchCurrentUser);
 app.get('*', function(req, res) {
     res.redirect('/');

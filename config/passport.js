@@ -29,7 +29,7 @@ passport.deserializeUser((id, done) => {
 
 
 const opts = {
-    jwtFromRequest: ExtractJwt.fromHeader('jwt_token'),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET
 };
 
