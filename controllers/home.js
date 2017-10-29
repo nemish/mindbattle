@@ -266,7 +266,7 @@ exports.challengeList = (req, res) => {
         playersCount: {$gt: 0},
         timestamp: { $ne: null },
         access: 'public',
-        states: {$in: [Challenge.states.INITIAL, Challenge.states.RUNNING]}
+        state: {$in: [Challenge.states.INITIAL, Challenge.states.RUNNING]}
     };
 
     Challenge.find(query).sort('-state').exec(function (err, docs) {
