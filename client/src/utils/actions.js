@@ -56,7 +56,7 @@ export function createAsyncAction(conf) {
         headers['Content-Type'] = 'application/json; charset=utf-8';
       }
       if (conf.authorized) {
-        headers['jwt_token'] = sessionStorage.getItem('jwt_token');
+        headers['jwt_token'] = localStorage.getItem('jwt_token');
       }
       params.headers = headers;
       if (method == 'post') {

@@ -22,7 +22,8 @@ import {
     CHALLENGE_UPDATE,
     INIT_CREATE_CHALLENGE,
     RESET_USER,
-    LOGIN_FORM
+    LOGIN_FORM,
+    LOGOUT_USER
 } from '../actions/index';
 import modalActions from '../actions/modalActions';
 import {
@@ -48,6 +49,11 @@ const resetter = events => {
 }
 
 
+const DEFAULT_FORM_STATE = {
+    loading: false,
+    __isDirty: false
+};
+
 
 const createFormReducer = (conf) => {
     let callbacks = {
@@ -61,7 +67,7 @@ const createFormReducer = (conf) => {
             ...conf.cbs
         }
     }
-    return createReducer(conf.defaultData || {}, callbacks);
+    return createReducer(DEFAULT_FORM_STATE, callbacks);
 }
 
 
@@ -85,16 +91,28 @@ const createFormsReducer = actionsConfs => {
 
 
 const additionalFormCallbacks = {
-    LOGIN_FORM: pairize([
-        registerUserActions.successEvent,
-        registerUserActions.failEvent,
-        checkUserNameActions.successEvent,
-        checkUserNameActions.failEvent,
-        loginActions.successEvent,
-        loginActions.failEvent
-    ], (state, action) => {
-        return {...state, __isDirty: false}
-    })
+    LOGIN_FORM: {
+        [LOGOUT_USER](state, action) {
+            return DEFAULT_FORM_STATE;
+        },
+        ...pairize([
+            registerUserActions.successEvent,
+            registerUserActions.failEvent,
+            checkUserNameActions.successEvent,
+            checkUserNameActions.failEvent,
+            loginActions.successEvent,
+            loginActions.failEvent,
+        ], (state, action) => {
+            return {...state, __isDirty: false, loading: false}
+        }),
+        ...pairize([
+            registerUserActions.startEvent,
+            checkUserNameActions.startEvent,
+            loginActions.startEvent
+        ], (state, action) => {
+            return {...state, loading: true}
+        })
+    }
 };
 
 const forms = createFormsReducer(formsActions);
@@ -102,9 +120,12 @@ const forms = createFormsReducer(formsActions);
 const INITIAL_USER_DATA = {name: '', id: null};
 
 const userData = createReducer(INITIAL_USER_DATA, {
-    [RESET_USER](state, action) {
+    ...pairize([
+        RESET_USER,
+        LOGOUT_USER
+    ], (state, action) => {
         return INITIAL_USER_DATA;
-    },
+    }),
     ...pairize([
         registerUserActions.successEvent,
         loginActions.successEvent,
@@ -120,6 +141,7 @@ const userData = createReducer(INITIAL_USER_DATA, {
 
 const resetErrorEvents = [
     RESET_USER,
+    LOGOUT_USER,
     registerUserActions.successEvent,
     loginActions.successEvent
 ];
@@ -153,11 +175,13 @@ const meta = createReducer({token: null}, {
 
 const CHECK_USER_STATE_INITIAL = {data: {status: null}};
 
-const checkState = createFetchReducer(checkUserNameActions, CHECK_USER_STATE_INITIAL, {
-    [RESET_USER](state, action) {
+const checkState = createFetchReducer(
+    checkUserNameActions,
+    CHECK_USER_STATE_INITIAL,
+    pairize([RESET_USER, LOGOUT_USER], (state, action) => {
         return CHECK_USER_STATE_INITIAL;
-    }
-});
+    })
+);
 
 const challengeList = createFetchReducer(fetchChallengeListActions, {items: []});
 
@@ -169,10 +193,13 @@ const currentChallenge = createFetchReducer(
             return {...state, inited: true};
         },
         [CHALLENGE_UPDATE](state, action) {
-            return {...state, data: {
-                ...state.data,
-                ...action.data.data
-            }};
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    ...action.data.data
+                }
+            };
         },
         [joinChallengeActions.successEvent](state, action) {
             return {...state, inited: true, ...action.data}

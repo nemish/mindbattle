@@ -134,7 +134,7 @@ const handleUserRegister = ({ name, passwd, check, ...remain }) => {
         passwd
     }).then(data => {
         if (data && data.status === 'ok') {
-            sessionStorage.setItem('jwt_token', data.token);
+            localStorage.setItem('jwt_token', data.token);
             remain.history.push('/board');
         }
         return data;
@@ -144,7 +144,7 @@ const handleUserRegister = ({ name, passwd, check, ...remain }) => {
 
 const LoginButtonDumb = props => {
     const { name, passwd } = props.form;
-    const disabled = (!name || !name.length) || (props.check.data.status && (!passwd || !passwd.length)) || props.check.loading;
+    const disabled = (!name || !name.length) || (props.check.data.status && (!passwd || !passwd.length)) || props.check.loading || props.form.loading;
     return <Button
         disabled={disabled}
         raised

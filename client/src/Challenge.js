@@ -146,7 +146,7 @@ class Challenge extends Component {
                                 return answersData[prev] > answersData[next];
                             }).map((key, index) => {
                                 const totalValue = answersData[key];
-                                return <div style={{width: '100%', padding: 5}}>
+                                return <div style={{width: '100%', padding: 5}} key={index}>
                                     <span style={{color: goodColor}}>{usersMap[key].name}: {totalValue} - Score {calcScore(data, answersData, key)}</span>
                                 </div>
                             })}
@@ -166,6 +166,7 @@ class Challenge extends Component {
                             <Timer
                                 size={5}
                                 text=''
+                                tickInterval={300}
                                 accuracy={0}
                                 onLimit={() => {
                                     this.props.socket.emit('challenge_update', {
@@ -174,7 +175,7 @@ class Challenge extends Component {
                                             currentQuestion: 0
                                         }
                                     })
-                                }} end={Date.now() + 4 * 1000}
+                                }} end={Date.now() + 3 * 1000}
                             />
                         </Grid>
                     </Grid>

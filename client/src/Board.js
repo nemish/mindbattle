@@ -11,7 +11,8 @@ import {
     checkUserName,
     initCreateChallenge,
     registerUser,
-    createChallenge
+    createChallenge,
+    logout
 } from './actions/index';
 import { connect } from 'react-redux';
 import Grid from 'material-ui/Grid';
@@ -24,6 +25,7 @@ import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { withStyles } from 'material-ui/styles';
 import { handleUser } from './utils/app';
+import Loading from './components/Loading';
 
 
 class Board extends Component {
@@ -32,14 +34,17 @@ class Board extends Component {
     }
 
     render() {
+        if (this.props.challenge.loading) {
+            return <Loading />;
+        }
         const { user } = this.props;
         if (!user._id) {
             return null;
         }
         return <Grid container align='center' justify='center' direction='column'>
-            <Paper style={{padding: 10, opacity: 0.9}}>
+            <Paper className='common-paper'>
                 <Grid item>
-                    <h1 className='text-center' style={{margin: 0}}>MAIN BOARD</h1>
+                    <h1 className='text-center' style={{margin: 0}}>BOARD</h1>
                     <hr />
                     <UserInfo user={this.props.user} />
                     <hr />
@@ -64,7 +69,7 @@ export default connect(
 class CreateChallenge extends PureComponent {
     componentDidMount() {
         const { current_challenge_id } = this.props.user;
-        if (current_challenge_id) {
+        if (current_challenge_id && !this.props.challenge.data) {
             this.props.fetchChallenge({id: current_challenge_id});
         }
     }
@@ -127,9 +132,19 @@ class CreateChallenge extends PureComponent {
                 </Button>
             );
         }
-        return <Grid container justify='center' style={{marginBottom: 8, marginTop: 3}}>
+        return <Grid container justify='center' align='center' style={{marginBottom: 8, marginTop: 3}} direction='column'>
             <Grid item>
                 {buttonElem}
+            </Grid>
+            <Grid item>
+                <Button color='accent'
+                        onClick={() => {
+                            this.props.logout();
+                            localStorage.setItem('jwt_token', null);
+                            this.props.history.push('/');
+                        }}>
+                    LOGOUT
+                </Button>
             </Grid>
         </Grid>
     }
@@ -142,7 +157,12 @@ const CreateChallengeConnected = connect(
         challenge: state.user.currentChallenge,
         inited: state.user.currentChallenge.inited
     }),
-    dispatch => bindActionCreators({ createChallenge, initCreateChallenge, fetchChallenge }, dispatch)
+    dispatch => bindActionCreators({
+        createChallenge,
+        initCreateChallenge,
+        fetchChallenge,
+        logout
+    }, dispatch)
 )(withRouter(CreateChallenge));
 
 

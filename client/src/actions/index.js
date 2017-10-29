@@ -7,6 +7,7 @@ export const USER_NAME__CHANGE = 'USER_NAME__CHANGE';
 export const CREATE_CHALLENGE = 'CREATE_CHALLENGE';
 export const FETCH_PLAYERS = 'FETCH_PLAYERS';
 export const RESET_USER = 'RESET_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
 export const CHALLENGE_UPDATE = 'CHALLENGE_UPDATE';
 export const FETCH_CURRENT_USER = 'FETCH_CURRENT_USER';
 export const CHECK_USER_NAME = 'CHECK_USER_NAME';
@@ -23,6 +24,7 @@ export const chooseOption = makeActionCreator(CHOOSE_OPTION, 'data');
 export const updateChallengeLocal = makeActionCreator(CHALLENGE_UPDATE, 'data');
 export const userNameChange = makeActionCreator(USER_NAME__CHANGE, 'data');
 export const resetUser = makeActionCreator(RESET_USER);
+export const logout = makeActionCreator(LOGOUT_USER);
 
 export const fetchChallengeActions = createAsyncActionsConf(FETCH_CHALLENGE);
 export const fetchChallenge = createAsyncAction({
@@ -119,10 +121,7 @@ export const formsActions = FORMS_NAMES.reduce((aggregator, name) => {
     aggregator[name] = {
         changeActionName,
         key: name.toLowerCase(),
-        changeValue: makeActionCreator(changeActionName, 'data'),
-        defaultData: {
-            __isDirty: false
-        },
+        changeValue: makeActionCreator(changeActionName, 'data')
     }
     return aggregator;
 }, {});
