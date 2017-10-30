@@ -14,6 +14,16 @@ span,p,div {
 }
 
 
+.simple-button {
+  color: green !important;
+}
+
+
+.answer-option-button {
+  text-transform: none !important;
+}
+
+
 .progress-line {
   margin: auto;
   transition: width 3s;

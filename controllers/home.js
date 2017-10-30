@@ -69,6 +69,35 @@ const makeQuestionConf = () => {
 
 
 const createQuestion = () => {
+    // conf = createArithmeticsQuestion();
+    // if (Math.random() > 0.3) {
+    //     conf = createGraphQuestion();
+    // }
+    return createGraphQuestion();
+}
+
+
+const calcGraphValue = (val, index) => {
+    return Math.cos(index - 10);
+}
+
+
+const createGraphQuestion = () => {
+    return {
+        type: 'spline',
+        data: [...Array(20).keys()].map(calcGraphValue),
+        result: 'y = cos(x)',
+        options: shuffle([
+            'y = cos(x)',
+            'y = sin(x)',
+            'y = tan(x)',
+            'y = atan(x)'
+        ])
+    }
+}
+
+
+const createArithmeticsQuestion = () => {
     let conf = makeQuestionConf();
     while (conf.result == 0) {
         conf = makeQuestionConf();
@@ -85,6 +114,7 @@ const createQuestion = () => {
         result * 2 + getRandomInt(-100, 100)
     ];
     return {
+        type: 'arithmetics',
         operation: operation,
         result: result,
         options: shuffle(options)
@@ -203,11 +233,63 @@ exports.fetchCurrentUser = (req, res) => {
 }
 
 
+let challengeWatchers = {};
+
+
+const runChallengeWatcher = (id, socket) => {
+    if (!challengeWatchers[id]) {
+        challengeWatchers[id] = setInterval(() => {
+            Challenge.findById(id).exec((err, ch) => {
+                const needClear = err
+                                  || !ch
+                                  || ch.state == Challenge.states.FINISHED
+                                  || ch.timestamp < (new Date() - 60 * 10 * 10000);
+                if (needClear) {
+                    clearInterval(challengeWatchers[id]);
+                    return;
+                }
+
+                if (ch.currentRoundStartTime < (new Date() - 11000)) {
+                    const answersData = ch.answers[ch.currentQuestion] || {};
+                    ch.players.forEach(player => {
+                        if (!answersData[player._id]) {
+                            answersData[player._id] = {
+                                option: null,
+                                elapsed: 10000,
+                                timestamp: new Date()
+                            }
+                        }
+                    });
+
+                    ch.answers[ch.currentQuestion] = answersData;
+                    ch.currentRoundStartTime = new Date();
+                    if (ch.isFinish()) {
+                        clearInterval(challengeWatchers[id]);
+                    } else {
+                        ch.currentQuestion = ch.currentQuestion + 1;
+                    }
+                    exports.updateChallenge({
+                        data: ch
+                    }, socket);
+                }
+            });
+        }, 1000)
+    }
+}
+
+
 exports.updateChallenge = (data, socket) => {
     if (!data || !data.data) {
         return;
     }
+    const { start } = data.data;
+    delete data.data.start;
     const { _id } = data.data;
+
+    if (start) {
+        runChallengeWatcher(_id, socket);
+    }
+
     Challenge.findById(_id).exec((err, ch) => {
         if (ch.changer) {
             if (ch.changer.playersUpdateById) {
@@ -234,12 +316,10 @@ exports.updateChallenge = (data, socket) => {
                 ch[key] = val;
             }
         });
-        let isFinish = false;
-        if (ch.currentQuestion == ch.questions.length - 1 && ch.state == Challenge.states.RUNNING) {
-            const answers = ch.answers[ch.currentQuestion] || {};
-            if (Object.keys(answers).length == ch.playersCount) {
-                isFinish = true;
-            }
+        const isFinish = ch.isFinish();
+
+        if (start) {
+            ch.currentRoundStartTime = new Date();
         }
 
         if (isFinish) {

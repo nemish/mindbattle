@@ -79,10 +79,10 @@ export function createAsyncAction(conf) {
             if (!resp.ok) {
                 return resp.json().then(err => {throw err});
             }
-            // if (resp.status === 401) {
-            //     localStorage.setItem('jwt_token', null);
-            //     window.location = '/';
-            // }
+            if (resp.status === 401) {
+                localStorage.setItem('jwt_token', null);
+                window.location = '/';
+            }
             return resp;
         })
         .then(resp => resp.json())

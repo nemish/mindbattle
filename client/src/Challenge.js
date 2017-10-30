@@ -30,6 +30,8 @@ import Timer, {
 import { withSocket } from './socket';
 import modalActions from './actions/modalActions';
 import Loading from './components/Loading';
+import c3 from 'c3';
+import 'c3/c3.css';
 
 const { alertModalActions } = modalActions;
 
@@ -38,19 +40,48 @@ const errorColor = red[500];
 const goodColor = lightGreen[500];
 
 
+class Graph extends PureComponent {
+    componentDidMount() {
+        var chart = c3.generate({
+            bindto: '#question-graph',
+            data: {
+              columns: [
+                ['graph', ...this.props.data]
+                // ['data1', 30, 200, 100, 400, 150, 250],
+                // ['data2', 50, 20, 10, 40, 15, 25]
+              ],
+              type: 'spline'
+            }
+        });
+    }
+
+    render() {
+        return <div id='question-graph' style={{
+            width: 500,
+            height: 200,
+            border: '1px solid #eee',
+            marginBottom: 10
+        }}></div>
+    }
+}
+
+
 const chooseOption = (props, option, elapsed) => {
     const challenge = props.challenge.data;
     let answerData = challenge.answers[challenge.currentQuestion] || {};
     answerData[props.userId] = {
         option,
-        elapsed
+        elapsed,
+        timestamp: new Date()
     };
     const { _id } = challenge;
+    const data = {
+        _id,
+        answers: [...challenge.answers.slice(0, challenge.currentQuestion), answerData]
+    }
+    props.updateChallengeLocal(data);
     props.socket.emit('challenge_update', {
-        data: {
-            _id,
-            answers: [...challenge.answers.slice(0, challenge.currentQuestion), answerData]
-        }
+        data
     });
 }
 
@@ -59,6 +90,7 @@ const nextQuestion = props => {
     props.socket.emit('challenge_update', {
         data: {
             _id: props.challenge._id,
+            currentRoundStartTime: new Date(),
             currentQuestion: props.challenge.currentQuestion + 1
         }
     });
@@ -83,7 +115,7 @@ class Challenge extends Component {
             }
         });
         const { challengeId } = this.props.match.params;
-        if (challengeId) {
+        if (challengeId && this.props.userId) {
             this.props.fetchChallenge({id: challengeId});
             this.props.fetchPlayers({id: challengeId})
         } else {
@@ -123,9 +155,13 @@ class Challenge extends Component {
                 </Grid>,
                 <Grid item className='text-center'>
                     <Button onClick={() => {
+                        // const { players } = this.props.challenge.data;
+                        // const players = this.props.challenge.
                         this.props.socket.emit('challenge_update', {
                             data: {
                                 _id: this.props.challenge.data._id,
+                                // players: [...players.slice(0, players.length - 2), {}]
+                                start: true,
                                 maxPlayers: this.props.challenge.data.players.length,
                                 state: 'RUNNING'
                             }
@@ -182,23 +218,40 @@ class Challenge extends Component {
                 ];
             } else {
                 const question = data.questions[data.currentQuestion];
-                const { operation, options } = question;
-                const answers = data.answers[data.currentQuestion] || {};
-
-                challengeElem = [
+                challengeElem.push(
                     <Grid item className='text-center' style={{marginBottom: 10}}>
                         <h2>QUESTION #{data.currentQuestion + 1}/{data.questions.length}</h2>
-                    </Grid>,
-                    <Grid item>
-                        <h4 className='text-center'>Choose correct result of operation</h4>
-                        <h3 className='text-center'>{operation}</h3>
-                    </Grid>,
+                    </Grid>
+                )
+                let options = {};
+                if (question.type === 'arithmetics') {
+                    const { operation } = question;
+                    options = question.options;
+                    challengeElem.push(
+                        <Grid item>
+                            <h4 className='text-center'>Choose correct result of operation</h4>
+                            <h3 className='text-center'>{operation}</h3>
+                        </Grid>
+                    );
+                } else if (question.type === 'spline') {
+                    options = question.options;
+                    challengeElem.push(
+                        <Grid item>
+                            <h4 className='text-center'>What function belongs to this graph</h4>
+                        </Grid>,
+                        <Grid item className='text-center'>
+                            <Graph data={question.data} />
+                        </Grid>
+                    );
+                }
+                const answers = data.answers[data.currentQuestion] || {};
+                challengeElem.push(
                     <Grid container justify='center'>
                         <Grid item className='text-center mono-font'>
                             <span>Answers: {Object.keys(answers).length} / {data.maxPlayers}</span>
                         </Grid>
                     </Grid>
-                ];
+                );
                 if (answers.hasOwnProperty(this.props.userId)) {
                     challengeElem.push(
                         <Grid container justify='center'>
@@ -328,13 +381,10 @@ export default connect(
 
 const OptionButton = ({ item, index, onChoose }) => {
     const btnCls = getBtnCls(index);
-    return <Button raised color={btnCls} onClick={e => {
+    return <Button raised className='answer-option-button' color={btnCls} onClick={e => {
         e.preventDefault();
         onChoose(index);
     }}>{item}</Button>
-    // return <button className={btnCls} onClick={() => {
-    //     socket.emit('chooseOption', item);
-    // }}>{item}</button>
 }
 
 

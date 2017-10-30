@@ -50,35 +50,35 @@ class ChallengeList extends PureComponent {
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>
+                    <TableCell numeric>#</TableCell>
                     <TableCell>OWNER</TableCell>
                     <TableCell numeric>CREATED AT</TableCell>
-                    <TableCell numeric>PLAYERS/MAX</TableCell>
+                    <TableCell numeric>PLAYERS</TableCell>
                     <TableCell numeric>STATE</TableCell>
-                    <TableCell numeric>#</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {this.props.items.map(n => {
                     return (
                       <TableRow key={n.timestamp}>
-                        <TableCell>{n.userName}</TableCell>
-                        <TableCell>{new Date(n.timestamp).toLocaleString()}</TableCell>
-                        <TableCell>{n.playersCount}/{n.maxPlayers}</TableCell>
-                        <TableCell>{n.state}</TableCell>
                         <TableCell>
                             <Button disabled={n.playersCount == n.maxPlayers}
                                 color="primary"
                                 raised
                                 onClick={() => {
-                                this.props.joinChallenge({
-                                    id: n._id,
-                                    user_id: this.props.user._id
-                                }).then(data => {
-                                    this.props.socket.emit('challenge_update', {data});
-                                    this.props.history.push(`/challenge/${n._id}`);
-                                });
-                            }}>{n.state === 'INITIAL' ? 'Join' : 'Watch'}</Button>
+                                    this.props.joinChallenge({
+                                        id: n._id,
+                                        user_id: this.props.user._id
+                                    }).then(data => {
+                                        this.props.socket.emit('challenge_update', {data});
+                                        this.props.history.push(`/challenge/${n._id}`);
+                                    });
+                                }}>{n.state === 'INITIAL' ? 'Join' : 'Watch'}</Button>
                         </TableCell>
+                        <TableCell>{n.userName}</TableCell>
+                        <TableCell>{new Date(n.timestamp).toLocaleString()}</TableCell>
+                        <TableCell className='text-center'>{n.playersCount}/{n.maxPlayers}</TableCell>
+                        <TableCell>{n.state}</TableCell>
                       </TableRow>
                     );
                   })}

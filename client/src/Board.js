@@ -80,6 +80,7 @@ class CreateChallenge extends PureComponent {
                 Current
             </Button>,
             <Button color='primary'
+                    className='simple-button'
                     key='list'
                     onClick={() => {
                         this.props.history.push('/challenges/');

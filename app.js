@@ -269,6 +269,7 @@ server.listen(port, () => {
 socketIO.on('connection', function (client) {
     console.log('connection', client.client.id);
     client.on('challenge_update', function (data) {
+        console.log('challenge_update in socket', client.client.id);
         homeController.updateChallenge(data, socketIO);
     });
 });

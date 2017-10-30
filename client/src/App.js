@@ -32,6 +32,7 @@ import Board from './Board';
 import Loading from './components/Loading';
 import { handleUser } from './utils/app';
 import Dotting from './Dotting';
+import Dimensions from 'react-dimensions'
 
 
 
@@ -71,7 +72,10 @@ class App extends PureComponent {
             </Grid>
 
         }
-        return <div className='app-container'>
+        return <div className='app-container' style={{
+            width: this.props.containerWidth,
+            height: this.props.containerHeight
+        }}>
             <div style={{
                 position: 'absolute',
                 top: 0,

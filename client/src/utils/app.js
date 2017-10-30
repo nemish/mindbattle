@@ -3,7 +3,6 @@ export const handleUser = props => {
         return;
     }
     const token = localStorage.getItem('jwt_token');
-    console.log('handleUser', token);
     if (token && token !== props.token) {
         props.setTokenToApp(token);
         props.fetchCurrentUser();
