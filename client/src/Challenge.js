@@ -41,18 +41,38 @@ const goodColor = lightGreen[500];
 
 
 class Graph extends PureComponent {
-    componentDidMount() {
-        var chart = c3.generate({
+    constructor(props) {
+      super(props);
+      this._generate = this._generate.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        this._generate();
+    }
+
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.currentQuestion !== this.props.currentQuestion) {
+    //         this._generate();
+    //     }
+    // }
+
+    _generate() {
+        c3.generate({
             bindto: '#question-graph',
             data: {
               columns: [
-                ['graph', ...this.props.data]
-                // ['data1', 30, 200, 100, 400, 150, 250],
-                // ['data2', 50, 20, 10, 40, 15, 25]
+                this.props.data
               ],
               type: 'spline'
+            },
+            legend: {
+                show: false
             }
         });
+    }
+
+    componentDidMount() {
+        this._generate();
     }
 
     render() {
@@ -155,12 +175,9 @@ class Challenge extends Component {
                 </Grid>,
                 <Grid item className='text-center'>
                     <Button onClick={() => {
-                        // const { players } = this.props.challenge.data;
-                        // const players = this.props.challenge.
                         this.props.socket.emit('challenge_update', {
                             data: {
                                 _id: this.props.challenge.data._id,
-                                // players: [...players.slice(0, players.length - 2), {}]
                                 start: true,
                                 maxPlayers: this.props.challenge.data.players.length,
                                 state: 'RUNNING'
@@ -240,7 +257,7 @@ class Challenge extends Component {
                             <h4 className='text-center'>What function belongs to this graph</h4>
                         </Grid>,
                         <Grid item className='text-center'>
-                            <Graph data={question.data} />
+                            <Graph currentQuestion={data.currentQuestion} data={question.data} />
                         </Grid>
                     );
                 }
@@ -254,6 +271,9 @@ class Challenge extends Component {
                 );
                 if (answers.hasOwnProperty(this.props.userId)) {
                     challengeElem.push(
+                        <Grid container justify='center'>
+                            <h4>Correct answer: {question.result}</h4>
+                        </Grid>,
                         <Grid container justify='center'>
                             {Object.keys(answers).sort(getCompareFn(question, answers)).map(userId => {
                                 const { result } = question;

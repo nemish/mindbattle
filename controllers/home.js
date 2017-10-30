@@ -69,30 +69,62 @@ const makeQuestionConf = () => {
 
 
 const createQuestion = () => {
-    // conf = createArithmeticsQuestion();
-    // if (Math.random() > 0.3) {
-    //     conf = createGraphQuestion();
-    // }
-    return createGraphQuestion();
+    let conf = createArithmeticsQuestion();
+    // if (Math.random() > 0.5) {
+    if (true) {
+        conf = createGraphQuestion();
+    }
+    return conf;
 }
 
 
-const calcGraphValue = (val, index) => {
-    return Math.cos(index - 10);
+const calcGraphValue = (fnStr, first, second, index) => {
+    return Math[fnStr](index) * first + second;
+}
+
+
+const graphFuncs = ['cos', 'sin', 'exp', 'tan']
+
+
+const getRandomGraphFn = excludeFns => {
+    let funcs = graphFuncs;
+    if (excludeFns) {
+        funcs = funcs.filter(fnStr => excludeFns.indexOf(fnStr) === -1)
+    }
+    return funcs[getRandomInt(0, funcs.length-1)]
+};
+
+
+const createFnString = (fnStr, first, second) => {
+    return `y = ${first > 1 ? first : ''}${fnStr}(x)${second > 0 ? (' + ' + second) : (second < 0 ? ' - ' + second : '')}`;
 }
 
 
 const createGraphQuestion = () => {
+    const fnStr = graphFuncs[getRandomInt(0, graphFuncs.length-1)];
+    let options = [];
+    let fnStrs = [];
+    let firstFirst = null;
+    let firstSecond = null;
+    [...Array(4).keys()].forEach(() => {
+        let first = getRandomInt(1, 5);
+        let second = getRandomInt(-10, 10);
+        if (!firstFirst && ! firstSecond) {
+            firstFirst = first;
+            firstSecond = second;
+        }
+        let tmpFnStr = getRandomGraphFn(fnStrs);
+        options.push(createFnString(tmpFnStr, first, second));
+        fnStrs.push(tmpFnStr);
+    });
+
+
+
     return {
         type: 'spline',
-        data: [...Array(20).keys()].map(calcGraphValue),
-        result: 'y = cos(x)',
-        options: shuffle([
-            'y = cos(x)',
-            'y = sin(x)',
-            'y = tan(x)',
-            'y = atan(x)'
-        ])
+        data: [...Array(10).keys()].map((val, index) => calcGraphValue(fnStrs[0], firstFirst, firstSecond, index)),
+        result: options[0],
+        options: shuffle(options)
     }
 }
 
