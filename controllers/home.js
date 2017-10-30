@@ -70,8 +70,7 @@ const makeQuestionConf = () => {
 
 const createQuestion = () => {
     let conf = createArithmeticsQuestion();
-    // if (Math.random() > 0.5) {
-    if (true) {
+    if (Math.random() > 0.5) {
         conf = createGraphQuestion();
     }
     return conf;
