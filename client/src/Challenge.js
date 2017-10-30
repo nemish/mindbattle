@@ -77,9 +77,9 @@ class Graph extends PureComponent {
 
     render() {
         return <div id='question-graph' style={{
-            width: 500,
+            maxWidth: 350,
             height: 200,
-            border: '1px solid #eee',
+            // border: '1px solid #eee',
             marginBottom: 10
         }}></div>
     }
@@ -328,7 +328,7 @@ class Challenge extends Component {
 
         const { access } = data;
         return <Grid container justify='center' align='center' direction='column'>
-            <Paper style={{padding: 20, opacity: 0.9}}>
+            <Paper style={{padding: 20, opacity: 0.9, maxWidth: 400}}>
                 {challengeElem.map((elem, index) => React.cloneElement(elem, {key: index}))}
                 <ExitLink />
             </Paper>

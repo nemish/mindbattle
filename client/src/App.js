@@ -73,8 +73,7 @@ class App extends PureComponent {
 
         }
         return <div className='app-container' style={{
-            width: this.props.containerWidth,
-            height: this.props.containerHeight
+            maxWidth: this.props.containerWidth
         }}>
             <div style={{
                 position: 'absolute',
@@ -109,7 +108,7 @@ export default connect(
         fetchCurrentUser,
         setTokenToApp
     }, dispatch)
-)(App);
+)(Dimensions()(App));
 
 
 class Welcome extends PureComponent {
