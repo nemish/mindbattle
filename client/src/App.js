@@ -23,7 +23,9 @@ import { withRouter } from 'react-router';
 import { Route, Link } from 'react-router-dom';
 import Challenge from './Challenge';
 import Spinner from 'react-spinkit';
-import ChallengeList from './ChallengeList';
+import ChallengeList, {
+    loadCbs
+} from './ChallengeList';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -46,9 +48,9 @@ const styles = theme => ({
 
 
 class App extends PureComponent {
-    componentDidMount() {
-        handleUser(this.props);
-    }
+    // componentDidMount() {
+    //     handleUser(this.props);
+    // }
 
     render() {
         let elem = null;
@@ -64,7 +66,10 @@ class App extends PureComponent {
         } else if (this.props.loading) {
             elem = <Loading />
         } else {
-            elem = <Grid container style={{height: '100%', margin: 0}}>
+            elem = <Grid container style={{
+                height: '100%', margin: 0, overflowY: 'scroll',
+                maxWidth: this.props.containerWidth
+            }}>
                 <Route path="/board" component={Board} />
                 <Route path="/challenges/" component={ChallengeList} />
                 <Route path="/challenge/:challengeId" component={Challenge} />
@@ -73,7 +78,7 @@ class App extends PureComponent {
 
         }
         return <div className='app-container' style={{
-            maxWidth: this.props.containerWidth
+            overflow: 'hidden',
         }}>
             <div style={{
                 position: 'absolute',

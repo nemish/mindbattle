@@ -1,10 +1,11 @@
+import { promisify } from '../utils/actions';
+
 export const handleUser = props => {
     if (props.userId || props.loading) {
         return;
     }
     const token = localStorage.getItem('jwt_token');
     if (token && token !== props.token) {
-        props.setTokenToApp(token);
-        props.fetchCurrentUser();
+        return promisify(props.setTokenToApp(token)).then(() => props.fetchCurrentUser());
     }
 }

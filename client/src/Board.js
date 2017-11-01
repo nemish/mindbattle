@@ -4,7 +4,6 @@ import React, {
 } from 'react';
 import {
     fetchChallenge,
-    fetchCurrentUser,
     userNameChange,
     LOGIN_FORM,
     formsActions,
@@ -25,6 +24,7 @@ import { Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { withStyles } from 'material-ui/styles';
 import Loading from './components/Loading';
+import baseComp from './components/baseComp';
 
 
 class Board extends Component {
@@ -55,9 +55,10 @@ class Board extends Component {
 export default connect(
     state => ({
         user: state.user.userData,
+        loading: state.user.userData.loading,
         challenge: state.user.currentChallenge
     })
-)(withRouter(Board));
+)(withRouter(baseComp(Board)));
 
 
 class CreateChallenge extends PureComponent {

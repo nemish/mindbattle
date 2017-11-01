@@ -23,10 +23,6 @@ export const initCreateChallenge = makeActionCreator(INIT_CREATE_CHALLENGE);
 
 export const chooseOption = makeActionCreator(CHOOSE_OPTION, 'data');
 export const setTokenToApp = makeActionCreator(SET_TOKEN_TO_APP, 'data')
-// export const setTokenToApp = token => new Promise((resolve, reject) => {
-//     setTokenToAppAction(token);
-//     resolve();
-// });
 export const updateChallengeLocal = makeActionCreator(CHALLENGE_UPDATE, 'data');
 export const userNameChange = makeActionCreator(USER_NAME__CHANGE, 'data');
 export const resetUser = makeActionCreator(RESET_USER);

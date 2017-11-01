@@ -10,7 +10,7 @@ import {
     fetchChallenge,
     fetchPlayers,
     // chooseOption,
-    updateChallengeLocal
+    updateChallengeLocal,
 } from './actions/index';
 import { red, lightGreen } from 'material-ui/colors';
 import Grid from 'material-ui/Grid';
@@ -19,6 +19,9 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Spinner from 'react-spinkit';
 import Dotting from './Dotting';
+import {
+    promisify
+} from './utils/actions';
 import {
     challengeTotal,
     getCompareFn,
@@ -99,9 +102,10 @@ const chooseOption = (props, option, elapsed) => {
         _id,
         answers: [...challenge.answers.slice(0, challenge.currentQuestion), answerData]
     }
-    props.updateChallengeLocal(data);
-    props.socket.emit('challenge_update', {
-        data
+    promisify(props.updateChallengeLocal(data)).then(() => {
+        props.socket.emit('challenge_update', {
+            data
+        });
     });
 }
 
@@ -131,16 +135,18 @@ class Challenge extends Component {
         this.props.socket.on('challenge_update', data => {
             const challenge = this.props.challenge.data;
             if (challenge && data.data._id == challenge._id) {
-                this.props.updateChallengeLocal(data);
+                promisify(this.props.updateChallengeLocal(data)).then(() => {
+                    console.log('this.props.updateChallengeLocal', this.props.updateChallengeLocal)
+                });
             }
         });
-        const { challengeId } = this.props.match.params;
-        if (challengeId && this.props.userId) {
-            this.props.fetchChallenge({id: challengeId});
-            this.props.fetchPlayers({id: challengeId})
-        } else {
-            this.props.history.push('/board');
-        }
+        // const { challengeId } = this.props.match.params;
+        // if (challengeId && this.props.userId) {
+        //     this.props.fetchChallenge({id: challengeId});
+        //     this.props.fetchPlayers({id: challengeId})
+        // } else {
+        //     this.props.history.push('/board');
+        // }
     }
 
     componentWillReceiveProps(nextProps) {

@@ -21,6 +21,13 @@ function makeQuery(payload) {
 }
 
 
+export const promisify = action => {
+    return new Promise((resolve, reject) => {
+        return resolve(action);
+    });
+}
+
+
 export function createAsyncAction(conf) {
   var startActionCreator = makeActionCreator(conf.startEvent || conf.event + '__START', 'data');
   var successActionCreator = makeActionCreator(conf.successEvent || conf.event + '__SUCCESS', 'data', 'payload');

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './App.css';
 import {
     fetchChallengeList,
+    fetchCurrentUser,
     joinChallenge
 } from './actions/index';
 import { bindActionCreators } from 'redux';
@@ -16,32 +17,49 @@ import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Ta
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import { withSocket } from './socket';
+import baseComp from './components/baseComp';
 
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
+    marginTop: theme.spacing.unit * 3
   },
   table: {
     width: 400,
+    overflowX: 'auto'
   },
 });
 
 
-
 class ChallengeList extends PureComponent {
-    componentDidMount() {
-        if (!this.props.user._id) {
-            this.props.history.push('/');
-        } else {
-            this.props.fetchChallengeList({user_id: this.props.user._id})
+    constructor(props) {
+      super(props);
+
+      this.state = {};
+    }
+
+    componentWillReceiveProps(props) {
+        if (props.handleMount) {
+            props.handleMount.then(item => {
+                this._load(props, item._id);
+            })
+        } else if (props.user._id) {
+            this._load(props, props.user._id);
+        }
+    }
+
+    _load(props, user_id) {
+        console.log('_load', props, user_id);
+        if (!props.fetchingChallenges && !props.challengeList.data.items.length) {
+            // props.fetchChallengeList({ user_id })
         }
     }
 
     render() {
+        console.log('render challenges list', this.props.fetchingChallenges);
         const { classes } = this.props;
+        const { data, loading } = this.props.challengeList;
+        const { items } = data;
         let elem = <Grid item>
             <Grid item>
                 <h4 className='text-center'>Active challenges:</h4>
@@ -58,7 +76,7 @@ class ChallengeList extends PureComponent {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.props.items.map(n => {
+                  {items.map(n => {
                     return (
                       <TableRow key={n.timestamp}>
                         <TableCell>
@@ -86,13 +104,13 @@ class ChallengeList extends PureComponent {
               </Table>
             </Paper>
         </Grid>
-        if (!this.props.items.length) {
+        if (!items.length) {
             elem = <Grid item>
                 <h4>No active challenges...</h4>
             </Grid>
         }
-        return <Grid container justify='center' align='center' direction='column' style={{maxWidth: '100%'}}>
-            <Paper className='common-paper' style={{overflowX: 'auto', width: '100%'}}>
+        return <Grid container justify='center' align='center' direction='column'>
+            <Paper className='common-paper' style={{overflowX: 'auto'}}>
                 <Grid item className='text-center'>
                     <Button onClick={() => this.props.history.push('/board/')}>Back to Board</Button>
                 </Grid>
@@ -111,10 +129,10 @@ ChallengeList.propTypes = {
 export default connect(
     state => ({
         user: state.user.userData,
-        items: state.challengeList.data.items
+        challengeList: state.challengeList
     }),
     dispatch => bindActionCreators({
         fetchChallengeList,
         joinChallenge
     }, dispatch)
-)(withRouter(withSocket(withStyles(styles)(ChallengeList))));
+)(withRouter(withSocket(withStyles(styles)(baseComp(ChallengeList)))));

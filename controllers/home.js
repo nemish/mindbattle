@@ -78,11 +78,14 @@ const createQuestion = () => {
 
 
 const calcGraphValue = (fnStr, first, second, index) => {
+    if (fnStr === 'pow') {
+        return first * (index ** 2) + second;
+    }
     return Math[fnStr](index) * first + second;
 }
 
 
-const graphFuncs = ['cos', 'sin', 'exp', 'tan']
+const graphFuncs = ['cos', 'sin', 'exp', 'tan', 'pow']
 
 
 const getRandomGraphFn = excludeFns => {
@@ -99,6 +102,11 @@ const createFnString = (fnStr, first, second) => {
 }
 
 
+const createPowFnString = (fnStr, first, second) => {
+    return `y = ${first > 1 ? first : ''}(x ^^ 2)${second > 0 ? (' + ' + second) : (second < 0 ? ' - ' + second : '')}`;
+}
+
+
 const createGraphQuestion = () => {
     const fnStr = graphFuncs[getRandomInt(0, graphFuncs.length-1)];
     let options = [];
@@ -108,16 +116,18 @@ const createGraphQuestion = () => {
     [...Array(4).keys()].forEach(() => {
         let first = getRandomInt(1, 5);
         let second = getRandomInt(-10, 10);
+        let tmpFnStr = getRandomGraphFn(fnStrs);
+        if (tmpFnStr === 'pow') {
+            options.push(createPowFnString(tmpFnStr, first, second));
+        } else {
+            options.push(createFnString(tmpFnStr, first, second));
+        }
         if (!firstFirst && ! firstSecond) {
             firstFirst = first;
             firstSecond = second;
         }
-        let tmpFnStr = getRandomGraphFn(fnStrs);
-        options.push(createFnString(tmpFnStr, first, second));
         fnStrs.push(tmpFnStr);
     });
-
-
 
     return {
         type: 'spline',
