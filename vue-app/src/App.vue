@@ -11,7 +11,9 @@
 export default {
     name: 'app',
     created() {
-        this.$store.dispatch('fetchCurrentUser');
+        this.$store.dispatch('fetchCurrentUser').catch(err => {
+            this.$router.push('/');
+        });
     },
 };
 </script>
@@ -28,6 +30,7 @@ html,body {
     width: 100%;
     height: 100%;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
     color: #fff;
 }
 
@@ -37,6 +40,8 @@ html,body {
     height: 100%;
     position: relative;
     display: flex;
+    overflow: auto;
+    overflow: hidden;
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.7);
@@ -47,6 +52,12 @@ select:focus,
 textarea:focus,
 button:focus {
     outline: none;
+}
+button {
+    border: none;
+    background-color: #00cc66;
+    padding: 10px 30px;
+    color: #fff;
 }
 
 
@@ -62,8 +73,23 @@ button:focus {
     background-size: cover;
 }
 
-h1,h2,h3,p {
+h1,h2,h3,h4,p {
     margin: 0;
     padding: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.container {
+    width: 500px;
+    font-weight: normal;
+    position: relative;
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 </style>

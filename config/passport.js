@@ -63,7 +63,6 @@ passport.use(new LocalStrategy({ usernameField: 'name', passwordField: 'passwd' 
         return done(err);
       }
       if (isMatch) {
-        console.log('LocalStrategy ONMATCH', user);
         return done(null, user);
       }
       return done(null, false, { msg: 'Invalid name or password.' });

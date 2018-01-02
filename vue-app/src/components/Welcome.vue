@@ -1,9 +1,9 @@
 <template>
-  <div class="welcome">
+  <div class="container">
     <div class='slogan'>
         <h1>BRAINBATTLE</h1>
     </div>
-    <div v-if='message'>{{ message }}</div>
+    <div v-if='message' :class='msgClass'>{{ message }}</div>
     <div class='login-input'>
         <input class='full-row-input'
                type='text'
@@ -18,18 +18,23 @@
                @keyup.enter='handleUserSubmit'
                v-model='passwd' />
     </div>
-    <div>
-        <button class='login-button' v-bind:disabled='submitNotAllowed' @click='handleUserSubmit'>Enter</button>
-    </div>
+    <full-row-button :disabled='submitNotAllowed'
+                     @click='handleUserSubmit'
+                     text='Enter'
+                     colorType='green' />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import FullRowButton from './FullRowButton';
 export default {
     name: 'Welcome',
     data() {
-        return { name: '', passwd: '', isDirty: false };
+        return { name: '', passwd: '', isDirty: false, msgClass: 'msg' };
+    },
+    components: {
+        'full-row-button': FullRowButton
     },
     computed: {
         user() {
@@ -39,7 +44,11 @@ export default {
             'check'
         ]),
         checkPassed() {
-            return !!this.check.status && !this.isDirty;
+            const checkPassed = !!this.check.status && !this.isDirty;
+            if (!checkPassed) {
+                this.passwd = '';
+            }
+            return checkPassed;
         },
         submitNotAllowed() {
             const { user } = this;
@@ -52,25 +61,38 @@ export default {
             return !this.name.length;
         },
         message() {
-            if (this.isDirty || !this.name.length) {
+            if (this.isDirty) {
                 return
             }
+            this.isDirty = false;
+
+            let msg = null;
 
             if (this.check.status === 'occupied') {
-                return `Great to see you again ${this.name}`;
+                this.msgClass = 'msg msg-warning';
+                msg = `Great to see you again ${this.name}`;
             } else if (this.check.status == 'ok') {
-                return `Nice to meet you ${this.name}`;
+                this.msgClass = 'msg msg-success';
+                msg = `Nice to meet you ${this.name}`;
             }
+
+            if (this.user.status === 'LOGIN_FAILED') {
+                this.msgClass = 'msg-error';
+                msg = 'Login error. Try later or type another data.'
+            }
+
+            return msg;
         }
     },
     methods: {
         onChangeName(e) {
-            this.isDirty = true;
+            if (e.keyCode !== 13) {
+                this.isDirty = true;
+            }
         },
         handleUserSubmit() {
             const { name, passwd } = this;
-            this.isDirty = false;
-            if (name && name.length && passwd && passwd.length) {
+            if (!this.isDirty && name && name.length && passwd && passwd.length) {
                 let actionName = 'registerUser';
                 if (this.user.check.status === 'occupied') {
                     actionName = 'login';
@@ -79,6 +101,7 @@ export default {
             } else if (name && name.length) {
                 this.$store.dispatch('checkUserName', name);
             }
+            this.isDirty = false;
         }
     }
 };
@@ -87,15 +110,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.welcome {
-    width: 500px;
-    font-weight: normal;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
 
 .login-input {
     width: 100%;
@@ -119,7 +133,28 @@ export default {
     background-color: #ccc;
 }
 
+.msg {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.msg-error {
+    color: tomato;
+    border-top: 3px solid rgba(50, 100, 255, 0.3);
+}
+
+.msg-success {
+    color: lightgreen;
+    border-top: 3px solid rgba(255, 165, 0, 0.3);
+}
+
+.msg-warning {
+    color: #FFA500;
+    border-top: 3px solid rgba(0, 0, 255, 0.3);
+}
+
 .full-row-input {
+    padding: 0;
     text-align: center;
     width: 100%;
     color: #fff;

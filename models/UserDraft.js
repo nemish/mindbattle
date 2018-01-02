@@ -22,6 +22,7 @@ userDraftSchema.pre('save', function save(next) {
     if (err) { return next(err); }
     bcrypt.hash(user.passwd, salt, null, (err, hash) => {
       if (err) { return next(err); }
+      console.log('bcrypt.hash(user.passwd, salt', hash);
       user.passwd = hash;
       next();
     });

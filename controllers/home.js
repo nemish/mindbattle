@@ -241,15 +241,15 @@ exports.registerUser = (req, res, next) => {
         });
     } else {
         user.save((err) => {
-          if (err) {
-            return next(err);
-          }
-        const token = utils.generateToken(user);
-        res.json({
-            status: 'ok',
-            item: user,
-            token
-        });
+            if (err) {
+                return next(err);
+            }
+            const token = utils.generateToken(user);
+            res.json({
+                status: 'ok',
+                item: user,
+                token
+            });
         });
     }
   });
@@ -369,6 +369,10 @@ exports.updateChallenge = (data, socket) => {
         ch.save();
         socket.emit('challenge_update', {data: ch});
     });
+}
+
+
+exports.fetchChallengesInfo = (req, res) => {
 }
 
 

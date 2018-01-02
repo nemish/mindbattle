@@ -57,14 +57,19 @@ export function createFetchAction(conf) {
 
         return fetch(url, params)
         .then((resp) => {
-            if (!resp.ok) {
-                return resp.json().then((err) => { throw err; });
+            if (resp.ok) {
+                // console.log('==== ERROR RESPONSE 222222 ====', resp);
+                return resp;
             }
+            console.log('==== ERROR RESPONSE ====', resp);
+
             if (resp.status === 401) {
                 localStorage.setItem('jwt_token', null);
-                window.location = '/';
+                // window.location = '/';
             }
-            return resp;
+
+            return Promise.reject(resp);
+            // return resp;
         })
         .then(resp => resp.json())
         .then((data) => {
@@ -72,9 +77,9 @@ export function createFetchAction(conf) {
             return data;
         })
         .catch((err) => {
-            if (failEvent) {
-                commit(failEvent, err);
-            }
+            console.log('cathc err', failEvent, err)
+            commit(failEvent, err.err);
+            return Promise.reject(err);
         });
     };
     Object.assign(fetchAction, {

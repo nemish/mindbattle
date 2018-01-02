@@ -11,6 +11,7 @@ const FECTH_CURRENT_USER = 'FECTH_CURRENT_USER';
 const CHECK_USER_NAME = 'CHECK_USER_NAME';
 const REGISTER_USER = 'REGISTER_USER';
 const LOGIN_USER = 'LOGIN_USER';
+const LOGOUT_USER = 'LOGOUT_USER';
 
 
 const fetchCurrentUser = createFetchAction({
@@ -32,6 +33,7 @@ const login = createFetchAction({
     event: LOGIN_USER,
 });
 
+
 const checkUserName = createFetchAction({
     url: '/check_user_name',
     method: 'post',
@@ -39,14 +41,29 @@ const checkUserName = createFetchAction({
 });
 
 
+const fetchChallenges = createFetchAction({
+    url: '/check_user_name',
+    method: 'post',
+    event: CHECK_USER_NAME,
+});
+
+
+const checkUserNameHandler = (commit, state, data) => {
+    return checkUserName(commit, state, data).catch(err => {
+        console.log('checkUserNameHandler', err, state);
+    });
+}
+
+
 const handleUser = (commit, state) => {
     if (state._id || state.loading) {
-        return;
+        return Promise.reject();
     }
     const token = localStorage.getItem('jwt_token');
     if (token && token !== state.token) {
-        commit(SET_USER_TOKEN, token);
-        return fetchCurrentUser(commit, state);
+        console.log(token);
+        commit(SET_USER_TOKEN, { token });
+        return fetchCurrentUser(commit, state).catch(() => {});
     }
 };
 
@@ -55,6 +72,7 @@ const INITIAL_USER_STATE = {
     _id: null,
     name: null,
     loading: false,
+    status: null,
     check: {
         status: null,
         loading: false
@@ -64,9 +82,15 @@ const INITIAL_USER_STATE = {
 
 const handleEnterUser = (commit, state, data, fn) => {
     const { router, ...remain } = data;
+    console.log('handleEnterUser begin', state, data, fn);
     fn(commit, state, remain).then(ud => {
+        console.log('handleEnterUser', ud, data, state);
+        commit(SET_USER_TOKEN, {
+            token: ud.token
+        });
         router.push('/board');
-        commit(SET_USER_TOKEN, ud.token);
+    }).catch(() => {
+        // router.push('/');
     });
 }
 
@@ -85,30 +109,40 @@ export const store = new Vuex.Store({
             },
             actions: {
                 fetchCurrentUser({ commit, state }) {
-                    handleUser(commit, state);
+                    return handleUser(commit, state);
                 },
                 registerUser({ commit, state }, data) {
-                    handleEnterUser(commit, state, data, registerUser);
+                    return handleEnterUser(commit, state, data, registerUser);
                 },
                 login({ commit, state }, data) {
-                    handleEnterUser(commit, state, data, login);
+                    return handleEnterUser(commit, state, data, login);
+                },
+                logout({ commit, state }, data) {
+                    commit(SET_USER_TOKEN, {token: null});
+                    return Promise.resolve();
                 },
                 checkUserName({ commit, state }, name) {
-                    checkUserName(commit, state, { name });
+                    return checkUserNameHandler(commit, state, { name });
                 },
+                fetchChallengesInfo({ commit, state }) {
+                    // return checkUserNameHandler(commit, state, { name });
+                }
             },
             mutations: {
-                [SET_USER_TOKEN](state, token) {
-                    localStorage.setItem('jwt_token', data.token);
+                [SET_USER_TOKEN](state, data) {
+                    const { token } = data;
+                    localStorage.setItem('jwt_token', token);
                     state.token = token;
                 },
                 [fetchCurrentUser.startEvent](state) {
                     state.loading = true;
                 },
                 [login.startEvent](state) {
+                    state.status = null;
                     state.loading = true;
                 },
                 [registerUser.startEvent](state) {
+                    state.status = null;
                     state.loading = true;
                 },
                 [fetchCurrentUser.successEvent](state, data) {
@@ -119,7 +153,7 @@ export const store = new Vuex.Store({
                     Object.assign(state, data.item);
                     state.loading = false;
                 },
-                [registerUser.successEvent](state) {
+                [registerUser.successEvent](state, data) {
                     Object.assign(state, data.item);
                     state.loading = false;
                 },
@@ -135,6 +169,7 @@ export const store = new Vuex.Store({
                 },
                 [login.failEvent](state, data) {
                     state.loading = false;
+                    state.status = 'LOGIN_FAILED';
                 },
                 [registerUser.failEvent](state, data) {
                     state.loading = false;
