@@ -18,7 +18,7 @@ import {
     handshakeActions,
     createChallengeActions,
     CHOOSE_OPTION,
-    USER_NAME__CHANGE,
+    USER_LOGIN_FORM__CHANGE_VALUE,
     CHALLENGE_UPDATE,
     INIT_CREATE_CHALLENGE,
     RESET_USER,

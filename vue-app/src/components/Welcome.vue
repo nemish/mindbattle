@@ -4,17 +4,16 @@
         <h1>BRAINBATTLE</h1>
     </div>
     <div v-if='message' :class='msgClass'>{{ message }}</div>
-    <div class='login-input'>
+    <div v-if='loaded' class='login-input'>
         <input class='full-row-input'
                type='text'
                placeholder='Please enter your name'
                @keyup.enter='handleUserSubmit'
-               @keyup='onChangeName'
                v-model='name' />
         <input class='full-row-input'
                type='password'
                placeholder='Please enter a password'
-               v-if='checkPassed'
+               v-if='showPasswordField'
                @keyup.enter='handleUserSubmit'
                v-model='passwd' />
     </div>
@@ -27,32 +26,40 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import reduxStore from '../redux-store';
 import FullRowButton from './FullRowButton';
 export default {
     name: 'Welcome',
     data() {
         return { name: '', passwd: '', isDirty: false, msgClass: 'msg' };
     },
+    mounted() {
+        reduxStore.subscribe(this._$refreshView.bind(this));
+        // console.log('WELCOM MOUNTED', reduxStore);
+    },
     components: {
         'full-row-button': FullRowButton
     },
     computed: {
+        loaded() {
+            return !this.loading;
+        },
         user() {
             return this.$store.state.user
         },
         ...mapGetters([
-            'check'
+            'check',
+            'loading'
         ]),
-        checkPassed() {
-            const checkPassed = !!this.check.status && !this.isDirty;
-            if (!checkPassed) {
-                this.passwd = '';
-            }
-            return checkPassed;
+        showPasswordField() {
+            return !!this.check.status && !this.isDirty && this.name.length;
+        },
+        isLoading() {
+            return this.user.loading || this.check.loading;
         },
         submitNotAllowed() {
             const { user } = this;
-            if (user.loading || this.check.loading) {
+            if (this.isLoading) {
                 return true;
             }
             if (this.check.status && !this.isDirty) {
@@ -61,14 +68,17 @@ export default {
             return !this.name.length;
         },
         message() {
-            if (this.isDirty) {
+            if (this.isDirty || !this.name.length) {
                 return
             }
             this.isDirty = false;
 
             let msg = null;
 
-            if (this.check.status === 'occupied') {
+            if (this.isLoading) {
+                this.msgClass = 'msg msg-warning';
+                msg = 'Loading ...';
+            } else if (this.check.status === 'occupied') {
                 this.msgClass = 'msg msg-warning';
                 msg = `Great to see you again ${this.name}`;
             } else if (this.check.status == 'ok') {
@@ -84,12 +94,13 @@ export default {
             return msg;
         }
     },
+    watch: {
+        name: dispatchOnChange('name', function (data) {
+            this.isDirty = true;
+        }),
+        passwd: dispatchOnChange('passwd'),
+    },
     methods: {
-        onChangeName(e) {
-            if (e.keyCode !== 13) {
-                this.isDirty = true;
-            }
-        },
         handleUserSubmit() {
             const { name, passwd } = this;
             if (!this.isDirty && name && name.length && passwd && passwd.length) {
@@ -102,9 +113,33 @@ export default {
                 this.$store.dispatch('checkUserName', name);
             }
             this.isDirty = false;
+        },
+        _$refreshView() {
+            this.name = reduxStore.getState().user.name;
+            this.passwd = reduxStore.getState().user.passwd;
+            // console.log('reduxStore.getState()', reduxStore.getState());
         }
     }
 };
+
+
+function dispatchOnChange(key, onChangeCb) {
+    return function(data) {
+        const val = reduxStore.getState().user[key];
+        if (val !== data) {
+            reduxStore.dispatch({
+                type: 'USER_LOGIN_FORM__CHANGE_VALUE',
+                data: {
+                    name: key,
+                    value: data
+                }
+            });
+            if (onChangeCb) {
+                onChangeCb.apply(this, [data]);
+            }
+        }
+    }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

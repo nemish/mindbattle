@@ -52,6 +52,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
  */
 passport.use(new LocalStrategy({ usernameField: 'name', passwordField: 'passwd' }, (name, password, done) => {
   UserDraft.findOne({ name: name.toLowerCase() }, (err, user) => {
+    console.log('UserDraft.findOne', err, user);
     if (err) {
         return done(err);
     }
@@ -59,6 +60,7 @@ passport.use(new LocalStrategy({ usernameField: 'name', passwordField: 'passwd' 
       return done(null, false, { msg: `User with name ${name} not found.` });
     }
     user.comparePassword(password, (err, isMatch) => {
+      console.log('user.comparePassword', err, isMatch);
       if (err) {
         return done(err);
       }

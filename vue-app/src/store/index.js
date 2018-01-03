@@ -3,6 +3,13 @@ import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 
 import { createFetchAction } from '../utils/actions';
+import {
+    reduxStore,
+} from '../redux-store';
+import {
+    RESET_USER,
+    USER_LOGIN_FORM__CHANGE_VALUE
+} from '../redux-store/actions';
 
 Vue.use(Vuex);
 
@@ -61,9 +68,8 @@ const handleUser = (commit, state) => {
     }
     const token = localStorage.getItem('jwt_token');
     if (token && token !== state.token) {
-        console.log(token);
         commit(SET_USER_TOKEN, { token });
-        return fetchCurrentUser(commit, state).catch(() => {});
+        return fetchCurrentUser(commit, state);
     }
 };
 
@@ -88,6 +94,12 @@ const handleEnterUser = (commit, state, data, fn) => {
         commit(SET_USER_TOKEN, {
             token: ud.token
         });
+        reduxStore.dispatch({
+            type: USER_LOGIN_FORM__CHANGE_VALUE,
+            data: {
+                passwd: null
+            }
+        });
         router.push('/board');
     }).catch(() => {
         // router.push('/');
@@ -105,6 +117,9 @@ export const store = new Vuex.Store({
             getters: {
                 check(state) {
                     return state.check;
+                },
+                loading(state) {
+                    return state.loading || state.check.loading;
                 }
             },
             actions: {
@@ -119,6 +134,11 @@ export const store = new Vuex.Store({
                 },
                 logout({ commit, state }, data) {
                     commit(SET_USER_TOKEN, {token: null});
+                    console.log('before dispatch reduxStore');
+                    reduxStore.dispatch({
+                        type: RESET_USER
+                    });
+                    // commit(RESET_USER);
                     return Promise.resolve();
                 },
                 checkUserName({ commit, state }, name) {
@@ -134,6 +154,9 @@ export const store = new Vuex.Store({
                     localStorage.setItem('jwt_token', token);
                     state.token = token;
                 },
+                // [RESET_USER](state) {
+                //     Object.assign(state, INITIAL_USER_STATE);
+                // },
                 [fetchCurrentUser.startEvent](state) {
                     state.loading = true;
                 },

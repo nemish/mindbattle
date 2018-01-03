@@ -8,14 +8,30 @@
 </template>
 
 <script>
+// import { withSocket } from './socket';
 export default {
     name: 'app',
     created() {
-        this.$store.dispatch('fetchCurrentUser').catch(err => {
+        console.log('BEFORE FETCHING CURRENT USER');
+        this.$store.dispatch('fetchCurrentUser').then(() => {
+            console.log('everithing ok fetch current user');
+            this.$router.push('/board');
+        }).catch(err => {
+            console.log('error during fetch current user');
             this.$router.push('/');
         });
     },
 };
+// export default withSocket({
+//     name: 'app',
+//     created() {
+//         this.$store.dispatch('fetchCurrentUser').then(() => {
+//             this.$router.push('/board');
+//         }).catch(err => {
+//             this.$router.push('/');
+//         });
+//     },
+// });
 </script>
 
 <style>

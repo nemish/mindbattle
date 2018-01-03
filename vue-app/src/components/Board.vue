@@ -7,12 +7,12 @@
         <div>
             <full-row-button text='Private'
                              colorType='yellow'
-                             @click='newChallenge' />
+                             @click='newChallenge("private")' />
         </div>
         <div>
             <full-row-button text='Public'
                              colorType='yellow'
-                             @click='newChallenge' />
+                             @click='newChallenge("public")' />
         </div>
     </div>
     <full-row-button v-if='!newToggled' text='NEW' colorType='yellow'
@@ -53,8 +53,9 @@ export default {
                 this.$router.push('/');
             });
         },
-        newChallenge() {
-            console.log('newChallenge');
+        newChallenge(e) {
+            // store.dispatch()
+            console.log('newChallenge', e);
         },
         toggleNew() {
             console.log('toggleNew');

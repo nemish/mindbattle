@@ -165,7 +165,7 @@ exports.challenge = (req, res) => {
 exports.checkUserName = (req, res) => {
     const { name } = req.body;
     if (name) {
-        UserDraft.find({name: name}).exec(function (err, docs) {
+        UserDraft.find({name: name.toLowerCase()}).exec(function (err, docs) {
             if (docs.length) {
                 res.json({
                     status: 'occupied'
@@ -230,7 +230,7 @@ exports.registerUser = (req, res, next) => {
   }
 
   const user = new UserDraft({
-      name, passwd
+      name: name.toLowerCase(), passwd
   });
 
   UserDraft.findOne({ name }, (err, existingUser) => {

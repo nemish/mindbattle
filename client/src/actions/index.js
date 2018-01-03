@@ -3,7 +3,7 @@ export const FETCH_CHALLENGE = 'FETCH_CHALLENGE';
 export const FETCH_CHALLENGE_LIST = 'FETCH_CHALLENGE_LIST';
 export const JOIN_CHALLENGE = 'JOIN_CHALLENGE';
 export const CHOOSE_OPTION = 'CHOOSE_OPTION';
-export const USER_NAME__CHANGE = 'USER_NAME__CHANGE';
+export const USER_LOGIN_FORM__CHANGE_VALUE = 'USER_LOGIN_FORM__CHANGE_VALUE';
 export const CREATE_CHALLENGE = 'CREATE_CHALLENGE';
 export const FETCH_PLAYERS = 'FETCH_PLAYERS';
 export const RESET_USER = 'RESET_USER';
@@ -28,7 +28,7 @@ export const setTokenToApp = makeActionCreator(SET_TOKEN_TO_APP, 'data')
 //     resolve();
 // });
 export const updateChallengeLocal = makeActionCreator(CHALLENGE_UPDATE, 'data');
-export const userNameChange = makeActionCreator(USER_NAME__CHANGE, 'data');
+export const userNameChange = makeActionCreator(USER_LOGIN_FORM__CHANGE_VALUE, 'data');
 export const resetUser = makeActionCreator(RESET_USER);
 export const logout = makeActionCreator(LOGOUT_USER);
 
