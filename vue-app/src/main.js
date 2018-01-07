@@ -4,7 +4,10 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import { store } from './store';
+import { reduxStore } from './redux-store';
+import vudux from './vudux';
 
+Vue.use(vudux, {reduxStore});
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

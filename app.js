@@ -24,6 +24,8 @@ const sass = require('node-sass-middleware');
 const multer = require('multer');
 const fs = require('fs');
 const cors = require('cors');
+const graphQLHTTP = require('express-graphql');
+const { GQLSchema } = require('./gql/index');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -131,6 +133,9 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 // app.use(express.static(path.join(__dirname, 'client', 'public')));
+
+// GRAPHQL url
+app.use('/gql', graphQLHTTP({ schema: GQLSchema, pretty: true, graphiql: true }))
 
 /**
  * Primary app routes.

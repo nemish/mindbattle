@@ -14,6 +14,8 @@
                type='password'
                placeholder='Please enter a password'
                v-if='showPasswordField'
+               ref='passwd'
+               v-focus
                @keyup.enter='handleUserSubmit'
                v-model='passwd' />
     </div>
@@ -26,19 +28,22 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import reduxStore from '../redux-store';
+// import reduxStore from '../redux-store';
 import FullRowButton from './FullRowButton';
 export default {
     name: 'Welcome',
     data() {
         return { name: '', passwd: '', isDirty: false, msgClass: 'msg' };
     },
-    mounted() {
-        reduxStore.subscribe(this._$refreshView.bind(this));
-        // console.log('WELCOM MOUNTED', reduxStore);
-    },
     components: {
         'full-row-button': FullRowButton
+    },
+    directives: {
+       focus: {
+            inserted: function (el) {
+                el.focus();
+            }
+        }
     },
     computed: {
         loaded() {
@@ -98,7 +103,7 @@ export default {
         name: dispatchOnChange('name', function (data) {
             this.isDirty = true;
         }),
-        passwd: dispatchOnChange('passwd'),
+        passwd: dispatchOnChange('passwd', null),
     },
     methods: {
         handleUserSubmit() {
@@ -111,23 +116,24 @@ export default {
                 this.$store.dispatch(actionName, { name, passwd, router: this.$router });
             } else if (name && name.length) {
                 this.$store.dispatch('checkUserName', name);
+                // this.$refs.passwd.$el.focus();
+                // console.log(this.$refs.passwd, this);
             }
             this.isDirty = false;
         },
-        _$refreshView() {
-            this.name = reduxStore.getState().user.name;
-            this.passwd = reduxStore.getState().user.passwd;
-            // console.log('reduxStore.getState()', reduxStore.getState());
+        _$refreshState() {
+            this.name = this.$reduxStore.getState().user.name;
+            this.passwd = this.$reduxStore.getState().user.passwd;
         }
     }
 };
 
 
-function dispatchOnChange(key, onChangeCb) {
+function dispatchOnChange(key, onChangeCb, context) {
     return function(data) {
-        const val = reduxStore.getState().user[key];
+        const val = this.$reduxStore.getState().user[key];
         if (val !== data) {
-            reduxStore.dispatch({
+            this.$reduxStore.dispatch({
                 type: 'USER_LOGIN_FORM__CHANGE_VALUE',
                 data: {
                     name: key,

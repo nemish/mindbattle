@@ -34,6 +34,8 @@
 
 <script>
 import FullRowButton from './FullRowButton';
+import socket from '../socket';
+
 export default {
     name: 'Board',
     data() {
@@ -43,6 +45,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('fetchChallengesInfo');
+        // socket.on('info', )
     },
     components: {
         'full-row-button': FullRowButton
@@ -53,9 +56,11 @@ export default {
                 this.$router.push('/');
             });
         },
-        newChallenge(e) {
+        newChallenge(type) {
             // store.dispatch()
-            console.log('newChallenge', e);
+            this.$reduxStore._$actions.createNewChallenge({type});
+            createNewChallenge({type});
+            // console.log('newChallenge', e);
         },
         toggleNew() {
             console.log('toggleNew');

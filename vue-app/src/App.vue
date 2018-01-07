@@ -8,8 +8,8 @@
 </template>
 
 <script>
-// import { withSocket } from './socket';
-export default {
+import { withSocket } from './socket';
+export default withSocket({
     name: 'app',
     created() {
         console.log('BEFORE FETCHING CURRENT USER');
@@ -21,7 +21,7 @@ export default {
             this.$router.push('/');
         });
     },
-};
+});
 // export default withSocket({
 //     name: 'app',
 //     created() {

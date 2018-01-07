@@ -1,16 +1,16 @@
 let Vudux = {};
 
-Vudux.install = (Vue, { store }) => {
-    Vue.prototype.$reduxStore = store;
+Vudux.install = (Vue, { reduxStore }) => {
+    Vue.prototype.$reduxStore = reduxStore;
 
     Vue.mixin({
         mounted() {
-            if (this.isRedux) {
-                this.unsubscribe = store.subscribe(this._refreshState.bind(this));
+            if (this._$refreshState) {
+                this.unsubscribe = reduxStore.subscribe(this._$refreshState.bind(this));
             }
         },
         destroyed() {
-            if (this.isRedux) {
+            if (this.unsubscribe) {
                 this.unsubscribe();
             }
         }

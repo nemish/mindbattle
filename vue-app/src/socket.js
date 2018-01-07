@@ -1,20 +1,25 @@
 import io from 'socket.io-client';
 import store from './redux-store';
 
-let socket = null;
+
+function createSocket() {
+    return io('http://localhost:8080');
+}
+
+let socket = createSocket();
 
 
-export const withSocket = comp => {
+export const withSocket = (comp, conf) => {
     if (!socket) {
-        socket = io();
+        socket = createSocket();
         socket.on('disconnect', () => {
             console.log('DISCONNECT FROM SOCKET...');
-            socket = io();
+            // socket = createSocket();
         });
 
         socket.on('connect_error', (error) => {
             console.log('SOCKET CONNECT ERROR...');
-            socket = io();
+            socket = createSocket();
         });
 
         // function alert() {
