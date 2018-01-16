@@ -50,7 +50,6 @@ export function createAsyncAction(conf) {
         method = method(payload);
       }
 
-      const query = makeQuery(payload);
       let params = {
           credentials: 'same-origin'
       }
@@ -65,17 +64,34 @@ export function createAsyncAction(conf) {
             headers['Authorization'] = 'Bearer ' + token;
         }
       }
-      if (method == 'post') {
-        params = {
-            ...params,
-            method: 'POST',
-            body: JSON.stringify(payload),
+
+      if (!method || method === 'get') {
+        let query = {};
+        if (conf.graphql) {
+            url = 'http://localhost:8080/gql'
+            query = makeQuery({
+                query: conf.graphql(payload)
+            });
+        } else {
+            query = makeQuery(payload);
         }
-      } else if (!method || method === 'get') {
         url = url + (query.length ? '?' + query : '');
       }
 
+
+      if (method === 'post') {
+        params = {
+            ...params,
+            method: 'POST',
+            body: JSON.stringify({
+                query: conf.graphql(payload)
+            })
+        }
+      }
+
       params.headers = headers;
+
+      console.log('createFetchAction', url, params);
       return fetch(url, params)
         .then(resp => {
             if (!resp.ok) {
@@ -89,6 +105,9 @@ export function createAsyncAction(conf) {
         })
         .then(resp => resp.json())
         .then(data => {
+            if (data.errors && data.errors.length) {
+                return Promise.reject(data.errors);
+            }
             dispatch(successActionCreator(data));
             return data;
         })

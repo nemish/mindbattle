@@ -465,9 +465,12 @@ const refreshPreviousChallenge = user => {
 }
 
 
-exports.createChallenge = (req, res) => {
-    const { user_id, access } = req.body;
-    UserDraft.findById(user_id).exec((err, user) => {
+export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
+    UserDraft.findById(userId).exec((err, user) => {
+        if ((err || !user) && errCb) {
+            return errCb();
+        }
+
         const questionsCount = 10;
         const { name, _id } = user;
         const ch = new Challenge({
@@ -488,8 +491,15 @@ exports.createChallenge = (req, res) => {
         refreshPreviousChallenge(user);
         user.current_challenge_id = ch._id;
         user.save();
-        res.json(ch);
+        if (cb) {
+            return cb(ch)
+        }
     })
+}
+
+
+exports.createChallenge = (req, res) => {
+    handleCreateChallenge(req.body, ch => res.json(ch));
 }
 
 

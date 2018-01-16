@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const challengeSchema = new mongoose.Schema({
   timestamp: Date,
   userId: String,
+  types: Array,
   state: String,
   access: String,
   maxPlayers: Number,

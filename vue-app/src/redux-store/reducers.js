@@ -2,9 +2,10 @@ import {
     combineReducers
 } from 'redux';
 import {
-    FETCH_CHALLENGE,
     USER_LOGIN_FORM__CHANGE_VALUE,
-    RESET_USER
+    RESET_USER,
+    NEW_CHALLENGE,
+    FETCH_CHALLENGE
 } from './actions';
 
 import {
@@ -12,7 +13,24 @@ import {
     createReducer
 } from '../utils/reducers';
 
-const challenge = createFetchReducer(FETCH_CHALLENGE, {});
+
+const newCh = createFetchReducer(NEW_CHALLENGE, {}, {}, data => data.data.newChallenge);
+const current = createFetchReducer(FETCH_CHALLENGE, {}, {
+    [newCh.conf.successEvent](state, action) {
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                ...action.data.data.newChallenge
+            }
+        }
+    }
+}, data => data.data.challenge);
+
+const challenge = combineReducers({
+    newCh,
+    current
+});
 
 const userInitial = {
     _id: null,
@@ -22,6 +40,12 @@ const userInitial = {
 };
 
 const user = createReducer(userInitial, {
+    [newCh.conf.successEvent](state, action) {
+        return {
+            ...state,
+            current_challenge_id: action.data._id
+        }
+    },
     [USER_LOGIN_FORM__CHANGE_VALUE](state, action) {
         return {
             ...state,

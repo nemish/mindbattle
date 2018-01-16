@@ -79,6 +79,7 @@ const INITIAL_USER_STATE = {
     name: null,
     loading: false,
     status: null,
+    current_challenge_id: null,
     check: {
         status: null,
         loading: false

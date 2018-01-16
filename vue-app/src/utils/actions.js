@@ -16,7 +16,7 @@ export function createFetchAction(conf) {
     const fetchAction = (commit, state, payload) => {
         commit(startEvent, payload);
         let url = conf.url;
-        let method = conf.method;
+        let method = conf.method || 'get';
 
         if (typeof url === 'function') {
             url = url(payload);

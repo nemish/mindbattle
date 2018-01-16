@@ -12,7 +12,6 @@ import { withSocket } from './socket';
 export default withSocket({
     name: 'app',
     created() {
-        console.log('BEFORE FETCHING CURRENT USER');
         this.$store.dispatch('fetchCurrentUser').then(() => {
             console.log('everithing ok fetch current user');
             this.$router.push('/board');
@@ -20,7 +19,7 @@ export default withSocket({
             console.log('error during fetch current user');
             this.$router.push('/');
         });
-    },
+    }
 });
 // export default withSocket({
 //     name: 'app',
@@ -107,5 +106,21 @@ h1,h2,h3,h4,p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+
+.full-width-item-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.full-width-item-container > div {
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
 }
 </style>

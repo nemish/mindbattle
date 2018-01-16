@@ -3,23 +3,25 @@
     <div class='slogan'>
         <h1>BOARD</h1>
     </div>
-    <div v-if='newToggled' class='new-challenge-buttons-container'>
-        <div>
-            <full-row-button text='Private'
-                             colorType='yellow'
-                             @click='newChallenge("private")' />
+    <div v-if="!currentOpened" class="full-width">
+        <div v-if='newToggled' class='full-width-item-container'>
+            <div>
+                <full-row-button text='Private'
+                                 colorType='yellow'
+                                 @click='newChallenge("private")' />
+            </div>
+            <div>
+                <full-row-button text='Public'
+                                 colorType='yellow'
+                                 @click='newChallenge("public")' />
+            </div>
         </div>
-        <div>
-            <full-row-button text='Public'
-                             colorType='yellow'
-                             @click='newChallenge("public")' />
-        </div>
+        <full-row-button v-if='!newToggled' text='NEW' colorType='yellow'
+                         @click='toggleNew' />
     </div>
-    <full-row-button v-if='!newToggled' text='NEW' colorType='yellow'
-                     @click='toggleNew' />
-    <full-row-button text='CURRENT'
-                     additionalInfo='STEP #4'
-                     colorType='red'>
+    <div v-if="currentOpened" class="full-width">
+        <p>Current challenge {{challenge.data._id}}</p>
+    </div>
     </full-row-button>
     <full-row-button text='LIST'
                      additionalInfo='Ready: 120, in process: 43'
@@ -40,15 +42,26 @@ export default {
     name: 'Board',
     data() {
         return {
-            newToggled: false
+            newToggled: false,
+            challenge: {
+                data: {}
+            }
         }
     },
     mounted() {
-        this.$store.dispatch('fetchChallengesInfo');
-        // socket.on('info', )
+        this.tryToFetchChallenge(this.userChallengeId);
     },
     components: {
         'full-row-button': FullRowButton
+    },
+    watch: {
+        userChallengeId(newValue, oldValue) {
+            console.log('watch userChallengeId', this.userChallengeId, newValue, oldValue);
+            if (newValue && oldValue !== newValue) {
+                console.log('watch 2', this.userChallengeId, newValue);
+                this.tryToFetchChallenge(newValue);
+            }
+        }
     },
     methods: {
         exit() {
@@ -56,15 +69,47 @@ export default {
                 this.$router.push('/');
             });
         },
-        newChallenge(type) {
-            // store.dispatch()
-            this.$reduxStore._$actions.createNewChallenge({type});
-            createNewChallenge({type});
-            // console.log('newChallenge', e);
+        tryToFetchChallenge(_id) {
+            if (_id && !this.challenge.loading) {
+                this.$reduxStore._$callAction('fetchChallenge', {_id });
+            }
+        },
+        newChallenge(access) {
+            this.$reduxStore._$callAction('createNewChallenge', {userId: this.userId, access});
         },
         toggleNew() {
-            console.log('toggleNew');
             this.newToggled = true;
+        },
+        _$refreshState() {
+            const { current } = this.$reduxStore.getState().challenge;
+            if (this.challenge.data._id !== current.data._id && !current.loading) {
+                this.userChallengeId = current._id;
+                const { _id } = current.data;
+                this.$reduxStore._$callAction('fetchChallenge', {_id });
+            }
+            this.challenge = {
+                ...current
+            }
+        }
+    },
+    computed: {
+        userId: {
+            get() {
+                return this.$store.state.user._id;
+            },
+            set() {
+                console.log('set()', this.$store.state.user._id);
+            }
+        },
+        showChallengePanel() {
+            return (this.userChallengeId && !this.challenge.loading) || this.challenge._id;
+        },
+        userChallengeId() {
+            console.log('userChallengeId', this.$store.state.user.current_challenge_id);
+            return this.$store.state.user.current_challenge_id;
+        },
+        currentOpened() {
+            return this.challenge.loading || this.challenge.data._id;
         }
     }
 };
@@ -72,26 +117,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.container {
-    width: 500px;
-    font-weight: normal;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.new-challenge-buttons-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.new-challenge-buttons-container > div {
-    width: 100%;
-}
 
 </style>

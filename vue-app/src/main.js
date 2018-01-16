@@ -5,9 +5,10 @@ import App from './App';
 import router from './router';
 import { store } from './store';
 import { reduxStore } from './redux-store';
+import * as actions from './redux-store/actions'
 import vudux from './vudux';
 
-Vue.use(vudux, {reduxStore});
+Vue.use(vudux, {reduxStore, actions});
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

@@ -27,30 +27,41 @@ export const createModalReducer = modalActions => {
 }
 
 
-export const createFetchReducerCallbacks = (initParam, initialData) => {
-    let conf = initParam;
-    if (typeof initParam === 'string') {
-        conf = createAsyncActionsConf(initParam);
+export const createFetchReducerCallbacks = (event, initialData, dataProcessor) => {
+    let conf = event;
+    if (typeof event === 'string') {
+        conf = createAsyncActionsConf(event);
     }
     return {
         [conf.startEvent](state, action) {
             return {...state, loading: true};
         },
         [conf.successEvent](state, action) {
-            return {...state, loading: false, data: action.data};
+            let data = action.data;
+            if (dataProcessor) {
+                data = dataProcessor(data);
+            }
+            return {...state, loading: false, data};
         },
         [conf.failEvent](state, action) {
             return {...state, loading: false};
-        }
+        },
+        conf
     }
 }
 
 
-export const createFetchReducer = (initParam, initialData = [], callbacks = {}) => {
-    return createReducer({loading: false, data: initialData}, {
-        ...createFetchReducerCallbacks(initParam, initialData),
+export const createFetchReducer = (event, initialData = [], callbacks = {}, dataProcessor = null) => {
+    console.log(event, initialData, callbacks, dataProcessor);
+    const fetchCallbacks = createFetchReducerCallbacks(event, initialData, dataProcessor);
+    const { conf } = fetchCallbacks;
+    delete fetchCallbacks.conf;
+    const fn = createReducer({loading: false, data: initialData}, {
+        ...fetchCallbacks,
         ...callbacks
-    })
+    });
+    fn.conf = conf;
+    return fn;
 }
 
 
