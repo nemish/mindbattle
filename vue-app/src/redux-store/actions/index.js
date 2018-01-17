@@ -31,9 +31,9 @@ export const fetchChallenge = createAsyncAction({
             maxPlayers
             players {
                 _id
+                name
             }
             playersCount
-            currentRoundStartTime
             currentQuestion
             questions {
                 options

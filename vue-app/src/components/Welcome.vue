@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
-    <div class='slogan'>
+  <div class="container welcome">
+    <div class='full-width'>
         <h1>BRAINBATTLE</h1>
     </div>
     <div v-if='message' :class='msgClass'>{{ message }}</div>
-    <div v-if='loaded' class='login-input'>
+    <div v-if='loaded' class='login-input full-width'>
         <input class='full-row-input'
                type='text'
                placeholder='Please enter your name'
@@ -153,7 +153,6 @@ function dispatchOnChange(key, onChangeCb, context) {
 
 
 .login-input {
-    width: 100%;
     margin: 20px 0;
 }
 
@@ -203,6 +202,14 @@ function dispatchOnChange(key, onChangeCb, context) {
     border: none;
     color: #fff;
     font-size: 30px;
+}
+
+.container.welcome > div {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 </style>

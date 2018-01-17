@@ -36,6 +36,7 @@ const Challenge = mongoose.model('Challenge', challengeSchema);
 
 Challenge.states = {
     INITIAL: 'INITIAL',
+    READY: 'READY',
     RUNNING: 'RUNNING',
     FINISHED: 'FINISHED'
 }

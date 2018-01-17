@@ -1,8 +1,10 @@
 <template>
-    <button :class='btnClass' @click='onClick'>
-        <h1 class="text-center">{{text}}</h1>
-        <h4 v-if='hasAdditionalInfo' class="text-center additional-info">{{additionalInfo}}</h4>
-    </button>
+    <div class='full-width'>
+        <button :class='btnClass' @click='onClick'>
+            <h1 class="text-center">{{text}}</h1>
+            <h4 v-if='hasAdditionalInfo' class="text-center additional-info">{{additionalInfo}}</h4>
+        </button>
+    </div>
 </template>
 
 <script>
@@ -12,6 +14,7 @@ const classesMap = {
     yellow: 'bg-yellow-opacity',
     blue: 'bg-yellow-2-opacity',
     grey: 'bg-grey-opacity',
+    white: 'bg-white',
 };
 export default {
     name: 'FullRowButton',
@@ -50,26 +53,6 @@ button {
     display: block;
 }
 
-.bg-darken-green-opacity {
-    background-color: rgba(114, 160, 80, 0.5);
-}
-
-.bg-yellow-opacity {
-    background-color: rgba(0, 120, 160, 0.5);
-}
-
-.bg-yellow-2-opacity {
-    background-color: rgba(255, 100, 100, 0.5);
-}
-
-.bg-tomato-opacity {
-    background-color: rgba(255, 100, 0, 0.5);
-}
-
-.bg-grey-opacity {
-    background-color: rgba(100, 100, 100, 0.4);
-}
-
 .full-row-button {
     opacity: 0.7;
     cursor: pointer;
@@ -89,6 +72,10 @@ button {
 
 .additional-info {
     color: #999;
+}
+
+.bg-white .additional-info {
+    color: #444;
 }
 
 </style>

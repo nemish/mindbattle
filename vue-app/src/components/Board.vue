@@ -1,9 +1,24 @@
 <template>
   <div class="container">
-    <div class='slogan'>
-        <h1>BOARD</h1>
+    <div class='full-width'>
+        <h1 class="text-center">BOARD</h1>
     </div>
-    <div v-if="!currentOpened" class="full-width">
+    <div v-if="currentOpened" class="full-width">
+        <div class="margin-sm bg-yellow-2-opacity padding-sm border-round">
+            <h4 class='text-center padding-sm'>Current challenge</h4>
+            <div class='info'>
+                <p>Access: {{challenge.data.access}}</p>
+                <p>Created at {{new Date(challenge.data.timestamp).toLocaleString()}}</p>
+                <p>Current state: {{challenge.data.state}}</p>
+                <p></p>
+                <p>Question number: {{challenge.data.currentQuestion || '-'}}</p>
+                <full-row-button text='JOIN'
+                                 :additionalInfo='challengeJoinInfo'
+                                 colorType='white' />
+            </div>
+        </div>
+    </div>
+    <div class="full-width">
         <div v-if='newToggled' class='full-width-item-container'>
             <div>
                 <full-row-button text='Private'
@@ -19,10 +34,6 @@
         <full-row-button v-if='!newToggled' text='NEW' colorType='yellow'
                          @click='toggleNew' />
     </div>
-    <div v-if="currentOpened" class="full-width">
-        <p>Current challenge {{challenge.data._id}}</p>
-    </div>
-    </full-row-button>
     <full-row-button text='LIST'
                      additionalInfo='Ready: 120, in process: 43'
                      colorType='green' />
@@ -56,9 +67,8 @@ export default {
     },
     watch: {
         userChallengeId(newValue, oldValue) {
-            console.log('watch userChallengeId', this.userChallengeId, newValue, oldValue);
             if (newValue && oldValue !== newValue) {
-                console.log('watch 2', this.userChallengeId, newValue);
+                this.challenge.data._id = newValue;
                 this.tryToFetchChallenge(newValue);
             }
         }
@@ -93,20 +103,20 @@ export default {
         }
     },
     computed: {
-        userId: {
-            get() {
-                return this.$store.state.user._id;
-            },
-            set() {
-                console.log('set()', this.$store.state.user._id);
-            }
+        challengeJoinInfo() {
+            return `Players: ${this.challenge.data.playersCount} / ${this.challenge.data.maxPlayers}`;
+        },
+        userId() {
+            return this.$store.state.user._id;
         },
         showChallengePanel() {
             return (this.userChallengeId && !this.challenge.loading) || this.challenge._id;
         },
-        userChallengeId() {
-            console.log('userChallengeId', this.$store.state.user.current_challenge_id);
-            return this.$store.state.user.current_challenge_id;
+        userChallengeId: {
+            get() {
+                return this.$store.state.user.current_challenge_id;
+            },
+            set(newValue) {}
         },
         currentOpened() {
             return this.challenge.loading || this.challenge.data._id;
@@ -117,5 +127,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
+.info {
+    font-size: 14px;
+    padding: 10px 20px;
+}
 
 </style>

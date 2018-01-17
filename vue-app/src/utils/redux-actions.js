@@ -44,6 +44,8 @@ export function createAsyncAction(conf) {
       let method = conf.method;
       if (typeof url === "function") {
         url = url(payload);
+      } else if (conf.graphql) {
+        url = 'http://localhost:8080/gql'
       }
 
       if (typeof method === "function") {
@@ -68,7 +70,6 @@ export function createAsyncAction(conf) {
       if (!method || method === 'get') {
         let query = {};
         if (conf.graphql) {
-            url = 'http://localhost:8080/gql'
             query = makeQuery({
                 query: conf.graphql(payload)
             });

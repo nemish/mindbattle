@@ -2,7 +2,9 @@
   <div id="app">
     <div id='bg'></div>
     <div class='app-container'>
-        <router-view/>
+        <div class='container-wrapper'>
+            <router-view/>
+        </div>
     </div>
   </div>
 </template>
@@ -49,19 +51,6 @@ html,body {
     color: #fff;
 }
 
-
-.app-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    overflow: auto;
-    overflow: hidden;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
 input:focus,
 select:focus,
 textarea:focus,
@@ -97,15 +86,46 @@ h1,h2,h3,h4,p {
     text-align: center;
 }
 
-.container {
-    width: 500px;
-    font-weight: normal;
+
+.app-container {
+    width: 100%;
+    height: 100%;
     position: relative;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.container-wrapper {
+    width: 500px;
+    height: 100%;
+    position: relative;
+
     display: flex;
-    overflow: auto;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
     justify-content: center;
+    margin: 0 auto;
+    font-weight: normal;
+}
+
+.container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
+    overflow-y: scroll;
+
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.container > div {
+    flex: 1;
 }
 
 
@@ -123,4 +143,43 @@ h1,h2,h3,h4,p {
 .full-width {
     width: 100%;
 }
+
+.margin-sm {
+    margin: 5px;
+}
+
+.padding-sm {
+    padding: 5px;
+}
+
+.border-round {
+    border-radius: 5px;
+}
+
+.bg-darken-green-opacity {
+    background-color: rgba(114, 160, 80, 0.5);
+}
+
+.bg-yellow-opacity {
+    background-color: rgba(0, 120, 160, 0.5);
+}
+
+.bg-yellow-2-opacity {
+    background-color: rgba(255, 100, 100, 0.5);
+}
+
+.bg-tomato-opacity {
+    background-color: rgba(255, 100, 0, 0.5);
+}
+
+.bg-grey-opacity {
+    background-color: rgba(100, 100, 100, 0.4);
+}
+
+.bg-white {
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #333;
+}
+
+
 </style>
