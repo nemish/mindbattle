@@ -21,6 +21,7 @@
     </div>
     <full-row-button :disabled='submitNotAllowed'
                      @click='handleUserSubmit'
+                     className='border-round-lg'
                      text='Enter'
                      colorType='green' />
   </div>
@@ -28,7 +29,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-// import reduxStore from '../redux-store';
 import FullRowButton from './FullRowButton';
 export default {
     name: 'Welcome',

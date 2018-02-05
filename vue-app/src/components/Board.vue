@@ -1,20 +1,26 @@
 <template>
-  <div class="container">
-    <div class='full-width'>
+  <div class="container color-tiny-brown">
+    <div class='full-width margin-sm padding-top-md'>
         <h1 class="text-center">BOARD</h1>
     </div>
     <div v-if="currentOpened" class="full-width">
-        <div class="margin-sm bg-yellow-2-opacity padding-sm border-round">
+        <div class="bg-tomato-opacity padding-sm margin-sm border-round-lg">
             <h4 class='text-center padding-sm'>Current challenge</h4>
-            <div class='info'>
-                <p>Access: {{challenge.data.access}}</p>
-                <p>Created at {{new Date(challenge.data.timestamp).toLocaleString()}}</p>
-                <p>Current state: {{challenge.data.state}}</p>
-                <p></p>
-                <p>Question number: {{challenge.data.currentQuestion || '-'}}</p>
-                <full-row-button text='JOIN'
-                                 :additionalInfo='challengeJoinInfo'
-                                 colorType='white' />
+            <div class='info margin-left-lg'>
+                <p>
+                    <info-title msg='Access' :value='challenge.data.access' />
+                    <info-title msg='Created at' :value='createdAt' />
+                <p>
+                    <info-title msg='State' :value='challenge.data.state' />
+                    <info-title msg='Question' :value='challenge.data.currentQuestion || "not started"' />
+                </p>
+            </div>
+            <div class='padding-sides-lg'>
+                 <full-row-button :text='challengeEnterButtonText'
+                             :additionalInfo='challengeJoinInfo'
+                             colorType='white'
+                             @click='challengeAction'
+                             className='border-round-md' />
             </div>
         </div>
     </div>
@@ -23,31 +29,56 @@
             <div>
                 <full-row-button text='Private'
                                  colorType='yellow'
-                                 @click='newChallenge("private")' />
+                                 @click='newChallenge("private")'
+                                 className="border-round-lg-left" />
             </div>
             <div>
                 <full-row-button text='Public'
                                  colorType='yellow'
-                                 @click='newChallenge("public")' />
+                                 @click='newChallenge("public")'
+                                 className="border-round-lg-right" />
             </div>
         </div>
-        <full-row-button v-if='!newToggled' text='NEW' colorType='yellow'
+        <full-row-button className="border-round-lg" v-if='!newToggled' text='NEW CHALLENGE' colorType='yellow'
                          @click='toggleNew' />
     </div>
-    <full-row-button text='LIST'
-                     additionalInfo='Ready: 120, in process: 43'
-                     colorType='green' />
-    <full-row-button text='STATS'
-                     additionalInfo='Wins: 23, experience: 2320'
-                     colorType='blue' />
+    <div class="full-width">
+        <div class='full-width-item-container'>
+            <div>
+                <full-row-button text='LIST'
+                                 additionalInfo='Ready: 120, in process: 43'
+                                 colorType='green'
+                                 className="border-round-lg-left" />
+            </div>
+            <div>
+                <full-row-button text='STATS'
+                                 additionalInfo='Wins: 23, experience: 2320'
+                                 colorType='blue'
+                                 className="border-round-lg-right" />
+            </div>
+        </div>
+    </div>
     <full-row-button text='EXIT' colorType='grey'
-                     @click='exit' />
+                     @click='exit'
+                     className="border-round-lg" />
+    <div class='full-width margin-bottom-lg'></div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
 import FullRowButton from './FullRowButton';
 import socket from '../socket';
+
+Vue.component('info-title', {
+    props: {
+        msg: {
+            type: String
+        },
+        value: {}
+    },
+    template: '<span><strong class="color-brown-green">{{msg}}:</strong> {{value}}.</span>'
+})
 
 export default {
     name: 'Board',
@@ -79,6 +110,15 @@ export default {
                 this.$router.push('/');
             });
         },
+        challengeAction() {
+            if (this.challenge.data.state === 'INITIAL') {
+                if (this.isOwnerOfCurrent) {
+                    this.$reduxStore._$callAction('startChallenge');
+                } else {
+                    this.$reduxStore._$callAction('startChallenge');
+                }
+            }
+        },
         tryToFetchChallenge(_id) {
             if (_id && !this.challenge.loading) {
                 this.$reduxStore._$callAction('fetchChallenge', {_id });
@@ -106,6 +146,9 @@ export default {
         challengeJoinInfo() {
             return `Players: ${this.challenge.data.playersCount} / ${this.challenge.data.maxPlayers}`;
         },
+        isOwnerOfCurrent() {
+            return this.challenge.data.userId === this.userId;
+        },
         userId() {
             return this.$store.state.user._id;
         },
@@ -120,6 +163,12 @@ export default {
         },
         currentOpened() {
             return this.challenge.loading || this.challenge.data._id;
+        },
+        createdAt() {
+            return new Date(this.challenge.data.timestamp).toLocaleString();
+        },
+        challengeEnterButtonText() {
+            return this.isOwnerOfCurrent ? 'GO!' : 'JOIN';
         }
     }
 };

@@ -28,11 +28,18 @@ export default {
         },
         colorType: {
             type: String
+        },
+        className: {
+            type: String
         }
     },
     computed: {
         btnClass() {
-            return `${classesMap[this.colorType]} full-row-button`;
+            let name = `${classesMap[this.colorType]} full-row-button`;
+            if (this.className) {
+                name += ' ' + this.className;
+            }
+            return name;
         },
         hasAdditionalInfo: function() {
             return this.additionalInfo && this.additionalInfo.length
@@ -59,6 +66,7 @@ button {
     width: 100%;
     padding: 10px 0;
     margin: 5px 0;
+    transition: opacity 0.5s;
 }
 
 .full-row-button:hover {
