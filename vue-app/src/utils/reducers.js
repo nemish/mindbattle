@@ -1,4 +1,4 @@
-import { createAsyncActionsConf } from './actions';
+import { createAsyncActionsConf } from './redux-actions';
 
 
 export function createReducer(initialState, handlers) {
@@ -45,17 +45,23 @@ export const createFetchReducerCallbacks = (event, initialData, dataProcessor) =
         },
         [conf.failEvent](state, action) {
             return {...state, loading: false};
-        }
+        },
+        conf
     }
 }
 
 
 export const createFetchReducer = (event, initialData = [], callbacks = {}, dataProcessor = null) => {
     console.log(event, initialData, callbacks, dataProcessor);
-    return createReducer({loading: false, data: initialData}, {
-        ...createFetchReducerCallbacks(event, initialData, dataProcessor),
+    const fetchCallbacks = createFetchReducerCallbacks(event, initialData, dataProcessor);
+    const { conf } = fetchCallbacks;
+    delete fetchCallbacks.conf;
+    const fn = createReducer({loading: false, data: initialData}, {
+        ...fetchCallbacks,
         ...callbacks
     });
+    fn.conf = conf;
+    return fn;
 }
 
 

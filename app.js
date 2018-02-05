@@ -23,6 +23,9 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 const fs = require('fs');
+const cors = require('cors');
+const graphQLHTTP = require('express-graphql');
+const { GQLSchema } = require('./gql/index');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -84,6 +87,7 @@ app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -129,6 +133,9 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 // app.use(express.static(path.join(__dirname, 'client', 'public')));
+
+// GRAPHQL url
+app.use('/gql', graphQLHTTP({ schema: GQLSchema, pretty: true, graphiql: true }))
 
 /**
  * Primary app routes.
@@ -266,12 +273,21 @@ server.listen(port, () => {
   console.log('  Press CTRL-C to stop\n');
 });
 
+
+const connectedClients = {};
+
 socketIO.on('connection', function (client) {
     console.log('connection', client.client.id);
+    connectedClients[client.client.id] = {};
     client.on('challenge_update', function (data) {
         console.log('challenge_update in socket', client.client.id);
         homeController.updateChallenge(data, socketIO);
     });
+
+    client.on('disconnect', function () {
+        console.log('disconnect', client.client.id, connectedClients[client.client.id]);
+        delete connectedClients[client.client.id];
+    })
 });
 
 

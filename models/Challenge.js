@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const challengeSchema = new mongoose.Schema({
   timestamp: Date,
   userId: String,
+  types: Array,
   state: String,
   access: String,
   maxPlayers: Number,
@@ -35,6 +36,7 @@ const Challenge = mongoose.model('Challenge', challengeSchema);
 
 Challenge.states = {
     INITIAL: 'INITIAL',
+    READY: 'READY',
     RUNNING: 'RUNNING',
     FINISHED: 'FINISHED'
 }

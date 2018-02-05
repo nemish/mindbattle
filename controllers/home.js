@@ -165,7 +165,7 @@ exports.challenge = (req, res) => {
 exports.checkUserName = (req, res) => {
     const { name } = req.body;
     if (name) {
-        UserDraft.find({name: name}).exec(function (err, docs) {
+        UserDraft.find({name: name.toLowerCase()}).exec(function (err, docs) {
             if (docs.length) {
                 res.json({
                     status: 'occupied'
@@ -230,7 +230,7 @@ exports.registerUser = (req, res, next) => {
   }
 
   const user = new UserDraft({
-      name, passwd
+      name: name.toLowerCase(), passwd
   });
 
   UserDraft.findOne({ name }, (err, existingUser) => {
@@ -241,15 +241,15 @@ exports.registerUser = (req, res, next) => {
         });
     } else {
         user.save((err) => {
-          if (err) {
-            return next(err);
-          }
-        const token = utils.generateToken(user);
-        res.json({
-            status: 'ok',
-            item: user,
-            token
-        });
+            if (err) {
+                return next(err);
+            }
+            const token = utils.generateToken(user);
+            res.json({
+                status: 'ok',
+                item: user,
+                token
+            });
         });
     }
   });
@@ -372,6 +372,10 @@ exports.updateChallenge = (data, socket) => {
 }
 
 
+exports.fetchChallengesInfo = (req, res) => {
+}
+
+
 exports.challengeList = (req, res) => {
     const query = {
         playersCount: {$gt: 0},
@@ -461,9 +465,12 @@ const refreshPreviousChallenge = user => {
 }
 
 
-exports.createChallenge = (req, res) => {
-    const { user_id, access } = req.body;
-    UserDraft.findById(user_id).exec((err, user) => {
+export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
+    UserDraft.findById(userId).exec((err, user) => {
+        if ((err || !user) && errCb) {
+            return errCb();
+        }
+
         const questionsCount = 10;
         const { name, _id } = user;
         const ch = new Challenge({
@@ -484,8 +491,15 @@ exports.createChallenge = (req, res) => {
         refreshPreviousChallenge(user);
         user.current_challenge_id = ch._id;
         user.save();
-        res.json(ch);
+        if (cb) {
+            return cb(ch)
+        }
     })
+}
+
+
+exports.createChallenge = (req, res) => {
+    handleCreateChallenge(req.body, ch => res.json(ch));
 }
 
 
