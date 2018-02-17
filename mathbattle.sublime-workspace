@@ -1,0 +1,2569 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"tran",
+				"transition"
+			],
+			[
+				"bord",
+				"border-box"
+			],
+			[
+				"transi",
+				"transition-delay"
+			],
+			[
+				"cla",
+				"classList\t(dfp.js)"
+			],
+			[
+				"check",
+				"checkVersion"
+			],
+			[
+				"requ",
+				"requiredVersion"
+			],
+			[
+				"repl",
+				"reply-comment"
+			],
+			[
+				"comm",
+				"comments"
+			],
+			[
+				"render",
+				"renderComments"
+			],
+			[
+				"qu",
+				"queryStringEmpty"
+			],
+			[
+				"parent_id",
+				"parent_comment_id"
+			],
+			[
+				"par",
+				"parentIdArg"
+			],
+			[
+				"parent",
+				"parent_comment_id"
+			],
+			[
+				"Commen",
+				"Comment"
+			],
+			[
+				"init",
+				"initializeFilters"
+			],
+			[
+				"call",
+				"callback"
+			],
+			[
+				"commensho",
+				"comments-show-all-link"
+			],
+			[
+				"initC",
+				"initializeCertainComments"
+			],
+			[
+				"sor",
+				"sortingFilter"
+			],
+			[
+				"user_com",
+				"user_comment_answer\t(updates.js)"
+			],
+			[
+				"link",
+				"linkQuery"
+			],
+			[
+				"defa",
+				"default\t(comments.js)"
+			],
+			[
+				"ar",
+				"arguments"
+			],
+			[
+				"voti",
+				"votingDataForComments"
+			],
+			[
+				"prepa",
+				"prepareComment"
+			],
+			[
+				"req",
+				"request"
+			],
+			[
+				"userB",
+				"userBanInAllBlogs"
+			],
+			[
+				"Comme",
+				"CommentModel"
+			],
+			[
+				"respo",
+				"response"
+			],
+			[
+				"respon",
+				"responseText"
+			],
+			[
+				"Comm",
+				"CommentModel"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"isW",
+				"isElementInViewport"
+			],
+			[
+				"time",
+				"timeout"
+			],
+			[
+				"alread",
+				"alreadyViewed"
+			],
+			[
+				"len",
+				"length"
+			],
+			[
+				"alre",
+				"alreadyViewed"
+			],
+			[
+				"bettin",
+				"bettingSubscribeUnblockTime\t(action-appeal.js)"
+			],
+			[
+				"session",
+				"sessionsToUnblockSubscribe\t(action-appeal.js)"
+			],
+			[
+				"no",
+				"notification\t(Notifications.vue)"
+			],
+			[
+				"isOr",
+				"isOrderByRating"
+			],
+			[
+				"succ",
+				"successUserAction"
+			],
+			[
+				"ali",
+				"align-self"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"AddA",
+				"AddRegisterAppeal"
+			],
+			[
+				"He",
+				"HeaderComponent\t(MainSection.vue)"
+			],
+			[
+				"fetC",
+				"fetchingChallenges"
+			],
+			[
+				"fetchCl",
+				"fetchingChallenges"
+			],
+			[
+				"hand",
+				"handleMount"
+			],
+			[
+				"getR",
+				"getRandomInt"
+			],
+			[
+				"cure",
+				"currentQuestion"
+			],
+			[
+				"getRan",
+				"getRandomGraphFn"
+			],
+			[
+				"graph",
+				"graphFuncs"
+			],
+			[
+				"backG",
+				"backgroundColor\t(App.js)"
+			],
+			[
+				"op",
+				"options"
+			],
+			[
+				"curren",
+				"currentQuestion"
+			],
+			[
+				"jw",
+				"jwt_payload"
+			],
+			[
+				"ope",
+				"operation"
+			],
+			[
+				"LOGOU",
+				"LOGOUT_USER"
+			],
+			[
+				"dis",
+				"disabled"
+			],
+			[
+				"logout",
+				"logoutActions"
+			],
+			[
+				"createFor",
+				"createFormConstants\t(actions.js)"
+			],
+			[
+				"LOU",
+				"LOGOUT"
+			],
+			[
+				"curr",
+				"currentQuestion"
+			],
+			[
+				"auth",
+				"authorized"
+			],
+			[
+				"checkU",
+				"checkUserNameActions"
+			],
+			[
+				"regis",
+				"registerUser"
+			],
+			[
+				"authenci",
+				"authenticate\t(home.js)"
+			],
+			[
+				"regiu",
+				"registerUser"
+			],
+			[
+				"JW",
+				"JWT_SECRET\t(app.js)"
+			],
+			[
+				"is",
+				"isAuthenticated\t(app.js)"
+			],
+			[
+				"isAu",
+				"isAuthorized\t(passport.js)"
+			],
+			[
+				"dim",
+				"dimension\t(views.py)"
+			],
+			[
+				"stat_re",
+				"stat_reports\t(views.py)"
+			],
+			[
+				"wrap",
+				"wrapperColClass\t(FormComponents.react.js)"
+			],
+			[
+				"statRESE",
+				"statReportsSetUpFormActionsConf"
+			],
+			[
+				"statRE",
+				"statReportsSetUpFormActionsConf"
+			],
+			[
+				"statRepo",
+				"statReportsSetUpFormActions\t(StatsCSVWindow.js)"
+			],
+			[
+				"statREpo",
+				"statReportsSetUpForm"
+			],
+			[
+				"statFor",
+				"statReportsSetUpFormActionsConf\t(index.js)"
+			],
+			[
+				"statcac",
+				"statReportsSetUpFormActionsConf"
+			],
+			[
+				"_open",
+				"_openXlsByTemplateExportWindow"
+			],
+			[
+				"dimie",
+				"dimensions"
+			],
+			[
+				"stats_",
+				"stats_type"
+			],
+			[
+				"Yan",
+				"YandexDirectClient"
+			],
+			[
+				"save",
+				"save_virtual_workbook"
+			],
+			[
+				"ad_",
+				"ad_groups\tstatement"
+			],
+			[
+				"adg",
+				"ad_group_ids"
+			],
+			[
+				"ad_groupid",
+				"ad_group_ids\t(adwords.py)"
+			],
+			[
+				"defaul",
+				"defaultProps\tdefaultProps"
+			],
+			[
+				"fetch",
+				"fetchMarkerErrorConf"
+			],
+			[
+				"prob",
+				"problems"
+			],
+			[
+				"ent",
+				"entity_id\t(models.py)"
+			],
+			[
+				"fetmaE",
+				"fetchMarkerErrorConf"
+			],
+			[
+				"createA",
+				"createAsyncActionsConf\t(actions.js)"
+			],
+			[
+				"showM",
+				"showMarkerError"
+			],
+			[
+				"ads_",
+				"ads_campaign"
+			],
+			[
+				"DirectMa",
+				"DirectMarkerTaskMixin"
+			],
+			[
+				"AD",
+				"ad_system\tparam"
+			],
+			[
+				"data_re",
+				"data_resources_ids\tstatement"
+			],
+			[
+				"repo",
+				"report_name"
+			],
+			[
+				"con",
+				"content"
+			],
+			[
+				"set",
+				"settings"
+			],
+			[
+				"month",
+				"monthly_iterator\tfunction"
+			],
+			[
+				"Ya",
+				"YandexDirectStat"
+			],
+			[
+				"classmeth",
+				"classmethod\tclass"
+			],
+			[
+				"se",
+				"settings"
+			],
+			[
+				"rep_a",
+				"rep_passwd"
+			],
+			[
+				"datetim",
+				"datetime\tclass"
+			],
+			[
+				"CallStat",
+				"CalltouchStatsTask"
+			],
+			[
+				"CalltouchStats",
+				"CalltouchStatsTask\tclass"
+			],
+			[
+				"TAS",
+				"TASK_ARGS\tstatement"
+			],
+			[
+				"Stop",
+				"StopTaskSuccess\t(basetask.py)"
+			],
+			[
+				"COLL",
+				"COLLECT_DATES_GROUPING_OFFSET\tstatement"
+			],
+			[
+				"DYNA",
+				"DYNAMIC_TEXT_AD\t(direct_v5.py)"
+			],
+			[
+				"adSy",
+				"adSystemSettings"
+			],
+			[
+				"Projec",
+				"ProjectToDataResource"
+			],
+			[
+				"na",
+				"process_name"
+			],
+			[
+				"Task",
+				"TaskManager"
+			],
+			[
+				"TASK",
+				"TASKS_COUNT_TILL_PROCESS_RESTART\tstatement"
+			],
+			[
+				"resta",
+				"restart_event"
+			],
+			[
+				"has",
+				"hasattr"
+			],
+			[
+				"Selec",
+				"SelectelCdnApi\tmodule"
+			],
+			[
+				"is_a",
+				"is_authenticated"
+			],
+			[
+				"statCSVMO",
+				"statsCSVModalActions"
+			],
+			[
+				"statsCSV",
+				"statsCSVModalActions\t(ExportCSVPerDayButton.react.js)"
+			],
+			[
+				"file",
+				"filename"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 3179,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "vue-app/src/components/Welcome.vue",
+			"settings":
+			{
+				"buffer_size": 6837,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "vue-app/index.html",
+			"settings":
+			{
+				"buffer_size": 355,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<template>\n  <div id=\"app\" :style=\"{'background-image': 'url(./assets/img/bg' + this.bgNum + '.jpg)'}\">\n    <div id='bg'></div>\n    <div class='app-container'>\n        <div class='container-wrapper'>\n            <router-view/>\n        </div>\n    </div>\n  </div>\n</template>\n\n<script>\nimport { withSocket } from './socket';\n\nfunction getRandomInt(min, max) {\n    return Math.floor(Math.random() * (max - min + 1)) + min;\n}\n\nexport default withSocket({\n    name: 'app',\n    data() {\n        return {\n            bgNum: getRandomInt(4, 9)\n        }\n    },\n    created() {\n        this.$store.dispatch('fetchCurrentUser').then(() => {\n            console.log('everithing ok fetch current user');\n            this.$router.push('/board');\n        }).catch(err => {\n            console.log('error during fetch current user');\n            this.$router.push('/');\n        });\n    }\n});\n// export default withSocket({\n//     name: 'app',\n//     created() {\n//         this.$store.dispatch('fetchCurrentUser').then(() => {\n//             this.$router.push('/board');\n//         }).catch(err => {\n//             this.$router.push('/');\n//         });\n//     },\n// });\n</script>\n\n<style>\n/*@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Fira+Sans+Extra+Condensed|Forum|Jura|Lato|Marmelad|Poiret+One|Russo+One');*/\n@import url('https://fonts.googleapis.com/css?family=Amatic+SC');\n@import url('https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed');\n@import url('https://fonts.googleapis.com/css?family=Poiret+One');\n@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');\n\nhtml,body {\n    height: 100%;\n    width: 100%;\n    padding: 0;\n    margin: 0;\n}\n\n* {\n    /*font-family: 'Amatic', sans-serif;*/\n    /*font-family: 'Amatic SC', sans-serif;*/\n    font-family: 'Amatic SC', sans-serif;\n    box-sizing: border-box;\n}\n\n\n.font-poiret {\n    font-family: 'Poiret One', cursive;\n}\n\ninput {\n    font-size: 2em;\n}\n\n#app {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n    color: #fff;\n}\n\ninput:focus,\nselect:focus,\ntextarea:focus,\nbutton:focus {\n    outline: none;\n}\nbutton {\n    border: none;\n    background-color: #00cc66;\n    padding: 10px 30px;\n    color: #fff;\n}\n\n\n#bg {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    zIndex: -1;\n    background-color: #032056;\n    background-image: url(./assets/img/bg4.jpg);\n    background-position: center center;\n    background-size: cover;\n}\n\nh1,h2,h3,h4,p {\n    margin: 0;\n    padding: 0;\n}\n\nh1 {\n    font-size: 5em;\n}\n\nh2 {\n    font-size: 2em;\n}\n\n.text-center {\n    text-align: center;\n}\n\n\n.app-container {\n    width: 100%;\n    height: 100%;\n    position: relative;\n    overflow: hidden;\n    background-color: rgba(0, 0, 0, 0.7);\n}\n\n.container-wrapper {\n    max-width: 500px;\n    height: 100%;\n    position: relative;\n\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    overflow: hidden;\n    justify-content: center;\n    margin: 0 auto;\n    font-weight: normal;\n}\n\n.container {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    right: -17px; /* Increase/Decrease this value for cross-browser compatibility */\n    overflow-y: scroll;\n\n    font-weight: normal;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: flex-start;\n    padding: 0 10px 0 1px;\n}\n\n.container > div {\n    flex: 1;\n}\n\n\n.full-width-item-container {\n    width: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: space-around;\n}\n\n.full-width-item-container > div {\n    width: 100%;\n}\n\n.full-width {\n    width: 100%;\n}\n\n.margin-sm {\n    margin: 5px;\n}\n\n.padding-sm {\n    padding: 5px;\n}\n\n.border-round-lg {\n    border-radius: 15px;\n}\n\n.border-round-md {\n    border-radius: 10px;\n}\n\n.border-round-lg-left {\n    border-radius: 15px 0 0 15px;\n}\n\n.border-round-lg-right {\n    border-radius: 0 15px 15px 0;\n}\n\n.bg-darken-green-opacity {\n    background-color: rgba(114, 160, 80, 0.5);\n}\n\n.bg-yellow-opacity {\n    background-color: rgba(0, 120, 160, 0.5);\n}\n\n.bg-yellow-2-opacity {\n    background-color: rgba(255, 100, 100, 0.5);\n}\n\n.bg-tomato-opacity {\n    /*background-color: #8B5133;*/\n    background-color: rgba(139, 81, 51, 0.5);\n}\n\n.bg-grey-opacity {\n    background-color: rgba(100, 100, 100, 0.4);\n}\n\n.bg-white {\n    background-color: rgba(255, 255, 255, 0.4);\n    color: #333;\n}\n\n.color-tiny-brown {\n    color: #F5F0E0;\n}\n\n.color-brown-green {\n    color: #9BC59D;\n}\n\n.margin-left-lg {\n    margin-left: 30px;\n}\n\n.padding-sides-lg {\n    padding: 0 30px;\n}\n\n.padding-top-md {\n    padding: 15px 0 0 0;\n}\n\n.margin-bottom-lg {\n    margin-bottom: 30px;\n}\n\n</style>",
+			"file": "vue-app/src/App.vue",
+			"file_size": 4663,
+			"file_write_time": 131629808970000000,
+			"settings":
+			{
+				"buffer_size": 4663,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Anaconda Python Builder",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/Vintageous/Vintageous.sublime-build",
+					""
+				],
+				[
+					"Packages/Vintageous/Vintageous.sublime-build",
+					"Vintageous - Test (All)"
+				],
+				[
+					"Packages/Vintageous/Vintageous.sublime-build",
+					"Vintageous - Test (This File Only)"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"bla",
+				"Git: Blame"
+			],
+			[
+				"setsyhtml",
+				"Set Syntax: HTML"
+			],
+			[
+				"html",
+				"HTMLPrettify"
+			],
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"rena",
+				"File: Rename"
+			],
+			[
+				"mov",
+				"File: Move"
+			],
+			[
+				"dele",
+				"File: Delete"
+			],
+			[
+				"prett",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"new",
+				"File: New File Relative to Current View"
+			],
+			[
+				"move",
+				"File: Move"
+			],
+			[
+				"s",
+				"Set Syntax: Stylus"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"vue",
+				"Set Syntax: Vue Component"
+			],
+			[
+				"newfil",
+				"File: New File Relative to Current View"
+			],
+			[
+				"setsyhan",
+				"Set Syntax: Handlebars"
+			],
+			[
+				"insl",
+				"Package Control: Install Package"
+			],
+			[
+				"sq",
+				"SQL Beautifier: Format Current SQL File"
+			],
+			[
+				"pre",
+				"Pretty JSON: Validate"
+			],
+			[
+				"json",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"ne",
+				"File: New File Relative to Current View"
+			],
+			[
+				"setspy",
+				"Set Syntax: Python"
+			],
+			[
+				"renam",
+				"File: Rename"
+			],
+			[
+				"blam",
+				"Git: Blame"
+			],
+			[
+				"sql",
+				"SQL Beautifier: Format Current SQL File"
+			],
+			[
+				"bl",
+				"Git: Blame"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"pret",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"pretty",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"setsyba",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"setsybab",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"py",
+				"Set Syntax: Python"
+			],
+			[
+				"set sybab",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"q",
+				"SQL Beautifier: Format Current SQL File"
+			],
+			[
+				"pyt",
+				"Set Syntax: Python"
+			],
+			[
+				"anf",
+				"ANF: Copy Current File"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"bal",
+				"Bookmarks: Clear All"
+			],
+			[
+				"js ba",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"jsx",
+				"Set Syntax: JSX"
+			],
+			[
+				"prety",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"pretyy",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"jso",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"git bla",
+				"Git: Blame"
+			],
+			[
+				"pacins",
+				"Package Control: Install Package"
+			],
+			[
+				"prejs",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"js pr",
+				"Format: Javascript"
+			],
+			[
+				"pain",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"sejs",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"sesypy",
+				"Set Syntax: Python"
+			],
+			[
+				"sesyjsx",
+				"Set Syntax: JSX"
+			],
+			[
+				"setsy",
+				"Set Syntax: JSX"
+			],
+			[
+				"setsyjsx",
+				"Set Syntax: JSX"
+			],
+			[
+				"int",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"bls",
+				"Build With: Python - Syntax Check"
+			],
+			[
+				"diff",
+				"Git: Diff Staged Files"
+			],
+			[
+				"gitmer",
+				"Git: Merge Branch"
+			],
+			[
+				"replpy",
+				"SublimeREPL: Python"
+			],
+			[
+				"pydo",
+				"Python 2 Doc Search (PyDOC)"
+			],
+			[
+				"b",
+				"Git: Blame"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"difs",
+				"Git: Diff Staged Files"
+			],
+			[
+				"difsta",
+				"Git: Diff Staged Files"
+			],
+			[
+				"stage",
+				"Git: Diff Staged Files"
+			],
+			[
+				"gitdif",
+				"Git: Diff Staged Files"
+			],
+			[
+				"blma",
+				"Git: Blame"
+			],
+			[
+				"ana",
+				"Anaconda: Run Current File Tests"
+			],
+			[
+				"anatest",
+				"Anaconda: Run Current File Tests"
+			],
+			[
+				"insp",
+				"Package Control: Install Package"
+			],
+			[
+				"blame",
+				"Set Syntax: Git Blame"
+			],
+			[
+				"Snippet: my",
+				"Snippet: my-py-objectsGet"
+			],
+			[
+				"ble",
+				"SublimeLinter: Enable Debug Mode"
+			],
+			[
+				"sepy",
+				"Set Syntax: Python"
+			],
+			[
+				"sypy",
+				"Set Syntax: Python"
+			],
+			[
+				"sybla",
+				"Set Syntax: Git Blame"
+			],
+			[
+				"ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"dif",
+				"Git: Diff Staged Files"
+			],
+			[
+				"snipp",
+				"Snippet: my-py-baseCommand"
+			],
+			[
+				"diffs",
+				"Git: Diff Staged Files"
+			],
+			[
+				"diffsta",
+				"Git: Diff Staged Files"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"dista",
+				"Git: Diff Staged Files"
+			],
+			[
+				"gi",
+				"GitGutter: Compare Against HEAD"
+			],
+			[
+				"g",
+				"GitGutter: Compare Against Commit"
+			],
+			[
+				"git",
+				"GitGutter: Compare Against Commit"
+			],
+			[
+				"gitlog",
+				"Git: Log Current File"
+			],
+			[
+				"diffst",
+				"Git: Diff Staged Files"
+			],
+			[
+				"che",
+				"Git: Change Branch"
+			],
+			[
+				"#!",
+				"Snippet: #!/usr/bin/env"
+			],
+			[
+				"comm",
+				"Git: Commit"
+			]
+		],
+		"width": 444.0
+	},
+	"console":
+	{
+		"height": 393.0,
+		"history":
+		[
+			"line.begin()",
+			"line",
+			"line = view.line(view.sel()[0])",
+			"match.group(0)",
+			"match.group(1)",
+			"match = re.match(r\"\\s*(\\d+).+\", view.substr(view.line(view.sel()[0])))",
+			"import re",
+			"match = re.match(r\"\\s*(\\d+).+\", view.substr(view.line(view.sel()[0])))",
+			"view.substr(view.line(view.sel()[0]))",
+			"view.line(view.sel()[0])",
+			"view.sel()[0]",
+			"len(view.sel())",
+			"view.sel()",
+			"view.get_line_no",
+			"dir(view)",
+			"view.name()",
+			"view",
+			"self",
+			"view.line(view.sel()[0])",
+			"view.sel()[0]",
+			"view.sel()",
+			"view",
+			"view.substr()",
+			"view.file_name()",
+			"view.buffer_id()",
+			"view.name()",
+			"view",
+			"self",
+			"sublime.log_commands(False)",
+			"sublime.log_commands(True)",
+			"sublime.log_commands(False)",
+			"view.window().get_view_index(view)",
+			"view.window().id()",
+			"view.window()",
+			"view.rowcol()",
+			"view.id()",
+			"view",
+			"sublime.log_commands(False)",
+			"sublime.log_commands(True)",
+			"sublime.log_commands(False)",
+			"sublime.log_commands(True)",
+			"l",
+			"sublime.log_commands(True)",
+			"sublime.run_command(\"goto_symbol_in_project\", [\"get_file_with_headers\"])\n",
+			"sublime.run_command(\"goto_symbol_in_project\", \"get_file_with_headers\")\n",
+			"sublime.run_command(\"goto_symbol_in_project\")\n",
+			"sublime.run_command(\"goto_symbol_in_project\", \"object_modify\")\n",
+			"sublime.run_command(\"goto_symbol_in_project\", \"request_act_printing_form\")\n",
+			"sublime.log_commands(True)",
+			"sublime",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"ls",
+			"import os",
+			"ls",
+			"1 + 1",
+			"..",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/nemish/projects/mathbattle"
+	],
+	"file_history":
+	[
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/match/stat.tpl.html",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/match/header/tiny.tpl.html",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/tournament/table/football/tabs.tpl.html",
+		"/Users/nemish/projects/sports2/site-php/lib/Controller/DefaultController.php",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/scripts/inline/match-center.tpl.html",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/scripts/inline/tabs-minus.tpl.html",
+		"/Users/nemish/projects/sports2/site-php/projects/Unigrid/lib/Unigrid/Controller/DotatournamentController.php",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/sports_menu/base.json",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/lib/Unigrid/Controller/MatchController.php",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/scripts/timeline.tpl.html",
+		"/Users/nemish/projects/sports2/site-php/projects/Stat/skin/templates/tournament/scheme/football.tpl.html",
+		"/Users/nemish/projects/sports2/site-php/projects/Api/Controller/Cli/DotaController.php",
+		"/Users/nemish/projects/sports2/static/static/derby/skin/js/crossbar/swfobject.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/notifications-center/notifications-center-item.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/auth/auth.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/article/article.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/models/user.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/utils/common.js",
+		"/Users/nemish/projects/sports2/static/static/build/_desktop/baltika-register-form.js",
+		"/Users/nemish/projects/sports2/static/static/source/special/2018/baltika",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/main.js",
+		"/Users/nemish/projects/sports2/static/static/source/amp/common/materials/materials.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/notifications-center/notifications-center.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/image-upload/image-upload.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comments/comments.js",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/sections/stat/views/pages.js",
+		"/Users/nemish/projects/sports2/static/static/source/libs/tiny-mce/tiny_mce_src.js",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/sections/stat/main.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/auth-block/auth-block.js",
+		"/Users/nemish/projects/sports2/static/static/source/mobile/pages/match/online.hbs",
+		"/Users/nemish/projects/sports2/static/static/common/js/tabs.js",
+		"/Users/nemish/projects/sports2/static/grunt/contrib-requirejs.js",
+		"/Users/nemish/projects/sports2/static/static/special/15-years/js/main.js",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/common/views/tabs.js",
+		"/Users/nemish/projects/sports2/static/node_modules/@frctl/mandelbrot/assets/js/components/pen.js",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/sections/stat/utils/online-analytics.js",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/sections/stat/views/match-online/match-online.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/sections/user/views/login/login.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/sections/user/views/login/login.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/login/login.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/login/index.js",
+		"/Users/nemish/projects/sports2/static/static/source/mobile/sections/match/match-menu/match-menu.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/utils/ajax.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comment-menu/menu-edit.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/comment.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/webpack.config.js",
+		"/Users/nemish/projects/sports2/static/package.json",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/layouts/main.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/sections/tags/views/lenta/lenta.js",
+		"/Users/nemish/projects/sports2/static/gulp/config.json",
+		"/Users/nemish/projects/sports2/static/static/source/models/comments.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/utils/logger.js",
+		"/Users/nemish/projects/sports2/static/static/source/_partials/common-js.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/cabinet/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/forums/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/predictor/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/profile/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/search/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/stat/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/my/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/fantasy/footer.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/pages/blogs/footer.hbs",
+		"/Users/nemish/projects/sports2/static/tests/unit/index.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/auth-block/auth-block.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/utils/location.js",
+		"/Users/nemish/projects/sports2/static/static/source/assets/piwik.js",
+		"/Users/nemish/projects/test/matomo/php.ini",
+		"/Users/nemish/projects/sports2/static/scripts/spec/index.js",
+		"/Users/nemish/projects/sports2/static/scripts/spec/check-installed-packages.js",
+		"/Users/nemish/projects/sports2/static/scripts/check-installed-packages.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/user/feed/login.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/account.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/tags.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/user/feed.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/sections/user/main.styl",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/login/login.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/common.js",
+		"/Users/nemish/projects/sports2/static/static/source/special/footballismylife/pages/user-panel.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/user/feed/feed.hbs",
+		"/Users/nemish/projects/sports2/static/static/build/_desktop/user.styles.min.css",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/gulpfile.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/header/header.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/action-appeal/units.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/user/spec/isRegisterAppealAllowed.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/user/units/user.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/user/index.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/user/spec/index.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/utils/test/common.js",
+		"/Users/nemish/projects/sports2/static/.babelrc",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/user/spec/isBettingSubscribeAllowed.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/action-appeal/spec/isTagViewsSuitableForAppeal.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/action-appeal.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/sections/news/views/news-item/news-item.js",
+		"/Users/nemish/projects/sports2/static/gulpfile.js",
+		"/Users/nemish/projects/sports2/static/static/new-static/libs/handlebars/handlebars.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/layouts/one-column.hbs",
+		"/Users/nemish/projects/sports2/static/Gruntfile.js",
+		"/Users/nemish/projects/sports2/static/static/source/libs/handlebars/handlebars.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/blogs/feed.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/sections/user/views/feed/feed.js",
+		"/Users/nemish/projects/sports2/static/webpack.config.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/coercion-subscribe/sports/auth.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/user.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/share/share.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/user/login/login.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/user-panel/unauthorized.client.hbs",
+		"/Users/nemish/projects/sports2/static/static/new-static/_build/special-projects/lineup/package.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/coercion-subscribe/betting/subscribe.hbs",
+		"/Users/nemish/projects/sports2/static/static/fantasy/js/newteam-button.js",
+		"/Users/nemish/projects/sports2/static/static/source/core/view.coffee",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comment-item/comment-item.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comments/comment.client.hbs",
+		"/Users/nemish/projects/sports2/static/static/build/_desktop/feed.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/user-panel/authorized.client.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_partials/common.hbs",
+		"/Users/nemish/projects/sports2/static/static/common/js/user.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/notifications-center/notifications-center.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/notifications/main.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/models/updates.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comments/comments.styl",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/notifications/notifications-center.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comments/comments-main.client.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comments/comments-list.client.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comments/comments.client.hbs",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/comment-list/comment-list.styl",
+		"/Users/nemish/projects/sports2/static/static/source/desktop/banners/main.coffee",
+		"/Users/nemish/projects/sports2/static/static/source/utils/handlebars.js",
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/common/views/footer/counters-footer_ru.hbs"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 113.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"Loading",
+			"2em"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": false,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3179,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								305,
+								305
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 20
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "vue-app/src/components/Welcome.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6837,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								609,
+								609
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"visual_block_direction": 2,
+								"xpos": 41
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "vue-app/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 355,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								219,
+								219
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 4
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "vue-app/src/App.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4663,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								551,
+								551
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 12
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 37.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 395.0
+	},
+	"output.find_results":
+	{
+		"height": 375.0
+	},
+	"output.git":
+	{
+		"height": 100.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/Python/Python.sublime-build",
+	"project": "mathbattle.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"inde",
+				"vue-app/index.html"
+			],
+			[
+				"appvu",
+				"vue-app/src/App.vue"
+			],
+			[
+				"welcom",
+				"vue-app/src/components/Welcome.vue"
+			],
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"tabs",
+				"projects/Stat/skin/templates/tournament/table/football/tabs.tpl.html"
+			],
+			[
+				"chat",
+				"projects/Agent/skin/templates/chat.tpl.html"
+			],
+			[
+				"defaultcontroller",
+				"lib/Controller/DefaultController.php"
+			],
+			[
+				"match-center",
+				"projects/Stat/skin/templates/scripts/inline/match-center.tpl.html"
+			],
+			[
+				"tabs-minus",
+				"projects/Stat/skin/templates/scripts/inline/tabs-minus.tpl.html"
+			],
+			[
+				"dotatpl",
+				"projects/Unigrid/lib/Unigrid/Controller/DotatournamentController.php"
+			],
+			[
+				"timeline",
+				"projects/Stat/skin/templates/scripts/timeline.tpl.html"
+			],
+			[
+				"dotacon",
+				"projects/Stat/lib/Unigrid/Controller/Cyber/DotaController.php"
+			],
+			[
+				"dcon",
+				"projects/Api/Controller/Cli/DotaController.php"
+			],
+			[
+				"_delogijs",
+				"static/source/_desktop/sections/user/views/login/login.js"
+			],
+			[
+				"",
+				"static/source/_desktop/common/views/comments/comments.js"
+			],
+			[
+				"_demoduser",
+				"static/source/_desktop/common/models/user/index.js"
+			],
+			[
+				"utilajax",
+				"static/source/utils/ajax.js"
+			],
+			[
+				"moduser",
+				"static/source/models/user.js"
+			],
+			[
+				"viecommejs",
+				"static/source/_desktop/common/views/comments/comments.js"
+			],
+			[
+				"materialhb",
+				"static/source/amp/common/materials/materials.hbs"
+			],
+			[
+				"iews/image-upload/image-upload.js",
+				"static/source/_desktop/common/views/image-upload/image-upload.js"
+			],
+			[
+				"notifications-center/notifications-center.js",
+				"static/source/_desktop/common/views/notifications-center/notifications-center.js"
+			],
+			[
+				"_democommenjs",
+				"static/source/_desktop/common/models/comment.js"
+			],
+			[
+				"vicomcomjs",
+				"static/source/_desktop/common/views/comments/comments.js"
+			],
+			[
+				"artichb",
+				"static/source/_desktop/pages/article/article.hbs"
+			],
+			[
+				"artihb",
+				"static/source/_desktop/pages/article/article.hbs"
+			],
+			[
+				"dfpjs",
+				"static/source/_desktop/banners/views/dfp/dfp.js"
+			],
+			[
+				"contreq",
+				"grunt/contrib-requirejs.js"
+			],
+			[
+				"matchonl",
+				"static/source/desktop/sections/stat/views/match-online/match-online.hbs"
+			],
+			[
+				"online",
+				"static/source/mobile/pages/match/online.hbs"
+			],
+			[
+				"authblo",
+				"static/source/_desktop/common/views/auth-block/auth-block.js"
+			],
+			[
+				"views/login/login",
+				"static/source/_desktop/sections/user/views/login/login.hbs"
+			],
+			[
+				"pagelogin.js",
+				"static/source/_desktop/pages/login/index.js"
+			],
+			[
+				"utilaja",
+				"static/source/utils/ajax.js"
+			],
+			[
+				"utilscomm",
+				"static/source/_desktop/utils/common.js"
+			],
+			[
+				"_decomviecomcomjs",
+				"static/source/_desktop/common/views/comments/comments.js"
+			],
+			[
+				"_desmodecomm",
+				"static/source/_desktop/common/models/comment.js"
+			],
+			[
+				"commen",
+				"static/source/models/comments.js"
+			],
+			[
+				"loginh",
+				"static/source/_desktop/pages/login/login.hbs"
+			],
+			[
+				"gulpconfi",
+				"gulp/config.json"
+			],
+			[
+				"particomm",
+				"static/source/_partials/common.hbs"
+			],
+			[
+				"laymainhbs",
+				"static/source/_desktop/layouts/main.hbs"
+			],
+			[
+				"laymaihb",
+				"static/source/_desktop/layouts/main.hbs"
+			],
+			[
+				"logg",
+				"static/source/_desktop/utils/logger.js"
+			],
+			[
+				"testuniinde",
+				"tests/unit/index.js"
+			],
+			[
+				"piwik",
+				"static/source/assets/piwik.js"
+			],
+			[
+				"checpa",
+				"scripts/check-installed-packages.js"
+			],
+			[
+				"modeaccout",
+				"static/source/_desktop/common/models/account.js"
+			],
+			[
+				"sections/user/views/login/login",
+				"static/source/_desktop/sections/user/views/login/login.js"
+			],
+			[
+				"location",
+				"static/source/utils/location.js"
+			],
+			[
+				"sections/user/main.styl",
+				"static/source/_desktop/sections/user/main.styl"
+			],
+			[
+				"_depausefeed",
+				"static/source/_desktop/pages/user/feed.js"
+			],
+			[
+				"userpan",
+				"static/source/special/footballismylife/pages/user-panel.hbs"
+			],
+			[
+				"feedhbs",
+				"static/source/_desktop/pages/user/feed/feed.hbs"
+			],
+			[
+				"user.styles.min",
+				"static/build/_desktop/user.styles.min.css"
+			],
+			[
+				"loginhb",
+				"static/source/_desktop/pages/user/feed/login.hbs"
+			],
+			[
+				"user/views/login/login",
+				"static/source/_desktop/sections/user/views/login/login.js"
+			],
+			[
+				"userfeed",
+				"static/source/_desktop/pages/user/feed.js"
+			],
+			[
+				"loghb",
+				"static/source/_desktop/pages/user/feed/login.hbs"
+			],
+			[
+				"logi",
+				"static/source/_desktop/pages/login/login.js"
+			],
+			[
+				"packj",
+				"package.json"
+			],
+			[
+				"babrc",
+				".babelrc"
+			],
+			[
+				"utilcomm",
+				"static/source/_desktop/utils/common.js"
+			],
+			[
+				"gulp",
+				"static/source/_desktop/gulpfile.js"
+			],
+			[
+				"uniuse",
+				"static/source/_desktop/common/models/user/units/user.js"
+			],
+			[
+				"commmodeuse",
+				"static/source/_desktop/common/models/user.js"
+			],
+			[
+				"modtags",
+				"static/source/_desktop/common/models/tags.js"
+			],
+			[
+				"_degulp",
+				"static/source/_desktop/gulpfile.js"
+			],
+			[
+				"_dmoduse",
+				"static/source/_desktop/common/models/user.js"
+			],
+			[
+				"feedhb",
+				"static/source/_desktop/pages/user/feed/feed.hbs"
+			],
+			[
+				"_desktop/layouts/main",
+				"static/source/_desktop/layouts/main.hbs"
+			],
+			[
+				"layouts/one-column",
+				"static/source/_desktop/layouts/one-column.hbs"
+			],
+			[
+				"feehb",
+				"static/source/_desktop/pages/blogs/feed.hbs"
+			],
+			[
+				"pausfee",
+				"static/source/_desktop/pages/user/feed/feed.hbs"
+			],
+			[
+				"grun",
+				"Gruntfile.js"
+			],
+			[
+				"_deweb",
+				"static/source/_desktop/webpack.config.js"
+			],
+			[
+				"webcon",
+				"webpack.config.js"
+			],
+			[
+				"_desktop/gulpfile",
+				"static/source/_desktop/gulpfile.js"
+			],
+			[
+				"gulpfil",
+				"gulpfile.js"
+			],
+			[
+				"gulp/config",
+				"gulp/config.json"
+			],
+			[
+				"gulconf",
+				"gulp/config.json"
+			],
+			[
+				"gul",
+				"gulpfile.js"
+			],
+			[
+				"secuseviewlogin",
+				"static/source/_desktop/sections/user/views/login/login.hbs"
+			],
+			[
+				"coerauthjs",
+				"static/source/_desktop/common/views/coercion-subscribe/sports/auth.js"
+			],
+			[
+				"cosubhb",
+				"static/source/_desktop/common/views/coercion-subscribe/betting/subscribe.hbs"
+			],
+			[
+				"actiapp",
+				"static/source/_desktop/common/models/action-appeal.js"
+			],
+			[
+				"corevie",
+				"static/source/core/view.coffee"
+			],
+			[
+				"sections/user/views/feed/feed",
+				"static/source/_desktop/sections/user/views/feed/feed.js"
+			],
+			[
+				"usefee",
+				"static/source/_desktop/pages/user/feed.js"
+			],
+			[
+				"feed",
+				"static/build/_desktop/feed.js"
+			],
+			[
+				"feed.js",
+				"static/build/_desktop/feed.js"
+			],
+			[
+				"feelogi",
+				"static/source/_desktop/pages/user/feed/login.hbs"
+			],
+			[
+				"acapp",
+				"static/source/_desktop/common/models/action-appeal.js"
+			],
+			[
+				"modeluser",
+				"static/source/_desktop/common/models/user.js"
+			],
+			[
+				"user",
+				"static/common/js/user.js"
+			],
+			[
+				"commoh",
+				"static/source/_partials/common.hbs"
+			],
+			[
+				"main",
+				"static/source/notifications/main.hbs"
+			],
+			[
+				"logih",
+				"static/source/_desktop/pages/user/feed/login.hbs"
+			],
+			[
+				"utilsja",
+				"static/source/utils/ajax.js"
+			],
+			[
+				"modeuser",
+				"static/source/_desktop/common/models/user.js"
+			],
+			[
+				"_demainh",
+				"static/source/_desktop/layouts/main.hbs"
+			],
+			[
+				"mainh",
+				"static/source/notifications/main.hbs"
+			],
+			[
+				"_deslogger",
+				"static/source/_desktop/utils/logger.js"
+			],
+			[
+				"specistavi",
+				"static/source/_desktop/common/models/action-appeal/spec/isTagViewsSuitableForAppeal.js"
+			],
+			[
+				"commmain",
+				"static/source/_desktop/common/views/comments/comments-main.client.hbs"
+			],
+			[
+				"modelcomm",
+				"static/source/_desktop/common/models/comment.js"
+			],
+			[
+				"_desktop/common/views/comments/comment.clienth",
+				"static/source/_desktop/common/views/comments/comment.client.hbs"
+			],
+			[
+				"_desktop/common/views/comments/comments-list.client.hbs",
+				"static/source/_desktop/common/views/comments/comments-list.client.hbs"
+			],
+			[
+				"commlistyl",
+				"static/source/_desktop/common/views/comment-list/comment-list.styl"
+			],
+			[
+				"banners/main",
+				"static/source/desktop/banners/main.coffee"
+			],
+			[
+				"commenclh",
+				"static/source/_desktop/common/views/comments/comment.client.hbs"
+			],
+			[
+				"modecommen",
+				"static/source/_desktop/common/models/comment.js"
+			],
+			[
+				"_descommenhb",
+				"static/source/_desktop/common/views/comments/comments.client.hbs"
+			],
+			[
+				"utilsloca",
+				"static/source/utils/location.js"
+			],
+			[
+				"common/models/updates",
+				"static/source/_desktop/common/models/updates.js"
+			],
+			[
+				"corevi",
+				"static/source/core/view.coffee"
+			],
+			[
+				"corview",
+				"static/source/core/view.coffee"
+			],
+			[
+				"notifications-center-item",
+				"static/source/_desktop/common/views/notifications-center/notifications-center-item.hbs"
+			],
+			[
+				"notifications-center",
+				"static/source/_desktop/common/views/notifications-center/notifications-center.hbs"
+			],
+			[
+				"noticen",
+				"static/source/_desktop/pages/notifications/notifications-center.hbs"
+			],
+			[
+				"_descommentsjs",
+				"static/source/_desktop/common/views/comments/comments.js"
+			],
+			[
+				"noticehb",
+				"static/source/_desktop/pages/notifications/notifications-center.hbs"
+			],
+			[
+				"notificacent",
+				"static/source/_desktop/common/views/notifications-center/notifications-center.js"
+			],
+			[
+				"statgulpfil",
+				"static/source/_desktop/gulpfile.js"
+			],
+			[
+				"utilcommon",
+				"static/source/_desktop/utils/common.js"
+			],
+			[
+				"_moduserjs",
+				"static/source/_desktop/common/models/user.js"
+			],
+			[
+				"_dcommocom",
+				"static/source/_desktop/common/models/comment.js"
+			],
+			[
+				"_dcomvicomcomjs",
+				"static/source/_desktop/common/views/comments/comments.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/projects/sites/legoband/legoband.sublime-project"
+			],
+			[
+				"cu",
+				"~/projects/unity/cubematters/Assets/scripts/cubematters.sublime-project"
+			],
+			[
+				"lib",
+				"~/projects/libs/libs.sublime-project"
+			],
+			[
+				"le",
+				"~/projects/sites/legoband/legoband.sublime-project"
+			],
+			[
+				"lego",
+				"~/projects/sites/legoband/legoband.sublime-project"
+			],
+			[
+				"lie",
+				"~/projects/sites/legoband/legoband.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "loads",
+		"selected_items":
+		[
+			[
+				"loads",
+				"loadScript"
+			],
+			[
+				"loadsc",
+				"LoadScript"
+			],
+			[
+				"linkque",
+				"getLinkQuery"
+			],
+			[
+				"render",
+				"render"
+			],
+			[
+				"createasy",
+				"createAsyncAction"
+			],
+			[
+				"boar",
+				"Board"
+			],
+			[
+				"handuser",
+				"handleUser"
+			],
+			[
+				"comppass",
+				"comparePassword"
+			],
+			[
+				"comparep",
+				"CompareProducts"
+			],
+			[
+				"",
+				"#post should lazily make a method hookable"
+			],
+			[
+				"compapas",
+				"comparePassword"
+			],
+			[
+				"chall",
+				"Challenge"
+			],
+			[
+				"challe",
+				"Challenge"
+			],
+			[
+				"joinch",
+				"joinChallenge"
+			],
+			[
+				"creasy",
+				"createAsyncAction"
+			],
+			[
+				"setTokenToApp",
+				"setTokenToApp"
+			],
+			[
+				"handleUser",
+				"handleUser"
+			],
+			[
+				"createAsy",
+				"createAsyncAction"
+			],
+			[
+				"fetchCurrentUser",
+				"fetchCurrentUser"
+			],
+			[
+				"compareP",
+				"comparePassword"
+			],
+			[
+				"createFetchReducer",
+				"createFetchReducer"
+			],
+			[
+				"createAsyncActionsConf",
+				"createAsyncActionsConf"
+			],
+			[
+				"createFor",
+				"createFormReducer"
+			],
+			[
+				"gene",
+				"GenerateStatReportTask"
+			],
+			[
+				"createdatran",
+				"create_date_range"
+			],
+			[
+				"getstatre",
+				"get_stats_report"
+			],
+			[
+				"data",
+				"DataSourceAPI"
+			],
+			[
+				"statre",
+				"StatReport"
+			],
+			[
+				"baseq",
+				"BaseQuerySet"
+			],
+			[
+				"Genera",
+				"GenerateStatReportTask"
+			],
+			[
+				"createformre",
+				"createFormReducer"
+			],
+			[
+				"initstare",
+				"init_stats_reports"
+			],
+			[
+				"createFormActions",
+				"createFormActions"
+			],
+			[
+				"genera",
+				"GenerateStatReportTask"
+			],
+			[
+				"apisto",
+				"ApiStorage"
+			],
+			[
+				"api",
+				"ApiStorage"
+			],
+			[
+				"getstatrepo",
+				"_get_stat_report"
+			],
+			[
+				"chekpro",
+				"CheckProblemsTask"
+			],
+			[
+				"csv",
+				"StatsPerDayTotalCSVExporter"
+			],
+			[
+				"stabu",
+				"StatsXlsBannerBuilder"
+			],
+			[
+				"starepohe",
+				"StatReportHelper"
+			],
+			[
+				"getdirecamp",
+				"get_direct_campaigns"
+			],
+			[
+				"datasou",
+				"DataSourceAPI"
+			],
+			[
+				"getstamo",
+				"get_stat_models"
+			],
+			[
+				"xlto",
+				"xls_to_response"
+			],
+			[
+				"xslbuilder",
+				"BannersInfoXlsBuilder"
+			],
+			[
+				"memo",
+				"memoized"
+			],
+			[
+				"getads",
+				"get_ads"
+			],
+			[
+				"bot",
+				"BotManagerBaseTask"
+			],
+			[
+				"creafe",
+				"createFetchReducer"
+			],
+			[
+				"proble",
+				"Problem"
+			],
+			[
+				"creaasyn",
+				"createAsyncAction"
+			],
+			[
+				"createModalActions",
+				"createModalActions"
+			],
+			[
+				"adsycam",
+				"AdSystemCampaign"
+			],
+			[
+				"datares",
+				"DataResource"
+			],
+			[
+				"marker_status_name",
+				"marker_status_name"
+			],
+			[
+				"_loadMarkerCompanies",
+				"_loadMarkerCompanies"
+			],
+			[
+				"markdi",
+				"MarkDirectCampaigns"
+			],
+			[
+				"apis",
+				"ApiStorage"
+			],
+			[
+				"seleapi",
+				"SelectelCdnApi"
+			],
+			[
+				"markdire",
+				"MarkDirectCampaigns"
+			],
+			[
+				"base",
+				"BotManagerBaseTask"
+			],
+			[
+				"monbor",
+				"month_border_dates"
+			],
+			[
+				"datera",
+				"DateRange"
+			],
+			[
+				"jsonsu",
+				"json_success_response"
+			],
+			[
+				"geneapi",
+				"GenericModelAPI"
+			],
+			[
+				"req",
+				"RequestParser"
+			],
+			[
+				"botb",
+				"BotManagerBaseCommand"
+			],
+			[
+				"tab",
+				"TabulaBaseTask"
+			],
+			[
+				"comtask",
+				"RefreshCostWithCommissionTask"
+			],
+			[
+				"reqpa",
+				"RequestParser"
+			],
+			[
+				"projec",
+				"Project"
+			],
+			[
+				"projha",
+				"ProjectHandler"
+			],
+			[
+				"projtoda",
+				"ProjectToDataResource"
+			],
+			[
+				"statrep",
+				"StatReport"
+			],
+			[
+				"marad",
+				"MarkAdwordsCampaigns"
+			],
+			[
+				"fetchstab",
+				"fetch_stats_by_fn"
+			],
+			[
+				"usertuser",
+				"UserToUserGroup"
+			],
+			[
+				"role",
+				"Role"
+			],
+			[
+				"revokpe",
+				"revoke_pending_tasks_and_get_dr_relations_ids"
+			],
+			[
+				"gastat",
+				"GAStat"
+			],
+			[
+				"deletsta",
+				"delete_all_stats"
+			],
+			[
+				"adsysta",
+				"AdSystemTaskSetter"
+			],
+			[
+				"adsystasse",
+				"AdSystemTaskSetter"
+			],
+			[
+				"call",
+				"CalltouchStat"
+			],
+			[
+				"filmus",
+				"filter_must_be_collected"
+			],
+			[
+				"ya",
+				"YandexDirectClient"
+			],
+			[
+				"fetchs",
+				"fetch_stats_by_fn"
+			],
+			[
+				"fetc",
+				"fetch_stats"
+			],
+			[
+				"task",
+				"Task"
+			],
+			[
+				"colgata",
+				"CollectGATask"
+			],
+			[
+				"coladwota",
+				"CollectAdwordsTask"
+			],
+			[
+				"setout",
+				"_set_output"
+			],
+			[
+				"bo",
+				"BotManagerBaseTask"
+			],
+			[
+				"_getprein",
+				"_get_prepared_input"
+			],
+			[
+				"coldeita",
+				"CollectDirectTask"
+			],
+			[
+				"gettexads",
+				"get_text_ads"
+			],
+			[
+				"callsta",
+				"CalltouchStat"
+			],
+			[
+				"campta",
+				"CampaignTag"
+			],
+			[
+				"dataso",
+				"DataSourceAPI"
+			],
+			[
+				"botmab",
+				"BotManagerBaseTask"
+			],
+			[
+				"vali",
+				"validate"
+			],
+			[
+				"get_populated_types",
+				"get_populated_types"
+			],
+			[
+				"filter_to_populate",
+				"filter_to_populate"
+			],
+			[
+				"popda",
+				"PopulateDataSourceAPITask"
+			],
+			[
+				"callstaha",
+				"CalltouchStatsHandler"
+			],
+			[
+				"botma",
+				"BotManagerBaseTask"
+			],
+			[
+				"callstata",
+				"CalltouchStatsTask"
+			],
+			[
+				"stotass",
+				"StopTaskSuccess"
+			],
+			[
+				"projetoda",
+				"ProjectToDataResource"
+			],
+			[
+				"coldire",
+				"CollectDirectTask"
+			],
+			[
+				"getexsi",
+				"_get_existing_items"
+			],
+			[
+				"coldireta",
+				"CollectDirectTask"
+			],
+			[
+				"coldi",
+				"CollectDirectTask"
+			],
+			[
+				"botmata",
+				"BotManagerBaseTask"
+			],
+			[
+				"get_banners_on_ids_map",
+				"get_banners_on_ids_map"
+			],
+			[
+				"item",
+				"ItemBulkImporter"
+			],
+			[
+				"Colldir",
+				"CollectDirectTask"
+			],
+			[
+				"collana",
+				"CollectAnalyticsDirectTask"
+			],
+			[
+				"collanadi",
+				"CollectAnalyticsDirectTask"
+			],
+			[
+				"colandita",
+				"CollectAnalyticsDirectTask"
+			],
+			[
+				"direphf",
+				"DirectPhrasesFromStatsV5Creator"
+			],
+			[
+				"direphcre",
+				"DirectPhrasesFromStatsCreator"
+			],
+			[
+				"getmarkse",
+				"get_marker_utm_settings"
+			],
+			[
+				"delete_all_stats",
+				"delete_all_stats"
+			],
+			[
+				"callstat",
+				"CalltouchStatsTask"
+			],
+			[
+				"getadssta",
+				"get_ads_stats"
+			],
+			[
+				"colldi",
+				"CollectDirectTask"
+			]
+		],
+		"width": 1528.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"_vintageous_last_buffer_search": "bgNum",
+		"_vintageous_last_buffer_search_command": "vi_star",
+		"vintage":
+		{
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 331.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

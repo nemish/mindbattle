@@ -1,29 +1,57 @@
 <template>
-  <div class="container welcome">
-    <div class='full-width'>
-        <h1>BRAINBATTLE</h1>
+  <div :class="['container', 'welcome']">
+    <div :class="['full-width']">
+        <transition
+            enter-active-class='animated flipInX'
+            leave-active-class='animated flipOutX'>
+            <h1 v-if='isReady'>BRAINBATTLE</h1>
+        </transition>
+        <transition
+            enter-active-class='animated zoomIn'
+            leave-active-class='animated zoomOut'>
+            <h2 v-if='isReady' class='font-poiret'>Проверь свой ум</h2>
+        </transition>
     </div>
-    <div v-if='message' :class='msgClass'>{{ message }}</div>
-    <div v-if='loaded' class='login-input full-width'>
-        <input class='full-row-input'
-               type='text'
-               placeholder='Please enter your name'
-               @keyup.enter='handleUserSubmit'
-               v-model='name' />
-        <input class='full-row-input'
-               type='password'
-               placeholder='Please enter a password'
-               v-if='showPasswordField'
-               ref='passwd'
-               v-focus
-               @keyup.enter='handleUserSubmit'
-               v-model='passwd' />
+    <div :class="['login-input', 'full-width']">
+        <transition
+            enter-active-class='animated bounceIn'>
+            <h1 v-if='message' :class='msgClass'>{{ message }}</h1>
+        </transition>
+        <transition
+            leave-active-class='animated flipOutX'
+            enter-active-class='animated flipInX'>
+            <input :class="['full-row-input', 'font-poiret']"
+                   v-if='isReady'
+                   id='name-input'
+                   type='text'
+                   placeholder='Твой логин'
+                   @keyup.enter='handleUserSubmit'
+                   v-model='name' />
+        </transition>
+        <transition
+            leave-active-class='animated flipOutX'
+            enter-active-class='animated flipInX'>
+            <input :class="['full-row-input', 'font-poiret']"
+                   id='passwd-input'
+                   type='password'
+                   placeholder='Твой пароль'
+                   v-if='isReady && showPasswordField'
+                   ref='passwd'
+                   v-focus
+                   @keyup.enter='handleUserSubmit'
+                   v-model='passwd' />
+        </transition>
     </div>
-    <full-row-button :disabled='submitNotAllowed'
-                     @click='handleUserSubmit'
-                     className='border-round-lg'
-                     text='Enter'
-                     colorType='green' />
+        <transition
+            enter-active-class='animated flipInX'
+            leave-active-class='animated flipOutX'>
+            <full-row-button v-if='isReady'
+                             :disabled='submitNotAllowed'
+                             @click='handleUserSubmit'
+                             className='border-round-lg'
+                             text='Вход'
+                             colorType='green' />
+        </transition>
   </div>
 </template>
 
@@ -33,7 +61,11 @@ import FullRowButton from './FullRowButton';
 export default {
     name: 'Welcome',
     data() {
-        return { name: '', passwd: '', isDirty: false, msgClass: 'msg' };
+        return {
+            name: '', passwd: '', isDirty: false, msgClass: 'msg',
+            isReady: false,
+            isReady2: false
+        };
     },
     components: {
         'full-row-button': FullRowButton
@@ -44,6 +76,11 @@ export default {
                 el.focus();
             }
         }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.isReady = true;
+        }, 500);
     },
     computed: {
         loaded() {
@@ -82,13 +119,13 @@ export default {
 
             if (this.isLoading) {
                 this.msgClass = 'msg msg-warning';
-                msg = 'Loading ...';
+                msg = 'Загрузка...';
             } else if (this.check.status === 'occupied') {
                 this.msgClass = 'msg msg-warning';
-                msg = `Great to see you again ${this.name}`;
+                msg = `С возвращением, ${this.name}`;
             } else if (this.check.status == 'ok') {
                 this.msgClass = 'msg msg-success';
-                msg = `Nice to meet you ${this.name}`;
+                msg = `Рады видеть, ${this.name}`;
             }
 
             if (this.user.status === 'LOGIN_FAILED') {
@@ -151,6 +188,25 @@ function dispatchOnChange(key, onChangeCb, context) {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.welcome h1,
+.welcome h2 {
+    transition: font-size 1s;
+}
+
+
+.welcome h1.hidden,
+.welcome h2.hidden {
+    font-size: 0em;
+}
+
+.welcome h1 {
+    transition-delay: 1s;
+}
+
+.welcome h2 {
+    transition-delay: 1.5s;
+}
+
 
 .login-input {
     margin: 20px 0;
@@ -161,7 +217,7 @@ function dispatchOnChange(key, onChangeCb, context) {
     background-color: #00cc66;
     padding: 10px 30px;
     color: #fff;
-    font-size: 24px;
+    font-size: 6em;
 }
 
 .login-button:hover {
@@ -174,34 +230,38 @@ function dispatchOnChange(key, onChangeCb, context) {
 }
 
 .msg {
-    font-size: 16px;
+    font-size: 2em;
     font-weight: bold;
 }
 
 .msg-error {
     color: tomato;
     border-top: 3px solid rgba(50, 100, 255, 0.3);
+    border-bottom: 3px solid rgba(50, 100, 255, 0.3);
 }
 
 .msg-success {
     color: lightgreen;
     border-top: 3px solid rgba(255, 165, 0, 0.3);
+    border-bottom: 3px solid rgba(50, 100, 255, 0.3);
 }
 
 .msg-warning {
     color: #FFA500;
     border-top: 3px solid rgba(0, 0, 255, 0.3);
+    border-bottom: 3px solid rgba(50, 100, 255, 0.3);
 }
+
 
 .full-row-input {
     padding: 0;
     text-align: center;
     width: 100%;
     color: #fff;
-    background: transparent;
+    font-size: 2.5em;
+    background-color: rgba(0,0,0,0);
     border: none;
-    color: #fff;
-    font-size: 30px;
+    opacity: 1;
 }
 
 .container.welcome > div {

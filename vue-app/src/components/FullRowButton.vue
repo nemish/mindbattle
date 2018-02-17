@@ -2,7 +2,7 @@
     <div class='full-width'>
         <button :class='btnClass' @click='onClick'>
             <h1 class="text-center">{{text}}</h1>
-            <h4 v-if='hasAdditionalInfo' class="text-center additional-info">{{additionalInfo}}</h4>
+            <h4 v-if='hasAdditionalInfo' class="text-center additional-info font-poiret">{{additionalInfo}}</h4>
         </button>
     </div>
 </template>

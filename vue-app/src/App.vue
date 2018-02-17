@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id='bg'></div>
+    <div v-if='isFirst' id='bg' :class='bgImg'></div>
     <div class='app-container'>
         <div class='container-wrapper'>
             <router-view/>
@@ -11,9 +11,29 @@
 
 <script>
 import { withSocket } from './socket';
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 export default withSocket({
     name: 'app',
+    data() {
+        return {
+            isFirst: true,
+            bgImg: 'bg_num_' + getRandomInt(4, 9)
+        }
+    },
+    methods: {
+        toggleBg() {
+            this.bgImg = 'bg_num_' + getRandomInt(4, 9);
+        }
+    },
     created() {
+        // setInterval(() => {
+        //     this.toggleBg();
+        // }, 3000);
         this.$store.dispatch('fetchCurrentUser').then(() => {
             console.log('everithing ok fetch current user');
             this.$router.push('/board');
@@ -35,18 +55,46 @@ export default withSocket({
 // });
 </script>
 
-<style>
+<style lang='stylus'>
+/*@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Fira+Sans+Extra+Condensed|Forum|Jura|Lato|Marmelad|Poiret+One|Russo+One');*/
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
+@import url('https://fonts.googleapis.com/css?family=Marmelad');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
 html,body {
     height: 100%;
     width: 100%;
     padding: 0;
     margin: 0;
+    font-family: 'Amatic SC', sans-serif;
+    // font-family: 'Marmelad', sans-serif;
+    /*font-family: 'Amatic', sans-serif;*/
+    /*font-family: 'Amatic SC', sans-serif;*/
+}
+
+button {
+    font-family: 'Amatic SC', sans-serif;
+    // font-family: 'Marmelad', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+.font-poiret {
+    font-family: 'Poiret One', cursive;
+}
+
+input {
+    font-size: 2em;
 }
 
 #app {
     width: 100%;
     height: 100%;
-    font-family: 'Roboto', sans-serif;
     overflow: hidden;
     color: #fff;
 }
@@ -72,14 +120,19 @@ button {
     right: 0;
     bottom: 0;
     zIndex: -1;
-    background-color: #032056;
-    background-image: url(./assets/img/bg4-min.jpg);
-    background-size: cover;
 }
 
 h1,h2,h3,h4,p {
     margin: 0;
     padding: 0;
+}
+
+h1 {
+    font-size: 5em;
+}
+
+h2 {
+    font-size: 2em;
 }
 
 .text-center {
@@ -92,7 +145,7 @@ h1,h2,h3,h4,p {
     height: 100%;
     position: relative;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .container-wrapper {
@@ -116,6 +169,7 @@ h1,h2,h3,h4,p {
     left: 0;
     right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
     overflow-y: scroll;
+    overflow-x: hidden;
 
     font-weight: normal;
     display: flex;
@@ -218,5 +272,12 @@ h1,h2,h3,h4,p {
 .margin-bottom-lg {
     margin-bottom: 30px;
 }
+
+for num in (4..9)
+    #bg.bg_num_{num}
+        background url('./assets/img/bg' + num + '.jpg')
+        background-color: #032056;
+        background-position: center center;
+        background-size: cover;
 
 </style>

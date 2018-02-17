@@ -5,14 +5,14 @@
     </div>
     <div v-if="currentOpened" class="full-width">
         <div class="bg-tomato-opacity padding-sm margin-sm border-round-lg">
-            <h4 class='text-center padding-sm'>Current challenge</h4>
-            <div class='info margin-left-lg'>
+            <h2 class='text-center padding-sm'>Текущий матч</h2>
+            <div class='info margin-left-lg font-poiret'>
                 <p>
-                    <info-title msg='Access' :value='challenge.data.access' />
-                    <info-title msg='Created at' :value='createdAt' />
+                    <info-title msg='Доступ' :value='accessTitle' />
+                    <info-title msg='Создан' :value='createdAt' />
                 <p>
-                    <info-title msg='State' :value='challenge.data.state' />
-                    <info-title msg='Question' :value='challenge.data.currentQuestion || "not started"' />
+                    <info-title msg='Статус' :value='challenge.data.state' />
+                    <info-title msg='Текущий вопрос' :value='challenge.data.currentQuestion || "матч еще не начался"' />
                 </p>
             </div>
             <div class='padding-sides-lg'>
@@ -46,13 +46,13 @@
         <div class='full-width-item-container'>
             <div>
                 <full-row-button text='LIST'
-                                 additionalInfo='Ready: 120, in process: 43'
+                                 additionalInfo='Готовы к игре: 120. В процессе: 43'
                                  colorType='green'
                                  className="border-round-lg-left" />
             </div>
             <div>
                 <full-row-button text='STATS'
-                                 additionalInfo='Wins: 23, experience: 2320'
+                                 additionalInfo='Побед: 0. Опыт: 0'
                                  colorType='blue'
                                  className="border-round-lg-right" />
             </div>
@@ -154,6 +154,9 @@ export default {
         },
         showChallengePanel() {
             return (this.userChallengeId && !this.challenge.loading) || this.challenge._id;
+        },
+        accessTitle() {
+            return this.challenge.data.access === 'public' ? 'все' : 'друзья';
         },
         userChallengeId: {
             get() {
