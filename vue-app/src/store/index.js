@@ -2,7 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 
-import { createFetchAction } from '../utils/actions';
+import {
+    createFetchAction,
+    createAsyncActionsConf
+} from '../utils/actions';
 import {
     reduxStore,
 } from '../redux-store';
@@ -13,12 +16,50 @@ import {
 
 Vue.use(Vuex);
 
+export const createFetchConf = (params) => {
+    const { event, initialData, callbacks, dataProcessor } = params;
+    const mutations = createFetchMutationsCallbacks(event, dataProcessor, callbacks);
+    const { conf } = mutations;
+    delete mutations.conf;
+    return {
+        state: {loading: false, data: initialData},
+        mutations,
+        conf
+    };
+}
+
+export const createFetchMutationsCallbacks = (event, dataProcessor, callbacks) => {
+    let conf = event;
+    if (typeof event === 'string') {
+        conf = createAsyncActionsConf(event);
+    }
+    return {
+        [conf.startEvent](state, data) {
+            state.loading = true;
+        },
+        [conf.successEvent](state, data) {
+            if (dataProcessor) {
+                data = dataProcessor(data);
+            }
+            Object.assign(state, {
+                loading: false
+            }, data);
+        },
+        [conf.failEvent](state, action) {
+            state.loading = false;
+        },
+        ...callbacks,
+        conf
+    }
+}
+
 const SET_USER_TOKEN = 'SET_USER_TOKEN';
 const FECTH_CURRENT_USER = 'FECTH_CURRENT_USER';
 const CHECK_USER_NAME = 'CHECK_USER_NAME';
 const REGISTER_USER = 'REGISTER_USER';
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
+const START_CHALLENGE = 'START_CHALLENGE';
 
 
 const fetchCurrentUser = createFetchAction({
@@ -48,10 +89,44 @@ const checkUserName = createFetchAction({
 });
 
 
-const fetchChallenges = createFetchAction({
-    url: '/check_user_name',
+const startChallenge = createFetchAction({
+    event: START_CHALLENGE,
     method: 'post',
-    event: CHECK_USER_NAME,
+    graphql: payload => `
+    mutation {
+        startChallenge(id : "${payload.challengeId}") {
+            _id
+            userId
+            types
+            timestamp
+            state
+            access
+            maxPlayers
+            players {
+                _id
+                name
+            }
+            playersCount
+            currentQuestion
+            questions {
+                options
+                result
+                operation
+            }
+            anwers {
+                _id
+                option
+                elapsed
+                timestamp
+            }
+        }
+    }
+    `
+});
+
+const startChallengeConf = createFetchConf({
+    event: START_CHALLENGE,
+    initialData: {},
 });
 
 
@@ -86,12 +161,12 @@ const INITIAL_USER_STATE = {
     }
 };
 
+const INITIAL_CHALLENGE_STATE = {};
+
 
 const handleEnterUser = (commit, state, data, fn) => {
     const { router, ...remain } = data;
-    console.log('handleEnterUser begin', state, data, fn);
     fn(commit, state, remain).then(ud => {
-        console.log('handleEnterUser', ud, data, state);
         commit(SET_USER_TOKEN, {
             token: ud.token
         });
@@ -108,9 +183,27 @@ const handleEnterUser = (commit, state, data, fn) => {
 }
 
 
+const deepClone = obj => {
+    return JSON.parse(JSON.stringify(obj));
+}
+
+
 export const store = new Vuex.Store({
     plugins: [createLogger()],
     modules: {
+        challenge: {
+            state: deepClone(startChallengeConf.state),
+            actions: {
+                startChallenge({ commit, state }, challengeId) {
+                    return startChallenge(commit, state, {
+                        challengeId
+                    });
+                }
+            },
+            mutations: {
+                ...startChallengeConf.mutations
+            }
+        },
         user: {
             state: {
                 ...INITIAL_USER_STATE,
@@ -135,11 +228,9 @@ export const store = new Vuex.Store({
                 },
                 logout({ commit, state }, data) {
                     commit(SET_USER_TOKEN, {token: null});
-                    console.log('before dispatch reduxStore');
                     reduxStore.dispatch({
                         type: RESET_USER
                     });
-                    // commit(RESET_USER);
                     return Promise.resolve();
                 },
                 checkUserName({ commit, state }, name) {
@@ -147,7 +238,7 @@ export const store = new Vuex.Store({
                 },
                 fetchChallengesInfo({ commit, state }) {
                     // return checkUserNameHandler(commit, state, { name });
-                }
+                },
             },
             mutations: {
                 [SET_USER_TOKEN](state, data) {

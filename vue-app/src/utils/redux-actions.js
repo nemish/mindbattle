@@ -53,7 +53,8 @@ export function createAsyncAction(conf) {
       }
 
       let params = {
-          credentials: 'same-origin'
+          credentials: 'same-origin',
+          mode: 'cors'
       }
       let headers = {};
       if (method == 'post') {

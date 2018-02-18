@@ -69,6 +69,10 @@ button {
     transition: opacity 0.5s;
 }
 
+.full-row-button h1 {
+    font-size: 40px;
+}
+
 .full-row-button:hover {
     opacity: 0.9;
 }
@@ -79,7 +83,8 @@ button {
 }
 
 .additional-info {
-    color: #999;
+    font-size: 14px;
+    color: #ccc;
 }
 
 .bg-white .additional-info {

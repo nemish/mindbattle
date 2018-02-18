@@ -8,52 +8,79 @@ function makeQuery(payload) {
 }
 
 
+export const createAsyncActionsConf = actionName => {
+    return {
+        actionName,
+        startEvent: actionName + '__START',
+        successEvent: actionName + '__SUCCESS',
+        failEvent: actionName + '__FAIL',
+    }
+}
+
+
 export function createFetchAction(conf) {
     const startEvent = `${conf.event}__START`;
     const successEvent = `${conf.event}__SUCCESS`;
     const failEvent = `${conf.event}__FAIL`;
 
     const fetchAction = (commit, state, payload) => {
-        commit(startEvent, payload);
-        let url = conf.url;
-        let method = conf.method || 'get';
+      commit(startEvent, payload);
+      let url = conf.url;
+      let method = conf.method;
+      if (typeof url === "function") {
+        url = HOST + url(payload);
+      } else if (conf.graphql) {
+        url = HOST + '/gql'
+      } else {
+        url = HOST + url;
+      }
 
-        if (typeof url === 'function') {
-            url = url(payload);
-        }
-        url = `${HOST}${url}`;
+      if (typeof method === "function") {
+        method = method(payload);
+      }
 
-        if (typeof method === 'function') {
-            method = method(payload);
+      let params = {
+          credentials: 'same-origin'
+      }
+      let headers = {};
+      if (method == 'post') {
+        headers['Content-Type'] = 'application/json; charset=utf-8';
+      }
+      if (conf.authorized) {
+        // const token = localStorage.getItem('jwt_token');
+        const { token } = state;
+        if (token && token.length) {
+            headers['Authorization'] = 'Bearer ' + token;
         }
+      }
 
-        const query = makeQuery(payload);
-        let params = {
-            credentials: 'same-origin',
-        };
-        const headers = {};
-        if (method === 'post') {
-            headers['Content-Type'] = 'application/json; charset=utf-8';
+      if (!method || method === 'get') {
+        let query = {};
+        if (conf.graphql) {
+            query = makeQuery({
+                query: conf.graphql(payload)
+            });
+        } else {
+            query = makeQuery(payload);
         }
-        if (conf.authorized) {
-            // const token = localStorage.getItem('jwt_token');
-            const { token } = state;
-            if (token && token.length) {
-                headers.Authorization = `Bearer ${token}`;
-            }
-        }
+        url = url + (query.length ? '?' + query : '');
+      }
 
-        if (method === 'post') {
-            params = {
-                ...params,
-                method: 'POST',
-                body: JSON.stringify(payload),
-            };
-        } else if (!method || method === 'get') {
-            const queryStr = query.length ? `?${query}` : '';
-            url = `${url}${queryStr}`;
+      if (method === 'post') {
+        params = {
+            ...params,
+            method: 'POST'
         }
-        params.headers = headers;
+        if (conf.graphql) {
+            params.body = JSON.stringify({
+                query: conf.graphql(payload)
+            });
+        } else {
+            params.body = JSON.stringify(payload);
+        }
+      }
+
+      params.headers = headers;
 
         return fetch(url, params)
         .then((resp) => {
@@ -72,7 +99,10 @@ export function createFetchAction(conf) {
             // return resp;
         })
         .then(resp => resp.json())
-        .then((data) => {
+        .then(data => {
+            if (data.errors && data.errors.length) {
+                return Promise.reject(data);
+            }
             commit(successEvent, data);
             return data;
         })

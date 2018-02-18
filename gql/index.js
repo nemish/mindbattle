@@ -7,7 +7,10 @@ import {
   GraphQLFloat
 } from 'graphql';
 import Challenge from '../models/Challenge';
-import { handleCreateChallenge } from '../controllers/home';
+import {
+    handleCreateChallenge,
+    handleStartChallenge
+} from '../controllers/home';
 const {makeExecutableSchema} = require('graphql-tools');
 
 
@@ -71,6 +74,10 @@ const typeDefs = `
             userId: String!
             access: String
         ): Challenge
+
+        startChallenge(
+            id: String!
+        ): Challenge
     }
 
     schema {
@@ -79,16 +86,21 @@ const typeDefs = `
     }
 `;
 
+const createMutation = handler => {
+    return (_, args) => {
+        return new Promise((res, rej) => {
+            console.log('new Promise', args);
+            handler(Object.assign({}, args, { errCb: () => rej() }), ch => {
+                return res(ch);
+            });
+        });
+    }
+}
+
 const resolvers = {
     Mutation: {
-        newChallenge: (_, args) => {
-            return new Promise((res, rej) => {
-                console.log('new Promise', args);
-                handleCreateChallenge(Object.assign({}, args, { errCb: () => rej() }), ch => {
-                    return res(ch);
-                });
-            });
-        }
+        newChallenge: createMutation(handleCreateChallenge),
+        startChallenge: createMutation(handleStartChallenge)
     },
 
     Query: {

@@ -498,6 +498,20 @@ export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
 }
 
 
+export const handleStartChallenge = ({id, errCb}, cb) => {
+    Challenge.findById(id).exec((err, ch) => {
+        if ((err || !ch) && errCb) {
+            return errCb();
+        }
+        ch.state = Challenge.states.RUNNING;
+        ch.save();
+        if (cb) {
+            return cb(ch);
+        }
+    });
+}
+
+
 exports.createChallenge = (req, res) => {
     handleCreateChallenge(req.body, ch => res.json(ch));
 }

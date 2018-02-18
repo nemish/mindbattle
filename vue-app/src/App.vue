@@ -3,7 +3,11 @@
     <div v-if='isFirst' id='bg' :class='bgImg'></div>
     <div class='app-container'>
         <div class='container-wrapper'>
-            <router-view/>
+            <transition
+                enter-active-class='animated fadeIn'
+                leave-active-class='animated fadeOut'>
+                <router-view/>
+            </transition>
         </div>
     </div>
   </div>
@@ -185,14 +189,13 @@ h2 {
 
 
 .full-width-item-container {
-    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .full-width-item-container > div {
-    width: 100%;
+    flex: 1;
 }
 
 .full-width {
@@ -221,6 +224,10 @@ h2 {
 
 .border-round-lg-right {
     border-radius: 0 15px 15px 0;
+}
+
+.border-round-xl {
+    border-radius: 50px;
 }
 
 .bg-darken-green-opacity {
