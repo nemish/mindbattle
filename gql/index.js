@@ -9,13 +9,18 @@ import {
 import Challenge from '../models/Challenge';
 import {
     handleCreateChallenge,
-    handleStartChallenge
+    handleStartChallenge,
+    handleExitChallenge
 } from '../controllers/home';
 const {makeExecutableSchema} = require('graphql-tools');
 
 
 const typeDefs = `
     scalar Date
+
+    type ResponseData {
+        status: String!
+    }
 
     # Player temp object
     type Player {
@@ -78,6 +83,11 @@ const typeDefs = `
         startChallenge(
             id: String!
         ): Challenge
+
+        exitChallenge(
+            id: String!
+            userId: String!
+        ): ResponseData
     }
 
     schema {
@@ -90,8 +100,8 @@ const createMutation = handler => {
     return (_, args) => {
         return new Promise((res, rej) => {
             console.log('new Promise', args);
-            handler(Object.assign({}, args, { errCb: () => rej() }), ch => {
-                return res(ch);
+            handler(Object.assign({}, args, { errCb: () => rej() }), data => {
+                return res(data);
             });
         });
     }
@@ -100,7 +110,8 @@ const createMutation = handler => {
 const resolvers = {
     Mutation: {
         newChallenge: createMutation(handleCreateChallenge),
-        startChallenge: createMutation(handleStartChallenge)
+        startChallenge: createMutation(handleStartChallenge),
+        exitChallenge: createMutation(handleExitChallenge)
     },
 
     Query: {

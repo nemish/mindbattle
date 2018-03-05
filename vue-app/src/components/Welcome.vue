@@ -56,15 +56,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import FullRowButton from './FullRowButton';
 export default {
     name: 'Welcome',
     data() {
         return {
             name: '', passwd: '', isDirty: false, msgClass: 'msg',
-            isReady: false,
-            isReady2: false
+            isReady: false
         };
     },
     components: {
@@ -89,7 +88,7 @@ export default {
         user() {
             return this.$store.state.user
         },
-        ...mapGetters([
+        ...mapGetters('user', [
             'check',
             'loading'
         ]),
@@ -143,6 +142,11 @@ export default {
         passwd: dispatchOnChange('passwd', null),
     },
     methods: {
+        ...mapActions('user', [
+            'checkUserName',
+            'login',
+            'registerUser'
+        ]),
         handleUserSubmit() {
             const { name, passwd } = this;
             if (!this.isDirty && name && name.length && passwd && passwd.length) {
@@ -150,9 +154,9 @@ export default {
                 if (this.user.check.status === 'occupied') {
                     actionName = 'login';
                 }
-                this.$store.dispatch(actionName, { name, passwd, router: this.$router });
+                this[actionName]({ name, passwd, router: this.$router });
             } else if (name && name.length) {
-                this.$store.dispatch('checkUserName', name);
+                this.checkUserName(name);
                 // this.$refs.passwd.$el.focus();
                 // console.log(this.$refs.passwd, this);
             }
@@ -264,12 +268,8 @@ function dispatchOnChange(key, onChangeCb, context) {
     opacity: 1;
 }
 
-.container.welcome > div {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.welcome h1, .welcome h2 {
+    text-align: center;
 }
 
 </style>

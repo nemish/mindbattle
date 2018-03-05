@@ -4,7 +4,8 @@ import createLogger from 'vuex/dist/logger';
 
 import {
     createFetchAction,
-    createAsyncActionsConf
+    createAsyncActionsConf,
+    createFetchConf
 } from '../utils/actions';
 import {
     reduxStore,
@@ -16,42 +17,6 @@ import {
 
 Vue.use(Vuex);
 
-export const createFetchConf = (params) => {
-    const { event, initialData, callbacks, dataProcessor } = params;
-    const mutations = createFetchMutationsCallbacks(event, dataProcessor, callbacks);
-    const { conf } = mutations;
-    delete mutations.conf;
-    return {
-        state: {loading: false, data: initialData},
-        mutations,
-        conf
-    };
-}
-
-export const createFetchMutationsCallbacks = (event, dataProcessor, callbacks) => {
-    let conf = event;
-    if (typeof event === 'string') {
-        conf = createAsyncActionsConf(event);
-    }
-    return {
-        [conf.startEvent](state, data) {
-            state.loading = true;
-        },
-        [conf.successEvent](state, data) {
-            if (dataProcessor) {
-                data = dataProcessor(data);
-            }
-            Object.assign(state, {
-                loading: false
-            }, data);
-        },
-        [conf.failEvent](state, action) {
-            state.loading = false;
-        },
-        ...callbacks,
-        conf
-    }
-}
 
 const SET_USER_TOKEN = 'SET_USER_TOKEN';
 const FECTH_CURRENT_USER = 'FECTH_CURRENT_USER';
@@ -60,6 +25,10 @@ const REGISTER_USER = 'REGISTER_USER';
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const START_CHALLENGE = 'START_CHALLENGE';
+const FETCH_CHALLENGE = 'FETCH_CHALLENGE';
+const FETCH_CHALLENGE_LIST = 'FETCH_CHALLENGE_LIST';
+const EXIT_CHALLENGE = 'EXIT_CHALLENGE';
+const NEW_CHALLENGE = 'NEW_CHALLENGE';
 
 
 const fetchCurrentUser = createFetchAction({
@@ -89,36 +58,41 @@ const checkUserName = createFetchAction({
 });
 
 
+const CHALLENGE_GQL_SCHEMA = `
+    _id
+    userId
+    types
+    timestamp
+    state
+    access
+    maxPlayers
+    players {
+        _id
+        name
+    }
+    playersCount
+    currentQuestion
+    questions {
+        options
+        result
+        operation
+    }
+    anwers {
+        _id
+        option
+        elapsed
+        timestamp
+    }
+`
+
+
 const startChallenge = createFetchAction({
     event: START_CHALLENGE,
     method: 'post',
     graphql: payload => `
     mutation {
         startChallenge(id : "${payload.challengeId}") {
-            _id
-            userId
-            types
-            timestamp
-            state
-            access
-            maxPlayers
-            players {
-                _id
-                name
-            }
-            playersCount
-            currentQuestion
-            questions {
-                options
-                result
-                operation
-            }
-            anwers {
-                _id
-                option
-                elapsed
-                timestamp
-            }
+            ${CHALLENGE_GQL_SCHEMA}
         }
     }
     `
@@ -126,7 +100,69 @@ const startChallenge = createFetchAction({
 
 const startChallengeConf = createFetchConf({
     event: START_CHALLENGE,
+    dataProcessor: data => {
+        return data.data.startChallenge
+    },
     initialData: {},
+});
+
+
+const exitChallenge = createFetchAction({
+    event: EXIT_CHALLENGE,
+    method: 'post',
+    graphql: payload => `
+    mutation {
+        exitChallenge(id : "${payload.challengeId}", userId : "${payload.userId}") {
+            status
+        }
+    }
+    `
+});
+
+const newChallenge = createFetchAction({
+    event: NEW_CHALLENGE,
+    method: 'post',
+    graphql: payload => `
+    mutation {
+        newChallenge(userId : "${payload.userId}", access : "${payload.access}") {
+            ${CHALLENGE_GQL_SCHEMA}
+        }
+    }
+    `,
+    dataProcessor: data => {
+        return data.data.newChallenge
+    }
+});
+
+
+const fetchChallenge = createFetchAction({
+    event: FETCH_CHALLENGE,
+    graphql: payload => `
+    {
+        challenge(_id : "${payload.challengeId}") {
+            ${CHALLENGE_GQL_SCHEMA}
+        }
+    }
+    `,
+    dataProcessor: data => {
+        return data.data.challenge
+    }
+});
+
+
+const fetchChallenges = createFetchAction({
+    event: FETCH_CHALLENGE_LIST,
+    graphql: payload => `
+    {
+        challenges {
+            ${CHALLENGE_GQL_SCHEMA}
+        }
+    }
+    `,
+    dataProcessor: data => {
+        return data.data.challenges
+    },
+    initialData: []
 });
 
 
@@ -191,20 +227,69 @@ const deepClone = obj => {
 export const store = new Vuex.Store({
     plugins: [createLogger()],
     modules: {
+        app: {
+            namespaced: true,
+            actions: {
+                updateState({ commit, state }, data) {
+                    commit('user/UPDATE_STATE', data, {root: true});
+                }
+            }
+        },
+        challenges: {
+            namespaced: true,
+            state: deepClone(fetchChallenges.conf.state),
+            actions: {
+                fetchChallenges({ commit, state }) {
+                    return fetchChallenges(commit, state);
+                }
+            },
+            mutations: {
+                ...fetchChallenges.conf.mutations
+            }
+        },
         challenge: {
+            namespaced: true,
             state: deepClone(startChallengeConf.state),
             actions: {
                 startChallenge({ commit, state }, challengeId) {
                     return startChallenge(commit, state, {
                         challengeId
                     });
+                },
+                fetchChallenge({ commit, state }, challengeId) {
+                    return fetchChallenge(commit, state, {
+                        challengeId
+                    });
+                },
+                joinChallenge({ commit, state }, challengeId) {
+                    console.log('join', challengeId);
+                },
+                exitChallenge({ commit, state }, payload) {
+                    return exitChallenge(commit, state, payload).then(() => {
+                    });
+                },
+                createNewChallenge({ commit, state }, payload) {
+                    return newChallenge(commit, state, payload);
                 }
             },
             mutations: {
-                ...startChallengeConf.mutations
+                ...startChallengeConf.mutations,
+                ...fetchChallenge.conf.mutations,
+                ...newChallenge.conf.mutations,
+                [exitChallenge.startEvent](state) {
+                    state.loading = true;
+                },
+                [exitChallenge.failEvent](state) {
+                    state.loading = false;
+                },
+                [exitChallenge.successEvent](state) {
+                    state.loading = false;
+                    state.data._id = null;
+                }
             }
         },
         user: {
+            namespaced: true,
             state: {
                 ...INITIAL_USER_STATE,
             },
@@ -245,6 +330,23 @@ export const store = new Vuex.Store({
                     const { token } = data;
                     localStorage.setItem('jwt_token', token);
                     state.token = token;
+                },
+                ['UPDATE_STATE'](state, data) {
+                    Object.keys(data).forEach(key => {
+                        const elems = key.split('.');
+                        if (elems[0] !== 'user') {
+                            return
+                        }
+
+                        let scope = state;
+                        elems.splice(1).forEach((elem, index) => {
+                            if (index === elems.length - 2) {
+                                scope[elem] = data[key];
+                            } else {
+                                scope = scope[elem];
+                            }
+                        });
+                    })
                 },
                 // [RESET_USER](state) {
                 //     Object.assign(state, INITIAL_USER_STATE);

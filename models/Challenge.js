@@ -17,7 +17,7 @@ const challengeSchema = new mongoose.Schema({
 
 challengeSchema.pre('save', function(next) {
     this.playersCount = this.players.length;
-    next()
+    next();
 });
 
 

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <div v-if='isFirst' id='bg' :class='bgImg'></div>
+    <div v-if='isFirst' id='bg' :class='bgImg'>
+        <div class="bg-cloak"></div>
+    </div>
     <div class='app-container'>
         <div class='container-wrapper'>
             <transition
@@ -14,6 +16,10 @@
 </template>
 
 <script>
+import {
+    mapActions
+} from 'vuex';
+
 import { withSocket } from './socket';
 
 function getRandomInt(min, max) {
@@ -30,6 +36,9 @@ export default withSocket({
         }
     },
     methods: {
+        ...mapActions('user', [
+            'fetchCurrentUser'
+        ]),
         toggleBg() {
             this.bgImg = 'bg_num_' + getRandomInt(4, 9);
         }
@@ -38,9 +47,11 @@ export default withSocket({
         // setInterval(() => {
         //     this.toggleBg();
         // }, 3000);
-        this.$store.dispatch('fetchCurrentUser').then(() => {
+        this.fetchCurrentUser().then(() => {
             console.log('everithing ok fetch current user');
-            this.$router.push('/board');
+            if (this.$route.name === 'Welcome') {
+                this.$router.push({name: 'Board'});
+            }
         }).catch(err => {
             console.log('error during fetch current user');
             this.$router.push('/');
@@ -73,14 +84,11 @@ html,body {
     padding: 0;
     margin: 0;
     font-family: 'Amatic SC', sans-serif;
-    // font-family: 'Marmelad', sans-serif;
-    /*font-family: 'Amatic', sans-serif;*/
-    /*font-family: 'Amatic SC', sans-serif;*/
+    overflow-x: hidden;
 }
 
 button {
     font-family: 'Amatic SC', sans-serif;
-    // font-family: 'Marmelad', sans-serif;
 }
 
 * {
@@ -89,7 +97,11 @@ button {
 
 
 .font-poiret {
-    font-family: 'Poiret One', cursive;
+    font-family: 'Poiret One', 'Amatic SC', sans-serif;
+}
+
+.font-amatic {
+    font-family: 'Amatic SC', sans-serif;
 }
 
 input {
@@ -99,7 +111,9 @@ input {
 #app {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    box-sizing: border-box;
+    width: calc(100% + 50px);
+    padding-right: 50px;
     color: #fff;
 }
 
@@ -126,6 +140,11 @@ button {
     zIndex: -1;
 }
 
+.bg-cloak {
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
 h1,h2,h3,h4,p {
     margin: 0;
     padding: 0;
@@ -144,43 +163,41 @@ h2 {
 }
 
 
+.full-width.text-center > * {
+    text-align: center;
+}
+
+
 .app-container {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     position: relative;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .container-wrapper {
     max-width: 500px;
     height: 100%;
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    justify-content: center;
-    margin: 0 auto;
-    font-weight: normal;
-}
-
-.container {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
-    right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
-    overflow-y: scroll;
-    overflow-x: hidden;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    font-weight: normal;
+    padding: 0 10px;
+}
 
+.container-wrapper > div {
+    animation-duration: .5s;
+}
+
+.container {
     font-weight: normal;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0 10px 0 1px;
 }
 
 .container > div {
@@ -190,16 +207,16 @@ h2 {
 
 .full-width-item-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.full-width-item-container > div {
+.full-width-item-container div {
+    display: flex;
     flex: 1;
 }
 
 .full-width {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .margin-sm {
@@ -208,6 +225,14 @@ h2 {
 
 .padding-sm {
     padding: 5px;
+}
+
+.padding-md {
+    padding: 10px;
+}
+
+.padding-lg {
+    padding: 20px;
 }
 
 .border-round-lg {
@@ -231,30 +256,40 @@ h2 {
 }
 
 .bg-darken-green-opacity {
-    background-color: rgba(114, 160, 80, 0.5);
+    background-color: rgba(114, 160, 80, 0.6);
 }
 
 .bg-yellow-opacity {
-    background-color: rgba(0, 120, 160, 0.5);
+    background-color: rgba(0, 120, 160, 0.6);
+}
+
+.bg-yellow-true-opacity {
+    background-color: rgba(238, 255, 15, 0.6);
 }
 
 .bg-yellow-2-opacity {
-    background-color: rgba(255, 100, 100, 0.5);
+    background-color: rgba(255, 100, 100, 0.6);
 }
 
 .bg-tomato-opacity {
     /*background-color: #8B5133;*/
-    background-color: rgba(139, 81, 51, 0.5);
+    background-color: rgba(139, 81, 51, 0.6);
 }
 
 .bg-grey-opacity {
-    background-color: rgba(100, 100, 100, 0.4);
+    background-color: rgba(100, 100, 100, 0.6);
 }
 
 .bg-white {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.6);
     color: #333;
 }
+
+.bg-dark-green {
+    background-color: rgba(0, 110, 74, 0.7);
+    color: #eee;
+}
+
 
 .color-tiny-brown {
     color: #F5F0E0;
@@ -278,6 +313,10 @@ h2 {
 
 .margin-bottom-lg {
     margin-bottom: 30px;
+}
+
+.shadow-sm {
+    box-shadow: 0px 2px 2px -1px rgba(0,0,0,0.75);
 }
 
 for num in (4..9)

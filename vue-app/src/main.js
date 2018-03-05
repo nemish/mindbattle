@@ -7,8 +7,10 @@ import { store } from './store';
 import { reduxStore } from './redux-store';
 import * as actions from './redux-store/actions'
 import vudux from './vudux';
+import VueHelpers from './vue-helpers';
 
 Vue.use(vudux, {reduxStore, actions});
+Vue.use(VueHelpers);
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

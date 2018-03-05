@@ -7,6 +7,44 @@ function makeQuery(payload) {
         .join('&');
 }
 
+export const createFetchConf = (params) => {
+    const { event, initialData, callbacks, dataProcessor } = params;
+    const mutations = createFetchMutationsCallbacks(event, dataProcessor, callbacks);
+    const { conf } = mutations;
+    delete mutations.conf;
+    return {
+        state: {loading: false, data: initialData},
+        mutations,
+        conf
+    };
+}
+
+export const createFetchMutationsCallbacks = (event, dataProcessor, callbacks) => {
+    let conf = event;
+    if (typeof event === 'string') {
+        conf = createAsyncActionsConf(event);
+    }
+    return {
+        [conf.startEvent](state, data) {
+            state.loading = true;
+        },
+        [conf.successEvent](state, data) {
+            if (dataProcessor) {
+                data = dataProcessor(data);
+            }
+            Object.assign(state, {
+                loading: false,
+                data
+            });
+        },
+        [conf.failEvent](state, action) {
+            state.loading = false;
+        },
+        ...callbacks,
+        conf
+    }
+}
+
 
 export const createAsyncActionsConf = actionName => {
     return {
@@ -116,6 +154,7 @@ export function createFetchAction(conf) {
         startEvent,
         successEvent,
         failEvent,
+        conf: createFetchConf(conf)
     });
     return fetchAction;
 }

@@ -61,6 +61,7 @@ const makeQuestionConf = () => {
     });
 
     return {
+        type: 'math',
         result: Math.floor(eval(operation)),
         operation,
         operations
@@ -467,6 +468,7 @@ const refreshPreviousChallenge = user => {
 
 export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
     UserDraft.findById(userId).exec((err, user) => {
+        console.log(err, user);
         if ((err || !user) && errCb) {
             return errCb();
         }
@@ -487,13 +489,15 @@ export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
                 name
             }]
         });
-        ch.save();
-        refreshPreviousChallenge(user);
-        user.current_challenge_id = ch._id;
-        user.save();
-        if (cb) {
-            return cb(ch)
-        }
+        ch.save().then(() => {
+            refreshPreviousChallenge(user);
+            user.current_challenge_id = ch._id;
+            user.save();
+            console.log('save', ch._id, user.current_challenge_id);
+            if (cb) {
+                return cb(ch)
+            }
+        });
     })
 }
 
@@ -504,10 +508,34 @@ export const handleStartChallenge = ({id, errCb}, cb) => {
             return errCb();
         }
         ch.state = Challenge.states.RUNNING;
+        ch.currentQuestion = 0;
         ch.save();
         if (cb) {
             return cb(ch);
         }
+    });
+}
+
+export const handleExitChallenge = ({id, userId, errCb}, cb) => {
+    console.log('handleExitChallenge', id, userId);
+    Challenge.findById(id).exec((err, ch) => {
+        if ((err || !ch) && errCb) {
+            return errCb();
+        }
+        UserDraft.findById(userId).exec((err, user) => {
+            if ((err || !ch) && errCb) {
+                return errCb();
+            }
+
+            refreshPreviousChallenge({current_challenge_id: id});
+            user.current_challenge_id = null;
+            user.save();
+            if (cb) {
+                return cb({
+                    status: 'success'
+                })
+            }
+        })
     });
 }
 
