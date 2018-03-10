@@ -10,7 +10,8 @@ import Challenge from '../models/Challenge';
 import {
     handleCreateChallenge,
     handleStartChallenge,
-    handleExitChallenge
+    handleExitChallenge,
+    handleJoinChallenge
 } from '../controllers/home';
 const {makeExecutableSchema} = require('graphql-tools');
 
@@ -70,7 +71,7 @@ const typeDefs = `
     }
 
     type Query {
-        challenges: [Challenge]
+        challenges(exceptUserId: String): [Challenge]
         challenge(_id: String!): Challenge
     }
 
@@ -82,6 +83,11 @@ const typeDefs = `
 
         startChallenge(
             id: String!
+        ): Challenge
+
+        joinChallenge(
+            challengeId: String!
+            userId: String!
         ): Challenge
 
         exitChallenge(
@@ -111,11 +117,18 @@ const resolvers = {
     Mutation: {
         newChallenge: createMutation(handleCreateChallenge),
         startChallenge: createMutation(handleStartChallenge),
-        exitChallenge: createMutation(handleExitChallenge)
+        exitChallenge: createMutation(handleExitChallenge),
+        joinChallenge: createMutation(handleJoinChallenge)
     },
 
     Query: {
-        challenges: () => Challenge.find(),
+        challenges: (_, {exceptUserId}) => {
+            let items = Challenge.find();
+            // if (exceptUserId) {
+                // items = items.find({userId: {$ne: exceptUserId}});
+            // }
+            return items;
+        },
         challenge: (_, { _id }) => Challenge.findById(_id)
     }
 };

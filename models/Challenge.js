@@ -32,6 +32,10 @@ challengeSchema.methods.isFinish = function () {
     return isFinish
 }
 
+challengeSchema.methods.addPlayer = function ({_id, name}) {
+    this.players.push({ _id, name });
+}
+
 const Challenge = mongoose.model('Challenge', challengeSchema);
 
 Challenge.states = {

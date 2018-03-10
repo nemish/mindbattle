@@ -93,6 +93,7 @@ button {
 
 * {
     box-sizing: border-box;
+    line-height: 100%;
 }
 
 
@@ -215,8 +216,15 @@ h2 {
 }
 
 .full-width {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
+}
+
+.full-width > * {
+    width: 100%;
+    // flex-basis: auto;
+    // flex: 1;
+    // flex-shrink: 0;
 }
 
 .margin-sm {
@@ -317,6 +325,22 @@ h2 {
 
 .shadow-sm {
     box-shadow: 0px 2px 2px -1px rgba(0,0,0,0.75);
+}
+
+.flex {
+    display: flex;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.basis-70 > div:nth-child(odd) {
+    flex-basis: 70%;
+}
+
+.basis-70 > div:nth-child(even) {
+    flex-basis: 30%;
 }
 
 for num in (4..9)

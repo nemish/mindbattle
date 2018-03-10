@@ -49,7 +49,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [
+            resolve('src'), resolve('test'),
+            // webpack-dev-server#1090 for Safari
+            /node_modules\/webpack-dev-server/
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

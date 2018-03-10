@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"chall",
+				"challenge\t(index.js)"
+			],
+			[
+				"join",
+				"joinChallenge"
+			],
+			[
+				"full",
+				"full-row-button"
+			],
+			[
+				"sty",
+				"stylus\t(App.vue)"
+			],
+			[
 				"createFe",
 				"createFetchConf"
 			],
@@ -58,10 +74,6 @@
 			[
 				"mar",
 				"margin-sm"
-			],
-			[
-				"join",
-				"joinChallenge\t(app.js)"
 			],
 			[
 				"comp",
@@ -502,32 +514,11 @@
 			[
 				"set",
 				"settings"
-			],
-			[
-				"month",
-				"monthly_iterator\tfunction"
-			],
-			[
-				"Ya",
-				"YandexDirectStat"
-			],
-			[
-				"classmeth",
-				"classmethod\tclass"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "vue-app/src/components/Board.vue",
-			"settings":
-			{
-				"buffer_size": 10045,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
 		{
 			"file": "vue-app/src/components/FullRowButton.vue",
 			"settings":
@@ -538,27 +529,28 @@
 			}
 		},
 		{
-			"file": "vue-app/src/App.vue",
+			"file": "models/Challenge.js",
 			"settings":
 			{
-				"buffer_size": 5446,
+				"buffer_size": 1132,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "models/Challenge.js",
+			"file": "gql/index.js",
 			"settings":
 			{
-				"buffer_size": 1030,
+				"buffer_size": 2737,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "vue-app/src/components/Challenge.vue",
+			"file": "controllers/home.js",
 			"settings":
 			{
-				"buffer_size": 3047,
+				"buffer_size": 15503,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -567,7 +559,25 @@
 			"file": "vue-app/src/store/index.js",
 			"settings":
 			{
-				"buffer_size": 10421,
+				"buffer_size": 11542,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "vue-app/src/components/ChallengeList.vue",
+			"settings":
+			{
+				"buffer_size": 3020,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "vue-app/src/App.vue",
+			"settings":
+			{
+				"buffer_size": 5904,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -577,33 +587,23 @@
 			"settings":
 			{
 				"buffer_size": 4329,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "vue-app/src/components/Board.vue",
+			"settings":
+			{
+				"buffer_size": 9628,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "gql/index.js",
+			"file": "vue-app/src/vue-helpers.js",
 			"settings":
 			{
-				"buffer_size": 2546,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "controllers/home.js",
-			"settings":
-			{
-				"buffer_size": 15008,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "vue-app/src/main.js",
-			"settings":
-			{
-				"buffer_size": 579,
+				"buffer_size": 227,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -649,7 +649,7 @@
 	"command_palette":
 	{
 		"height": 392.0,
-		"last_filter": "",
+		"last_filter": "new",
 		"selected_items":
 		[
 			[
@@ -1127,28 +1127,29 @@
 	],
 	"file_history":
 	[
+		"/Users/nemish/projects/mathbattle/vue-app/src/components/SuggestQuestion.vue",
+		"/Users/nemish/projects/mathbattle/vue-app/src/components/Challenge.vue",
+		"/Users/nemish/projects/mathbattle/vue-app/src/router/index.js",
+		"/Users/nemish/projects/mathbattle/vue-app/src/components/ChallengeList.vue",
+		"/Users/nemish/projects/mathbattle/vue-app/src/main.js",
+		"/Users/nemish/projects/mathbattle/vue-app/src/App.vue",
+		"/Users/nemish/projects/mathbattle/vue-app/src/store/index.js",
+		"/Users/nemish/projects/mathbattle/vue-app/src/components/Board.vue",
+		"/Users/nemish/projects/mathbattle/controllers/home.js",
+		"/Users/nemish/projects/mathbattle/gql/index.js",
+		"/Users/nemish/projects/mathbattle/vue-app/src/utils/actions.js",
 		"/Users/nemish/projects/mathbattle/vue-app/src/redux-store/reducers.js",
 		"/Users/nemish/projects/mathbattle/models/Question.js",
-		"/Users/nemish/projects/mathbattle/controllers/home.js",
-		"/Users/nemish/projects/mathbattle/vue-app/src/components/SuggestQuestion.vue",
 		"/Users/nemish/projects/mathbattle/vue-app/src/components/Welcome.vue",
 		"/Users/nemish/projects/mathbattle/vue-app/src/assets/img/heart.svg",
 		"/Users/nemish/projects/mathbattle/vue-app/src/vudux.js",
-		"/Users/nemish/projects/mathbattle/vue-app/src/router/index.js",
 		"/Users/nemish/projects/mathbattle/app.js",
 		"/Users/nemish/projects/mathbattle/vue-app/src/redux-store/actions/index.js",
-		"/Users/nemish/projects/mathbattle/vue-app/src/App.vue",
-		"/Users/nemish/projects/mathbattle/gql/index.js",
-		"/Users/nemish/projects/mathbattle/vue-app/src/components/Challenge.vue",
-		"/Users/nemish/projects/mathbattle/vue-app/src/store/index.js",
-		"/Users/nemish/projects/mathbattle/vue-app/src/components/Board.vue",
 		"/Users/nemish/projects/mathbattle/client/node_modules/eslint-plugin-jsx-a11y/__tests__/src/rules/anchor-is-valid-test.js",
 		"/Users/nemish/projects/mathbattle/models/Challenge.js",
-		"/Users/nemish/projects/mathbattle/vue-app/src/main.js",
 		"/Users/nemish/projects/mathbattle/public/js/main.js",
 		"/Users/nemish/projects/mathbattle/vue-app/src/utils/redux-actions.js",
 		"/Users/nemish/projects/mathbattle/package.json",
-		"/Users/nemish/projects/mathbattle/vue-app/src/utils/actions.js",
 		"/Users/nemish/projects/mathbattle/vue-app/src/components/FullRowButton.vue",
 		"/Users/nemish/projects/mathbattle/vue-app/src/utils/reducers.js",
 		"/Users/nemish/projects/mathbattle/vue-app/index.html",
@@ -1253,8 +1254,7 @@
 		"/Users/nemish/projects/sports2/static/static/source/_desktop/layouts/one-column.hbs",
 		"/Users/nemish/projects/sports2/static/Gruntfile.js",
 		"/Users/nemish/projects/sports2/static/static/source/libs/handlebars/handlebars.js",
-		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/blogs/feed.hbs",
-		"/Users/nemish/projects/sports2/static/static/source/_desktop/sections/user/views/feed/feed.js"
+		"/Users/nemish/projects/sports2/static/static/source/_desktop/pages/blogs/feed.hbs"
 	],
 	"find":
 	{
@@ -1276,6 +1276,30 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"NEW",
+			":nth-child[even]",
+			"basis-70",
+			"userChallengeId",
+			"h2",
+			"<span>",
+			"span>",
+			"<span",
+			"<span>",
+			"span",
+			"stylus",
+			"challenge-info",
+			"fetchChallenge",
+			"FETCH_CHALLENGES",
+			"FETCH_CHALLENGE",
+			"v-for",
+			"board-container",
+			"helpers",
+			"Vudux",
+			"suggest-question",
+			"container-wra",
+			"SuggestQuestion",
+			"ListChallenges",
+			"SuggestQuestion",
 			"userCha",
 			"userChall",
 			"state",
@@ -1379,25 +1403,7 @@
 			"disabled",
 			"full-width-item-container",
 			"Player",
-			"h3",
-			"h1",
-			"board",
-			"Marmelad",
-			"Jura",
-			".msg",
-			"msg",
-			"div",
-			"bord",
-			"input",
-			"Forum",
-			"loading",
-			"font-family",
-			"h4",
-			"jquery",
-			".bg",
-			"width:",
-			"Loading",
-			"2em"
+			"h3"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1405,6 +1411,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"ChallengeList"
 		],
 		"reverse": false,
 		"show_context": false,
@@ -1415,57 +1422,11 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "vue-app/src/components/Board.vue",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10045,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10045,
-								10045
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"highlight_line": false,
-							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
-							"vintage":
-							{
-								"_vintageous_glue_until_normal_mode": false,
-								"action": null,
-								"action_count": "",
-								"mode": "mode_normal",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"normal_insert_count": "1",
-								"partial_sequence": "",
-								"recording": true,
-								"register": "\"",
-								"sequence": "",
-								"xpos": 0
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 3804.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "vue-app/src/components/FullRowButton.vue",
 					"semi_transient": false,
 					"settings":
@@ -1477,52 +1438,8 @@
 						"selection":
 						[
 							[
-								1678,
-								1678
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
-							"vintage":
-							{
-								"_vintageous_glue_until_normal_mode": false,
-								"action": null,
-								"action_count": "",
-								"mode": "mode_normal",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"normal_insert_count": "1",
-								"partial_sequence": "",
-								"register": "\"",
-								"sequence": "",
-								"xpos": 7
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 804.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "vue-app/src/App.vue",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5446,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3504,
-								3504
+								474,
+								474
 							]
 						],
 						"settings":
@@ -1546,27 +1463,27 @@
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 2274.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 1,
 					"file": "models/Challenge.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1030,
+						"buffer_size": 1132,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								138,
-								138
+								877,
+								877
 							]
 						],
 						"settings":
@@ -1575,40 +1492,174 @@
 							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
 							"vintage":
 							{
+								"_vintageous_glue_until_normal_mode": false,
 								"action": null,
 								"action_count": "",
 								"mode": "mode_normal",
 								"motion": null,
 								"motion_count": "",
 								"must_capture_register_name": false,
+								"normal_insert_count": "1",
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 0
+								"xpos": 56
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 15.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "vue-app/src/components/Challenge.vue",
+					"buffer": 2,
+					"file": "gql/index.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3047,
+						"buffer_size": 2737,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1924,
-								1924
+								309,
+								309
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 27
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "controllers/home.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15503,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15120,
+								15120
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 29
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 7780.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "vue-app/src/store/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11542,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3415,
+								3415
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"vintage":
+							{
+								"_vintageous_glue_until_normal_mode": false,
+								"action": null,
+								"action_count": "",
+								"mode": "mode_normal",
+								"motion": null,
+								"motion_count": "",
+								"must_capture_register_name": false,
+								"normal_insert_count": "1",
+								"partial_sequence": "",
+								"register": "\"",
+								"sequence": "",
+								"xpos": 4
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 1915.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "vue-app/src/components/ChallengeList.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3020,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2389,
+								2389
 							]
 						],
 						"settings":
@@ -1628,37 +1679,38 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 0
+								"xpos": 14
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 460.0,
+						"translation.y": 580.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "vue-app/src/store/index.js",
+					"buffer": 6,
+					"file": "vue-app/src/App.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10421,
+						"buffer_size": 5904,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								249,
-								249
+								4431,
+								4431
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"highlight_line": false,
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
 							"vintage":
 							{
 								"_vintageous_glue_until_normal_mode": false,
@@ -1672,18 +1724,18 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 40
+								"xpos": 0
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3070.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "vue-app/src/utils/actions.js",
 					"semi_transient": false,
 					"settings":
@@ -1695,8 +1747,8 @@
 						"selection":
 						[
 							[
-								1673,
-								1673
+								500,
+								500
 							]
 						],
 						"settings":
@@ -1705,92 +1757,88 @@
 							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
 							"vintage":
 							{
-								"_vintageous_glue_until_normal_mode": false,
 								"action": null,
 								"action_count": "",
 								"mode": "mode_normal",
 								"motion": null,
 								"motion_count": "",
 								"must_capture_register_name": false,
-								"normal_insert_count": "1",
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 0
+								"xpos": 13
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 385.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "gql/index.js",
+					"buffer": 8,
+					"file": "vue-app/src/components/Board.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2546,
+						"buffer_size": 9628,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2045,
-								2045
+								9569,
+								9569
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
 							"vintage":
 							{
-								"_vintageous_glue_until_normal_mode": false,
 								"action": null,
 								"action_count": "",
 								"mode": "mode_normal",
 								"motion": null,
 								"motion_count": "",
 								"must_capture_register_name": false,
-								"normal_insert_count": "1",
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 72
+								"xpos": 4
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 1155.0,
+						"translation.y": 3401.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "controllers/home.js",
+					"buffer": 9,
+					"file": "vue-app/src/vue-helpers.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15008,
+						"buffer_size": 227,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14540,
-								14540
+								170,
+								170
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"highlight_line": false,
+							"open_with_edit": true,
 							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
 							"vintage":
 							{
@@ -1805,49 +1853,7 @@
 								"partial_sequence": "",
 								"register": "\"",
 								"sequence": "",
-								"xpos": 38
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 7405.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "vue-app/src/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 579,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								375,
-								375
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"vintage":
-							{
-								"action": null,
-								"action_count": "",
-								"mode": "mode_normal",
-								"motion": null,
-								"motion_count": "",
-								"must_capture_register_name": false,
-								"partial_sequence": "",
-								"register": "\"",
-								"sequence": "",
-								"xpos": 0
+								"xpos": 12
 							}
 						},
 						"translation.x": 0.0,
@@ -1921,6 +1927,54 @@
 		"selected_items":
 		[
 			[
+				"controllers/home",
+				"controllers/home.js"
+			],
+			[
+				"appvue",
+				"vue-app/src/App.vue"
+			],
+			[
+				"boarvu",
+				"vue-app/src/components/Board.vue"
+			],
+			[
+				"chlisvu",
+				"vue-app/src/components/ChallengeList.vue"
+			],
+			[
+				"actions",
+				"vue-app/src/utils/actions.js"
+			],
+			[
+				"storeinde",
+				"vue-app/src/store/index.js"
+			],
+			[
+				"boar",
+				"vue-app/src/components/Board.vue"
+			],
+			[
+				"vuehe",
+				"vue-app/src/vue-helpers.js"
+			],
+			[
+				"mainjs",
+				"vue-app/src/main.js"
+			],
+			[
+				"appvu",
+				"vue-app/src/App.vue"
+			],
+			[
+				"sugg",
+				"vue-app/src/components/SuggestQuestion.vue"
+			],
+			[
+				"routinexjs",
+				"vue-app/src/router/index.js"
+			],
+			[
 				"utilsactions",
 				"vue-app/src/utils/actions.js"
 			],
@@ -1931,14 +1985,6 @@
 			[
 				"vueactionjs",
 				"vue-app/src/utils/actions.js"
-			],
-			[
-				"controllers/home",
-				"controllers/home.js"
-			],
-			[
-				"storeinde",
-				"vue-app/src/store/index.js"
 			],
 			[
 				"sugge",
@@ -1959,18 +2005,6 @@
 			[
 				"chalvu",
 				"vue-app/src/components/Challenge.vue"
-			],
-			[
-				"sugg",
-				"vue-app/src/components/SuggestQuestion.vue"
-			],
-			[
-				"appvu",
-				"vue-app/src/App.vue"
-			],
-			[
-				"boar",
-				"vue-app/src/components/Board.vue"
 			],
 			[
 				"gqlind",
@@ -2003,10 +2037,6 @@
 			[
 				"main",
 				"vue-app/src/main.js"
-			],
-			[
-				"mainjs",
-				"public/js/main.js"
 			],
 			[
 				"routeindex",
@@ -2407,30 +2437,6 @@
 			[
 				"coerauthjs",
 				"static/source/_desktop/common/views/coercion-subscribe/sports/auth.js"
-			],
-			[
-				"cosubhb",
-				"static/source/_desktop/common/views/coercion-subscribe/betting/subscribe.hbs"
-			],
-			[
-				"actiapp",
-				"static/source/_desktop/common/models/action-appeal.js"
-			],
-			[
-				"corevie",
-				"static/source/core/view.coffee"
-			],
-			[
-				"sections/user/views/feed/feed",
-				"static/source/_desktop/sections/user/views/feed/feed.js"
-			],
-			[
-				"usefee",
-				"static/source/_desktop/pages/user/feed.js"
-			],
-			[
-				"feed",
-				"static/build/_desktop/feed.js"
 			]
 		],
 		"width": 0.0
@@ -2992,7 +2998,7 @@
 	"selected_group": 0,
 	"settings":
 	{
-		"_vintageous_last_buffer_search": "refreshPreviousChallenge",
+		"_vintageous_last_buffer_search": "post",
 		"_vintageous_last_buffer_search_command": "vi_star",
 		"_vintageous_last_char_search_command": "vi_f",
 		"_vintageous_last_character_search": "a",

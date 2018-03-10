@@ -484,11 +484,8 @@ export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
             currentQuestion: null,
             questions: [...Array(questionsCount).keys()].map(createQuestion),
             answers: [],
-            players: [{
-                _id,
-                name
-            }]
         });
+        ch.addPlayer(user);
         ch.save().then(() => {
             refreshPreviousChallenge(user);
             user.current_challenge_id = ch._id;
@@ -534,6 +531,27 @@ export const handleExitChallenge = ({id, userId, errCb}, cb) => {
                 return cb({
                     status: 'success'
                 })
+            }
+        })
+    });
+}
+
+
+export const handleJoinChallenge = ({challengeId, userId, errCb}, cb) => {
+    console.log('handleExitChallenge', id, userId);
+    Challenge.findById(challengeId).exec((err, ch) => {
+        if ((err || !ch) && errCb) {
+            return errCb();
+        }
+        UserDraft.findById(userId).exec((err, user) => {
+            if ((err || !ch) && errCb) {
+                return errCb();
+            }
+
+            ch.addPlayer(user);
+            ch.save();
+            if (cb) {
+                return cb(ch);
             }
         })
     });

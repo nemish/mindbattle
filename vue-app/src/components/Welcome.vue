@@ -194,6 +194,7 @@ function dispatchOnChange(key, onChangeCb, context) {
 
 .welcome h1,
 .welcome h2 {
+    display: block;
     transition: font-size 1s;
 }
 

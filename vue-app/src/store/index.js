@@ -15,6 +15,10 @@ import {
     USER_LOGIN_FORM__CHANGE_VALUE
 } from '../redux-store/actions';
 
+const deepClone = obj => {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 Vue.use(Vuex);
 
 
@@ -29,6 +33,7 @@ const FETCH_CHALLENGE = 'FETCH_CHALLENGE';
 const FETCH_CHALLENGE_LIST = 'FETCH_CHALLENGE_LIST';
 const EXIT_CHALLENGE = 'EXIT_CHALLENGE';
 const NEW_CHALLENGE = 'NEW_CHALLENGE';
+const JOIN_CHALLENGE = 'JOIN_CHALLENGE';
 
 
 const fetchCurrentUser = createFetchAction({
@@ -107,6 +112,9 @@ const startChallengeConf = createFetchConf({
 });
 
 
+const INITIAL_CHALLENGE_STATE = deepClone(startChallengeConf.state);
+
+
 const exitChallenge = createFetchAction({
     event: EXIT_CHALLENGE,
     method: 'post',
@@ -154,7 +162,7 @@ const fetchChallenges = createFetchAction({
     event: FETCH_CHALLENGE_LIST,
     graphql: payload => `
     {
-        challenges {
+        challenges(exceptUserId: "${payload.exceptUserId}") {
             ${CHALLENGE_GQL_SCHEMA}
         }
     }
@@ -163,6 +171,25 @@ const fetchChallenges = createFetchAction({
         return data.data.challenges
     },
     initialData: []
+});
+
+
+const INITIAL_CHALLENGE_LIST_STATE = deepClone(fetchChallenges.conf.state);
+
+
+const joinChallenge = createFetchAction({
+    event: JOIN_CHALLENGE,
+    method: 'post',
+    graphql: payload => `
+    {
+        joinChallenge(userId : "${payload.userId}", challengeId : "${payload.challengeId}") {
+            ${CHALLENGE_GQL_SCHEMA}
+        }
+    }
+    `,
+    dataProcessor: data => {
+        return data.data.joinChallenge
+    }
 });
 
 
@@ -197,8 +224,6 @@ const INITIAL_USER_STATE = {
     }
 };
 
-const INITIAL_CHALLENGE_STATE = {};
-
 
 const handleEnterUser = (commit, state, data, fn) => {
     const { router, ...remain } = data;
@@ -219,13 +244,15 @@ const handleEnterUser = (commit, state, data, fn) => {
 }
 
 
-const deepClone = obj => {
-    return JSON.parse(JSON.stringify(obj));
-}
-
-
 export const store = new Vuex.Store({
     plugins: [createLogger()],
+    actions: {
+        resetUser({ commit }) {
+            commit('user/reset');
+            commit('challenge/reset');
+            commit('challenges/reset');
+        }
+    },
     modules: {
         app: {
             namespaced: true,
@@ -237,19 +264,27 @@ export const store = new Vuex.Store({
         },
         challenges: {
             namespaced: true,
-            state: deepClone(fetchChallenges.conf.state),
+            state: INITIAL_CHALLENGE_LIST_STATE,
             actions: {
-                fetchChallenges({ commit, state }) {
-                    return fetchChallenges(commit, state);
+                fetchChallenges({ commit, state }, exceptUserId) {
+                    return fetchChallenges(commit, state, {
+                        exceptUserId
+                    });
+                },
+                joinChallenge({ commit, state }, payload) {
+                    return joinChallenge(commit, state, payload);
                 }
             },
             mutations: {
-                ...fetchChallenges.conf.mutations
+                ...fetchChallenges.conf.mutations,
+                reset(state, data) {
+                    Object.assign(state, deepClone(INITIAL_CHALLENGE_LIST_STATE));
+                },
             }
         },
         challenge: {
             namespaced: true,
-            state: deepClone(startChallengeConf.state),
+            state: INITIAL_CHALLENGE_STATE,
             actions: {
                 startChallenge({ commit, state }, challengeId) {
                     return startChallenge(commit, state, {
@@ -260,9 +295,6 @@ export const store = new Vuex.Store({
                     return fetchChallenge(commit, state, {
                         challengeId
                     });
-                },
-                joinChallenge({ commit, state }, challengeId) {
-                    console.log('join', challengeId);
                 },
                 exitChallenge({ commit, state }, payload) {
                     return exitChallenge(commit, state, payload).then(() => {
@@ -285,7 +317,10 @@ export const store = new Vuex.Store({
                 [exitChallenge.successEvent](state) {
                     state.loading = false;
                     state.data._id = null;
-                }
+                },
+                reset(state, data) {
+                    Object.assign(state, deepClone(INITIAL_CHALLENGE_STATE));
+                },
             }
         },
         user: {
@@ -311,8 +346,9 @@ export const store = new Vuex.Store({
                 login({ commit, state }, data) {
                     return handleEnterUser(commit, state, data, login);
                 },
-                logout({ commit, state }, data) {
+                logout({ commit, state, dispatch }, data) {
                     commit(SET_USER_TOKEN, {token: null});
+                    dispatch('resetUser', null, {root: true});
                     reduxStore.dispatch({
                         type: RESET_USER
                     });
@@ -348,6 +384,10 @@ export const store = new Vuex.Store({
                         });
                     })
                 },
+                reset(state, data) {
+                    Object.assign(state, INITIAL_USER_STATE);
+                },
+                //     Object.assign(state, INITIAL_USER_STATE);
                 // [RESET_USER](state) {
                 //     Object.assign(state, INITIAL_USER_STATE);
                 // },
