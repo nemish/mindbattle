@@ -7,6 +7,7 @@ import {
   GraphQLFloat
 } from 'graphql';
 import Challenge from '../models/Challenge';
+import UserDraft from '../models/UserDraft';
 import {
     handleCreateChallenge,
     handleStartChallenge,
@@ -123,11 +124,29 @@ const resolvers = {
 
     Query: {
         challenges: (_, {exceptUserId}) => {
-            let items = Challenge.find();
-            // if (exceptUserId) {
-                // items = items.find({userId: {$ne: exceptUserId}});
-            // }
-            return items;
+            if (exceptUserId) {
+                return new Promise((res, rej) => {
+                    UserDraft.findById(exceptUserId).exec((err, user) => {
+                        if (err) {
+                            return res([]);
+                        }
+                        return res(Challenge.find({
+                            $or: [{
+                                userId: {$ne: exceptUserId},
+                                state: {
+                                    $in: [
+                                        Challenge.states.INITIAL,
+                                        Challenge.states.READY
+                                    ]
+                                }
+                            }, {
+                                _id: user.current_challenge_id
+                            }]
+                        }));
+                    });
+                });
+            }
+            return Challenge.find();
         },
         challenge: (_, { _id }) => Challenge.findById(_id)
     }

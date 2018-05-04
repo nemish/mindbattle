@@ -12,7 +12,8 @@ const challengeSchema = new mongoose.Schema({
   questions: Array,
   answers: Array,
   currentRoundStartTime: Date,
-  currentQuestion: Number
+  currentQuestion: Number,
+  hashState: String,
 });
 
 challengeSchema.pre('save', function(next) {
@@ -33,6 +34,9 @@ challengeSchema.methods.isFinish = function () {
 }
 
 challengeSchema.methods.addPlayer = function ({_id, name}) {
+    if (this.players.map(item => item._id.toString()).indexOf(_id.toString()) > -1) {
+        return;
+    }
     this.players.push({ _id, name });
 }
 

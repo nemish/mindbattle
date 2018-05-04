@@ -8,6 +8,9 @@ const Challenge = require('../models/Challenge');
 const sleep = require('sleep');
 const passport = require('passport');
 const utils = require('../utils');
+const {
+    connectedClients
+} = require('../socket');
 
 
 // exports.index = (req, res) => {
@@ -459,6 +462,7 @@ const refreshPreviousChallenge = user => {
                 challenge.save();
             }
             if (challenge && !challenge.players.length && challenge.state != Challenge.states.FINISHED) {
+                connectedClients.socketIO.emit('remove-challenge', challenge._id);
                 challenge.remove();
             }
         })
@@ -467,6 +471,7 @@ const refreshPreviousChallenge = user => {
 
 
 export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
+
     UserDraft.findById(userId).exec((err, user) => {
         console.log(err, user);
         if ((err || !user) && errCb) {
@@ -491,8 +496,9 @@ export const handleCreateChallenge = ({userId, access, errCb}, cb) => {
             user.current_challenge_id = ch._id;
             user.save();
             console.log('save', ch._id, user.current_challenge_id);
+            connectedClients.socketIO.emit('new-challenge');
             if (cb) {
-                return cb(ch)
+                return cb(ch);
             }
         });
     })
@@ -538,21 +544,28 @@ export const handleExitChallenge = ({id, userId, errCb}, cb) => {
 
 
 export const handleJoinChallenge = ({challengeId, userId, errCb}, cb) => {
-    console.log('handleExitChallenge', id, userId);
+    console.log('handleJoinChallenge', challengeId, userId);
     Challenge.findById(challengeId).exec((err, ch) => {
         if ((err || !ch) && errCb) {
             return errCb();
         }
+        console.log('handleJoinChallenge', ch.userId, userId, ch.userId === userId);
+        if (ch.userId === userId) {
+            return errCb();
+        }
+
         UserDraft.findById(userId).exec((err, user) => {
-            if ((err || !ch) && errCb) {
+            if ((err || !user) && errCb) {
                 return errCb();
             }
 
-            ch.addPlayer(user);
-            ch.save();
-            if (cb) {
-                return cb(ch);
-            }
+            user.changeChallenge(ch, () => {
+                ch.addPlayer(user);
+                ch.save();
+                if (cb) {
+                    return cb(ch);
+                }
+            });
         })
     });
 }

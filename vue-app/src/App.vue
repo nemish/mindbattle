@@ -26,9 +26,11 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
-export default withSocket({
+export default {
     name: 'app',
+    $getInstance() {
+        return this;
+    },
     data() {
         return {
             isFirst: true,
@@ -42,6 +44,17 @@ export default withSocket({
         toggleBg() {
             this.bgImg = 'bg_num_' + getRandomInt(4, 9);
         }
+    },
+    mounted() {
+        const boundedDispatch = this.$store.dispatch.bind(this.$store);
+        withSocket({
+            'new-challenge'() {
+                boundedDispatch('challenges/CHALLENGES__INCREMENT');
+            },
+            'remove-challenge'(data) {
+                boundedDispatch('challenges/CHALLENGES__REMOVE_CHALLENGE', data);
+            }
+        });
     },
     created() {
         // setInterval(() => {
@@ -57,17 +70,7 @@ export default withSocket({
             this.$router.push('/');
         });
     }
-});
-// export default withSocket({
-//     name: 'app',
-//     created() {
-//         this.$store.dispatch('fetchCurrentUser').then(() => {
-//             this.$router.push('/board');
-//         }).catch(err => {
-//             this.$router.push('/');
-//         });
-//     },
-// });
+};
 </script>
 
 <style lang='stylus'>
@@ -315,6 +318,10 @@ h2 {
     padding: 0 30px;
 }
 
+.padding-sides-sm {
+    padding: 0 10px;
+}
+
 .padding-top-md {
     padding: 15px 0 0 0;
 }
@@ -335,6 +342,14 @@ h2 {
     flex-wrap: wrap;
 }
 
+.basis-60 > div:nth-child(odd) {
+    flex-basis: 60%;
+}
+
+.basis-60 > div:nth-child(even) {
+    flex-basis: 40%;
+}
+
 .basis-70 > div:nth-child(odd) {
     flex-basis: 70%;
 }
@@ -342,6 +357,66 @@ h2 {
 .basis-70 > div:nth-child(even) {
     flex-basis: 30%;
 }
+
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 32px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 13px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 6px;
+  animation: lds-ellipsis1 1.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 6px;
+  animation: lds-ellipsis2 1.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 26px;
+  animation: lds-ellipsis2 1.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 45px;
+  animation: lds-ellipsis3 1.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(19px, 0);
+  }
+}
+
+
+
 
 for num in (4..9)
     #bg.bg_num_{num}

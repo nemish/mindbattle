@@ -62,7 +62,10 @@ export default {
     name: 'Welcome',
     data() {
         return {
-            name: '', passwd: '', isDirty: false, msgClass: 'msg',
+            name: '',
+            passwd: '',
+            isDirty: false,
+            msgClass: 'msg',
             isReady: false
         };
     },

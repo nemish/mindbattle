@@ -48,6 +48,11 @@ export default {
             if (newValue && oldValue !== newValue) {
                 this.tryToFetchChallenge(newValue);
             }
+        },
+        challenge(newValue, oldValue) {
+            if (!newValue || newValue.state !== 'RUNNING') {
+                this.exit();
+            }
         }
     },
     mounted() {
@@ -61,14 +66,14 @@ export default {
     methods: {
         ...mapActions('challenge', [
             'startChallenge',
-            'fetch'
+            'fetchChallenge'
         ]),
         exit() {
             this.$router.push({name: 'Board'})
         },
         tryToFetchChallenge(_id) {
-            if (_id && !this.challenge.loading) {
-                this.fetch(_id);
+            if (_id && !this.challengeLoading) {
+                this.fetchChallenge(_id);
             }
         },
     },

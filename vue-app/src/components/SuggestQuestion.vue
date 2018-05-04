@@ -17,7 +17,7 @@
         <transition
             leave-active-class='animated flipOutX'
             enter-active-class='animated flipInX'>
-            <input :class="['full-row-input', 'font-poiret']"
+            <textarea :class="['full-row-input', 'font-poiret']"
                    v-if='isReady'
                    id='name-input'
                    type='text'
@@ -30,7 +30,7 @@
                 <transition
                     leave-active-class='animated flipOutX'
                     enter-active-class='animated flipInX'>
-                    <input :class="['full-row-input', 'font-poiret']"
+                    <input :class="['full-row-input', 'font-poiret', 'sm']"
                            id='option-1'
                            type='text'
                            placeholder='Вариант 1'
@@ -44,7 +44,7 @@
                 <transition
                     leave-active-class='animated flipOutX'
                     enter-active-class='animated flipInX'>
-                    <input :class="['full-row-input', 'font-poiret']"
+                    <input :class="['full-row-input', 'font-poiret', 'sm']"
                            id='option-2'
                            type='text'
                            placeholder='Вариант 2'
@@ -60,7 +60,7 @@
                 <transition
                     leave-active-class='animated flipOutX'
                     enter-active-class='animated flipInX'>
-                    <input :class="['full-row-input', 'font-poiret']"
+                    <input :class="['full-row-input', 'font-poiret', 'sm']"
                            id='option-3'
                            type='text'
                            placeholder='Вариант 3'
@@ -74,7 +74,7 @@
                 <transition
                     leave-active-class='animated flipOutX'
                     enter-active-class='animated flipInX'>
-                    <input :class="['full-row-input', 'font-poiret']"
+                    <input :class="['full-row-input', 'font-poiret', 'sm']"
                            id='option-4'
                            type='text'
                            placeholder='Вариант 4'
@@ -206,6 +206,7 @@ function dispatchOnChange(key, onChangeCb, context) {
     justify-self: center;
     width: 80px;
     height: 120px;
+    margin: 0 auto;
     background-image: url('../assets/img/heart.svg');
     background-size: contain;
     background-repeat: no-repeat;
@@ -266,6 +267,10 @@ function dispatchOnChange(key, onChangeCb, context) {
     background-color: rgba(0,0,0,0);
     border: none;
     opacity: 1;
+}
+
+.full-row-input.sm {
+    font-size: 1.5em;
 }
 
 .container.welcome > div {

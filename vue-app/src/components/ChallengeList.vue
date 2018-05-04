@@ -18,11 +18,11 @@
                               />
         </div>
         <div v-if="isReady && hasChallenges" class="full-width font-poiret bg-darken-green-opacity border-round-md padding-md shadow-sm">
-            <div v-for="(item, index) in challenges" :key='item._id' class='challenge-row basis-70'>
-                <div class="flex wrap basis-70">
+            <div v-for="(item, index) in challengesToShow" :key='item._id' class='challenge-row basis-60'>
+                <div class="flex wrap basis-60">
                     <div>{{getPlayerName(item)}}</div>
                     <div>{{item.playersCount}}/{{item.maxPlayers}}</div>
-                    <div class='date-container font-amatic'>{{new Date(item.timestamp).toLocaleString()}}</div>
+                    <div class='date-container font-amatic basis-self-100'>{{new Date(item.timestamp).toLocaleString()}}</div>
                 </div>
                 <div>
                     <full-row-button className='border-round-lg'
@@ -58,6 +58,19 @@ export default {
             isReady: false
         };
     },
+    watch: {
+        userId(newValue, oldValue) {
+            if (!oldValue && newValue) {
+                this.fetchChallenges(newValue);
+            }
+        },
+        challenges(newValue, oldValue) {
+            console.log('watch challenges', newValue, oldValue);
+            if (newValue.length !== oldValue.length && newValue.indexOf(item => !item._id) > -1) {
+                this.fetchChallenges();
+            }
+        }
+    },
     mounted() {
         if (this.userId) {
             this.fetchChallenges(this.userId);
@@ -68,10 +81,14 @@ export default {
     },
     computed: {
         ...mapState({
+            user: state => state.user,
             userId: state => state.user._id
         }),
         challenges() {
             return this.$store.state.challenges.data;
+        },
+        challengesToShow() {
+            return this.challenges.filter(ch => !!ch._id);
         },
         hasChallenges() {
             return !!this.challenges.length;
@@ -79,14 +96,14 @@ export default {
     },
     methods: {
         ...mapActions('challenge', [
-            'startChallenge',
+            'startChallenge', 'joinChallenge'
         ]),
-        ...mapActions('challenges', ['fetchChallenges', 'joinChallenge']),
+        ...mapActions('challenges', ['fetchChallenges']),
         joinButtonText(item) {
             if (item.userId === this.userId) {
                 return this._challengeRunning(item) ? 'К МАТЧУ' : 'НАЧАТЬ';
             }
-            return 'JOIN';
+            return this.user.current_challenge_id && item._id === this.user.current_challenge_id ? 'WAIT' : 'JOIN';
         },
         _challengeRunning(item) {
             return item.state === 'RUNNING';
@@ -101,11 +118,16 @@ export default {
                         this.$router.push({name: 'challenge'});
                     });
                 }
+            } else if (!this.user.current_challenge_id || challenge._id !== this.user.current_challenge_id) {
+                this.joinChallenge({
+                    userId: this.userId,
+                    challengeId: challenge._id
+                }).then(() => {
+                    this.$router.push({name: 'Board'});
+                });
+            } else {
+                this.$router.push({name: 'Board'})
             }
-            // this.joinChallenge({
-            //     userId: this.userId,
-            //     challengeId
-            // });
         },
         back() {
             this.$router.go(-1);
@@ -125,6 +147,10 @@ export default {
     display flex
     font-size 24px
     flex-wrap wrap
+    border-bottom 1px solid #ccc
+    &:last-child {
+        border-bottom none
+    }
 }
 
 .challenge-row span {
@@ -136,6 +162,7 @@ export default {
     font-size 1.2em
     color #000
     font-weight bold
+    flex-basis 100% !important
 }
 
 .flex > div {

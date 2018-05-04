@@ -34,6 +34,8 @@ const FETCH_CHALLENGE_LIST = 'FETCH_CHALLENGE_LIST';
 const EXIT_CHALLENGE = 'EXIT_CHALLENGE';
 const NEW_CHALLENGE = 'NEW_CHALLENGE';
 const JOIN_CHALLENGE = 'JOIN_CHALLENGE';
+const CHALLENGES__INCREMENT = 'CHALLENGES__INCREMENT';
+const CHALLENGES__REMOVE_CHALLENGE = 'CHALLENGES__REMOVE_CHALLENGE';
 
 
 const fetchCurrentUser = createFetchAction({
@@ -153,7 +155,7 @@ const fetchChallenge = createFetchAction({
     }
     `,
     dataProcessor: data => {
-        return data.data.challenge
+        return data.data.challenge || {};
     }
 });
 
@@ -181,7 +183,7 @@ const joinChallenge = createFetchAction({
     event: JOIN_CHALLENGE,
     method: 'post',
     graphql: payload => `
-    {
+    mutation {
         joinChallenge(userId : "${payload.userId}", challengeId : "${payload.challengeId}") {
             ${CHALLENGE_GQL_SCHEMA}
         }
@@ -271,12 +273,22 @@ export const store = new Vuex.Store({
                         exceptUserId
                     });
                 },
-                joinChallenge({ commit, state }, payload) {
-                    return joinChallenge(commit, state, payload);
+                [CHALLENGES__INCREMENT]({ commit, state }) {
+                    commit(CHALLENGES__INCREMENT);
+                },
+                [CHALLENGES__REMOVE_CHALLENGE]({ commit, state }, id) {
+                    commit(CHALLENGES__REMOVE_CHALLENGE, id);
                 }
             },
             mutations: {
                 ...fetchChallenges.conf.mutations,
+                [CHALLENGES__INCREMENT](state) {
+                    state.data.push({state: 'INITIAL'});
+                },
+                [CHALLENGES__REMOVE_CHALLENGE](state, id) {
+                    const index = state.data.indexOf(item => item._id === id);
+                    state.data.splice(index, 1);
+                },
                 reset(state, data) {
                     Object.assign(state, deepClone(INITIAL_CHALLENGE_LIST_STATE));
                 },
@@ -286,6 +298,11 @@ export const store = new Vuex.Store({
             namespaced: true,
             state: INITIAL_CHALLENGE_STATE,
             actions: {
+                joinChallenge({ commit, state, dispatch }, payload) {
+                    return joinChallenge(commit, state, payload).then(ch => {
+                        dispatch('app/updateState', {'user.current_challenge_id': ch._id}, {root: true});
+                    });
+                },
                 startChallenge({ commit, state }, challengeId) {
                     return startChallenge(commit, state, {
                         challengeId
@@ -308,6 +325,7 @@ export const store = new Vuex.Store({
                 ...startChallengeConf.mutations,
                 ...fetchChallenge.conf.mutations,
                 ...newChallenge.conf.mutations,
+                ...joinChallenge.conf.mutations,
                 [exitChallenge.startEvent](state) {
                     state.loading = true;
                 },
@@ -337,6 +355,9 @@ export const store = new Vuex.Store({
                 }
             },
             actions: {
+                updateState({commit, state}, payload) {
+                    commit('UPDATE_STATE', payload);
+                },
                 fetchCurrentUser({ commit, state }) {
                     return handleUser(commit, state);
                 },

@@ -26,6 +26,9 @@ const fs = require('fs');
 const cors = require('cors');
 const graphQLHTTP = require('express-graphql');
 const { GQLSchema } = require('./gql/index');
+const {
+    connectSocket
+} = require('./socket');
 
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
@@ -274,21 +277,7 @@ server.listen(port, () => {
 });
 
 
-const connectedClients = {};
-
-socketIO.on('connection', function (client) {
-    console.log('connection', client.client.id);
-    connectedClients[client.client.id] = {};
-    client.on('challenge_update', function (data) {
-        console.log('challenge_update in socket', client.client.id);
-        homeController.updateChallenge(data, socketIO);
-    });
-
-    client.on('disconnect', function () {
-        console.log('disconnect', client.client.id, connectedClients[client.client.id]);
-        delete connectedClients[client.client.id];
-    })
-});
+connectSocket(socketIO);
 
 
 

@@ -23,11 +23,13 @@
                     </p>
                 </div>
                 <div class='padding-sides-lg'>
-                     <full-row-button :text='challengeEnterButtonText'
+                    <full-row-button :text='challengeEnterButtonText'
                                  :additionalInfo='challengeJoinInfo'
+                                 :disabled='!joinEnabled'
+                                 :needSpinner='needJoinSpinner'
                                  colorType='green'
                                  @click='challengeAction'
-                                 className='border-round-xl' />
+                                 className='border-round-xl btn-small' />
                 </div>
                 <div class='padding-sides-lg'>
                      <full-row-button text='покинуть матч'
@@ -70,14 +72,14 @@
             <div class='full-width-item-container'>
                 <div>
                     <full-row-button text='ВСЕ МАТЧИ'
-                                     additionalInfo='Готовы к игре: 120. В процессе: 43'
-                                     @click='ChallengeList'
+                                     :additionalInfoList='challengeListInfo'
+                                     @click='challengeList'
                                      colorType='green'
                                      className="border-round-lg-left" />
                 </div>
                 <div>
                     <full-row-button text='РЕГАЛИИ'
-                                     additionalInfo='Побед: 0. Опыт: 0'
+                                     :additionalInfoList='statInfo'
                                      colorType='yellowTrue'
                                      className="border-round-lg-right" />
                 </div>
@@ -107,7 +109,8 @@ import Vue from 'vue';
 import FullRowButton from './FullRowButton';
 import socket from '../socket';
 import {
-    mapActions
+    mapActions,
+    mapState
 } from 'vuex';
 
 
@@ -135,6 +138,9 @@ export default {
             this.isReady = true;
         }, 500);
         this.tryToFetchChallenge(this.userChallengeId);
+        if (this.userId) {
+            this.fetchChallenges(this.userId);
+        }
     },
     components: {
         'full-row-button': FullRowButton
@@ -145,6 +151,12 @@ export default {
                 // this.challenge.data._id = newValue;
                 this.tryToFetchChallenge(newValue);
             }
+        },
+        userId(newValue, oldValue) {
+            if (newValue && oldValue !== newValue) {
+                // this.challenge.data._id = newValue;
+                this.fetchChallenges(newValue);
+            }
         }
     },
     methods: {
@@ -153,6 +165,9 @@ export default {
         ]),
         ...mapActions('app', [
             'updateState',
+        ]),
+        ...mapActions('challenges', [
+            'fetchChallenges'
         ]),
         ...mapActions('challenge', [
             'fetchChallenge',
@@ -174,7 +189,7 @@ export default {
         },
         challengeAction() {
             if (this.challenge.data.state === 'INITIAL') {
-                if (this.isOwnerOfCurrent) {
+                if (this.isChallengeOwner) {
                     this.startChallenge(this.challenge.data._id).then(() => {
                         this.$router.push({name: 'challenge'});
                     });
@@ -193,7 +208,6 @@ export default {
             }
         },
         newChallenge(access) {
-            // this.$reduxStore._$callAction('createNewChallenge', {userId: this.userId, access});
             this.createNewChallenge({userId: this.userId, access}).then(ch => {
                 this.updateState({'user.current_challenge_id': ch.data.newChallenge._id});
             });
@@ -204,16 +218,24 @@ export default {
         suggest() {
             this.$router.push({name: 'SuggestQuestion'})
         },
-        ChallengeList() {
+        challengeList() {
             this.$router.push({name: 'ChallengeList'})
         }
     },
     computed: {
+        ...mapState({
+            challenges: state => state.challenges.data
+        }),
+        challengeListInfo() {
+            let readyCount = this.challenges.filter(item => item.state === 'INITIAL').length;
+            let inprocessCount = this.challenges.filter(item => item.state === 'RUNNING').length;
+            return [`Готовы к игре: ${readyCount}`, `В процессе: ${inprocessCount}`];
+        },
+        statInfo() {
+            return ['Побед: 0.', 'Опыт: 0'];
+        },
         challengeJoinInfo() {
             return `Народу: ${this.challenge.data.playersCount} / ${this.challenge.data.maxPlayers}`;
-        },
-        isOwnerOfCurrent() {
-            return this.challenge.data.userId === this.userId;
         },
         userId() {
             return this.$store.state.user._id;
@@ -236,8 +258,23 @@ export default {
         challengeStarted() {
             return this.challenge.data.state === 'RUNNING';
         },
+        isChallengeOwner() {
+            return this.challenge.data.userId === this.userId;
+        },
+        joinEnabled() {
+            return this.challengeStarted || this.isChallengeOwner;
+        },
+        needJoinSpinner() {
+            return !this.joinEnabled;
+        },
         challengeEnterButtonText() {
-            return !this.challengeStarted ? 'НАЧИНАЕМ!' : 'Вернуться к матчу';
+            if (this.challengeStarted) {
+                return 'К матчу';
+            }
+            if (this.isChallengeOwner) {
+                return 'НАЧИНАЕМ!';
+            }
+            return 'Ожидание игроков';
         },
         challenge() {
             return this.$store.state.challenge;

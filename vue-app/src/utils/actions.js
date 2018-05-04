@@ -13,7 +13,10 @@ export const createFetchConf = (params) => {
     const { conf } = mutations;
     delete mutations.conf;
     return {
-        state: {loading: false, data: initialData},
+        state: {
+            loading: false,
+            data: initialData
+        },
         mutations,
         conf
     };

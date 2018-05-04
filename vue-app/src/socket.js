@@ -7,11 +7,16 @@ function createSocket() {
 }
 
 let socket = createSocket();
+let initiated = false;
 
 
-export const withSocket = (comp, conf) => {
+export const withSocket = handler => {
     if (!socket) {
         socket = createSocket();
+    }
+
+    if (!initiated) {
+        initiated = true;
         socket.on('disconnect', () => {
             console.log('DISCONNECT FROM SOCKET...');
             // socket = createSocket();
@@ -22,22 +27,26 @@ export const withSocket = (comp, conf) => {
             socket = createSocket();
         });
 
-        // function alert() {
-        //     store.dispatch(alertModalActions.open({
-        //         msg: [
-        //             'Ooops... Something happend. Please refresh a page.',
-        //             'Or it will refreshed automatically',
-        //             'after 5 seconds...'
-        //         ]
-        //     }))
-        //     setTimeout(() => window.location.reload(), 5000);
-        // }
+        socket.on('connect-success', (data) => {
+            console.log('Socket connection success', data);
+        });
+
+        socket.on('new-challenge', (data) => {
+            console.log('new-challenge getting in socket');
+            // comp.$getInstance().$store.dispath('new-challenge-inc');
+            handler['new-challenge']();
+            console.log('Socket new challenge', data);
+        });
+
+        socket.on('remove-challenge', (data) => {
+            console.log('remove-challenge getting in socket');
+            // comp.$getInstance().$store.dispath('remove-challenge-inc');
+            handler['remove-challenge'](data);
+            console.log('Socket remove challenge', data);
+        });
     }
 
-    comp.socketAPI = socket;
-
-    return comp;
-
+    return socket;
 }
 
 export default socket;
